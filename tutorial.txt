@@ -1,0 +1,23 @@
+pages/NomeDaPagina/index.tsx
+
+import style from './NomeDaPagina.module.scss';
+
+function NomeDaPagina () => {
+    return(
+        codigo HTML
+    )
+}
+
+export default NomeDaPagina;
+
+TUTORIAL CSS
+
+nome do arquivo: NomeDaPagina.module.scss
+
+.NomeDaClasse {
+    css
+}
+
+no aquivo index.tsx
+
+<div className={style.NomeDaClasse}></div>
