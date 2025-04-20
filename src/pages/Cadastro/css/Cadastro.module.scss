@@ -93,3 +93,13 @@
         }
     }   
 }
+
+.Error {
+    color: red;
+}
+
+input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px rgb(188, 188, 188) inset !important;
+    -webkit-text-fill-color: #000 !important;
+}
+  

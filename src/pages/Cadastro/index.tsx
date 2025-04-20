@@ -9,9 +9,8 @@ import fourthStep from './css/FourthStep.module.scss';
 
 function Cadastro() {
 
-    const [a, setA] = useState({})
-
-    const [step, setStep] = useState(4)
+    const [disabledInput, setDisabledInput] = useState(false);
+    const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -32,7 +31,11 @@ function Cadastro() {
         }
     })
 
+    const [error, setError] = useState([false, ""]);
+        
+    const [validPassword, setValidPassword] = useState(true)
     const [confirmPassword, setConfirmPassword] = useState("");
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -55,14 +58,44 @@ function Cadastro() {
         setFormData(prev => ({
             ...prev,
             personalData: {
-            ...prev.personalData,
-            address: {
-                ...prev.personalData.address,
-                [name]: value
-            }
+                ...prev.personalData,
+                address: {
+                    ...prev.personalData.address,
+                    [name]: value
+                }
             }
         }));
     };
+
+    const handleCheckEmail = () => {
+        /* 
+            1. enviar um request checkEmail para o back-end
+            2. checar se o email já existe no banco de dados
+            3. return true se nao existir
+        */
+       const temp = true;
+        if (temp) {
+            nextStep();
+        }else {
+            setError([true, "Email já cadastrado"])
+        }
+    }
+    
+    const handleCheckPassword = (value: string) => {
+        if(formData.password === value) {
+            setValidPassword(true)
+        }else{
+            setValidPassword(false)
+        }
+    }
+
+    const handleConfirmPassword = () => {
+        if(validPassword){
+            nextStep();
+        }else {
+            setError([true, "As senhas não coincidem"])
+        }
+    }
 
     const handleCepSearch = async () => {
         const cep = formData.personalData.address.zip.replace(/\D/g, "");
@@ -77,25 +110,38 @@ function Cadastro() {
                 return
             }
 
-            setA(data)
-
             setFormData((prev) => ({
                 ...prev,
-                address: {
-                  ...prev.personalData.address,
-                  road: data.logradouro,
-                  neighborhood: data.bairro,
-                  city: data.localidade,
-                  state: data.uf,
-                },
+                personalData: {
+                    ...prev.personalData,
+                    address: {
+                      ...prev.personalData.address,
+                      road: data.logradouro || '',
+                      neighborhood: data.bairro || '',
+                      city: data.localidade || '',
+                      state: data.uf ||'',
+                    },
+                }
             }));
+
+            setDisabledInput(true)
         } catch (error) {
             console.error("Erro ao buscar o CEP:", error);
         }
     }
 
-    const nextStep = () => setStep(prev => prev + 1)
-    const prevStep = () => setStep(prev => prev - 1)
+    const handleSignUp = () => {
+        console.log(formData)
+    }
+
+    const nextStep = () => {
+        setError([false, ""])
+        setStep(prev => prev + 1)
+    }
+    const prevStep = () => {
+        setError([false, ""])
+        setStep(prev => prev - 1)
+    }
 
     return(
         <div className={style.Container}>
@@ -106,9 +152,10 @@ function Cadastro() {
                     step === 1 && (
                         <div className={firstStep.InputContainer}>
                             <label htmlFor="email">Email</label>
+                            { error[0] && (<div className={style.Error}>{error[1]}</div>) }
                             <div className={firstStep.InputArea}>
                                 <input type="email" name="email" className={`${firstStep.Input}`} value={formData.email} onChange={handleChange} />
-                                <button className={firstStep.Next} onClick={nextStep}>→</button>
+                                <button className={firstStep.Next} onClick={handleCheckEmail}>→</button>
                             </div>
                         </div>
                     )
@@ -120,16 +167,30 @@ function Cadastro() {
                             <div className={secondStep.InputArea}>
                                 <div className={secondStep.InputGroup}>
                                     <label htmlFor="password">Senha</label>
-                                    <input type="password" name="password" className={secondStep.Input} value={formData.password} onChange={handleChange} />
+                                    <input 
+                                    type="password" 
+                                    name="password" 
+                                    className={`${secondStep.Input} ${!validPassword ? secondStep.InvalidPassword : "" }`} 
+                                    value={formData.password} 
+                                    onChange={handleChange} />
                                 </div>
                                 <div className={secondStep.InputGroup}>
                                     <label htmlFor="confirmPassword">Confirme sua senha</label>
-                                    <input type="password" name="confirmPassword" className={secondStep.Input} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                                    <input 
+                                    type="password" 
+                                    name="confirmPassword" 
+                                    className={`${secondStep.Input} ${!validPassword ? secondStep.InvalidPassword : "" }`} 
+                                    value={confirmPassword} 
+                                    onChange={(e) => { 
+                                        setConfirmPassword(e.target.value); 
+                                        handleCheckPassword(e.target.value); 
+                                    }} />
                                 </div>
+                                { error[0] && (<div className={style.Error}>{error[1]}</div>) }
                             </div>
                             <div className={style.ButtonsArea}>
                                 <button className={style.Prev} onClick={prevStep}>Voltar</button>
-                                <button className={style.Next} onClick={nextStep}>Próximo</button>
+                                <button className={style.Next} onClick={(e) => { e.preventDefault(); handleConfirmPassword() }}>Próximo</button>
                             </div>
                         </div>
                     )
@@ -174,44 +235,84 @@ function Cadastro() {
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.Road}`}>
                                     <label htmlFor="road">Rua</label>
-                                    <input type="text" name='road' className={fourthStep.Input} value={formData.personalData.address.road} onChange={handleAddressChange} />
+                                    <input 
+                                    type="text" 
+                                    name='road' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.road} 
+                                    onChange={handleAddressChange}
+                                    disabled={disabledInput} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.Number}`}>
                                     <label htmlFor="number">Número</label>
-                                    <input type="number" name='number' className={fourthStep.Input} value={formData.personalData.address.number} onChange={handleAddressChange} />
+                                    <input 
+                                    type="number" 
+                                    name='number' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.number} 
+                                    onChange={handleAddressChange} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.Complement}`}>
                                     <label htmlFor="complement">Complemento</label>
-                                    <input type="text" name='complement' className={fourthStep.Input} value={formData.personalData.address.complement} onChange={handleAddressChange} />
+                                    <input 
+                                    type="text" 
+                                    name='complement' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.complement} 
+                                    onChange={handleAddressChange} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.Cep}`}>
                                     <label htmlFor="zip">CEP</label>
-                                    <input type="text" name='zip' className={fourthStep.Input} value={formData.personalData.address.zip} onChange={handleAddressChange} onBlur={handleCepSearch} />
+                                    <input 
+                                    type="text" 
+                                    name='zip' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.zip} 
+                                    onChange={handleAddressChange} 
+                                    onBlur={handleCepSearch} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.Neighborhood}`}>
                                     <label htmlFor="neighborhood">Bairro</label>
-                                    <input type="text" name='neighborhood' className={fourthStep.Input} value={formData.personalData.address.neighborhood} onChange={handleAddressChange} />
+                                    <input 
+                                    type="text" 
+                                    name='neighborhood' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.neighborhood} 
+                                    onChange={handleAddressChange}
+                                    disabled={disabledInput} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.City}`}>
                                     <label htmlFor="city">Cidade</label>
-                                    <input type="text" name='city' className={fourthStep.Input} value={formData.personalData.address.city} onChange={handleAddressChange} />
+                                    <input 
+                                    type="text" 
+                                    name='city' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.city} 
+                                    onChange={handleAddressChange}
+                                    disabled={disabledInput} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.State}`}>
                                     <label htmlFor="state">Estado</label>
-                                    <input type="text" name='state' className={fourthStep.Input} value={formData.personalData.address.state} onChange={handleAddressChange} />
+                                    <input 
+                                    type="text" 
+                                    name='state' 
+                                    className={fourthStep.Input} 
+                                    value={formData.personalData.address.state} 
+                                    onChange={handleAddressChange}
+                                    disabled={disabledInput} />
                                 </div>
 
                             </div>
 
                             <div className={style.ButtonsArea}>
                                 <button className={style.Prev} onClick={prevStep}>Voltar</button>
-                                <button className={style.Next} onClick={nextStep}>Próximo</button>
+                                <button className={style.Next} onClick={(e) => { e.preventDefault(); handleSignUp()}}>Finalizar</button>
                             </div>
                         </div>
                     )
@@ -220,7 +321,7 @@ function Cadastro() {
                 {
                     step === 5 && (
                         <div>
-                            {JSON.stringify(a)}
+                            Cadastro realizado!
                         </div>
                     )
                 }
