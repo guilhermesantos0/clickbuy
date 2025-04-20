@@ -4,20 +4,24 @@ import style from './NomeDaPagina.module.scss';
 
 function NomeDaPagina () => {
     return(
-        codigo HTML
+        <div className={style.NomeDaClasse}></div>
     )
 }
 
 export default NomeDaPagina;
 
-TUTORIAL CSS
 
-nome do arquivo: NomeDaPagina.module.scss
+
+pages/NomeDaPagina/NomeDaPagina.module.scss
 
 .NomeDaClasse {
     css
 }
 
-no aquivo index.tsx
 
-<div className={style.NomeDaClasse}></div>
+
+App.tsx:
+
+import NomeDaPagina from './pages/NomeDaPagina';
+
+<Route path='/caminho' element={NomeDaPagina}>
