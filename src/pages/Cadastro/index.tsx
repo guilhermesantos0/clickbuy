@@ -97,16 +97,38 @@ function Cadastro() {
         }
     }
 
-    const handleCepSearch = async () => {
-        const cep = formData.personalData.address.zip.replace(/\D/g, "");
-        if(cep.length !== 8) return
+    const resetAddress = () => {
+        setFormData((prev) => ({
+            ...prev,
+            personalData: {
+                ...prev.personalData,
+                address: {
+                  ...prev.personalData.address,
+                  road: '',
+                  neighborhood: '',
+                  city: '',
+                  state: '',
+                },
+            }
+        }));
+    }
+
+    const handleCepSearch = async (value: string) => {
+        const cep = value.replace(/\D/g, "");
+        if(cep.length !== 8) {
+            resetAddress();
+            return
+        }
 
         try {
             const res = await fetch(`https://viacep.com.br/ws/${cep}/json`);
             const data = await res.json();
 
+            console.log(data)
+
             if(data.erro) {
-                alert('cep nao encontrado');
+                resetAddress()
+                console.log('cep nao encontrado');
                 return
             }
 
@@ -126,6 +148,7 @@ function Cadastro() {
 
             setDisabledInput(true)
         } catch (error) {
+            console.log('teste')
             console.error("Erro ao buscar o CEP:", error);
         }
     }
@@ -154,7 +177,12 @@ function Cadastro() {
                             <label htmlFor="email">Email</label>
                             { error[0] && (<div className={style.Error}>{error[1]}</div>) }
                             <div className={firstStep.InputArea}>
-                                <input type="email" name="email" className={`${firstStep.Input}`} value={formData.email} onChange={handleChange} />
+                                <input 
+                                type="email" 
+                                name="email" 
+                                className={`${firstStep.Input}`} 
+                                value={formData.email} 
+                                onChange={handleChange} />
                                 <button className={firstStep.Next} onClick={handleCheckEmail}>→</button>
                             </div>
                         </div>
@@ -202,22 +230,42 @@ function Cadastro() {
                             <div className={thirdStep.InputArea}>
                                 <div className={`${thirdStep.InputGroup} ${thirdStep.Name}`}>
                                     <label htmlFor="name">Nome</label>
-                                    <input type="text" name='name' className={thirdStep.Input} value={formData.personalData.name} onChange={handleNestedChange} />
+                                    <input 
+                                    type="text" 
+                                    name='name' 
+                                    className={thirdStep.Input} 
+                                    value={formData.personalData.name} 
+                                    onChange={handleNestedChange} />
                                 </div>
 
                                 <div className={`${thirdStep.InputGroup} ${thirdStep.Cpf}`}>
                                     <label htmlFor="cpf">CPF</label>
-                                    <input type="text" name='cpf' className={thirdStep.Input} value={formData.personalData.cpf} onChange={handleNestedChange} />
+                                    <input 
+                                    type="text" 
+                                    name='cpf' 
+                                    className={thirdStep.Input} 
+                                    value={formData.personalData.cpf} 
+                                    onChange={handleNestedChange} />
                                 </div>
 
                                 <div className={`${thirdStep.InputGroup} ${thirdStep.Phone}`}>
                                     <label htmlFor="phone">Telefone</label>
-                                    <input type="phone" name='phone' className={thirdStep.Input} value={formData.personalData.phone} onChange={handleNestedChange} />
+                                    <input 
+                                    type="phone" 
+                                    name='phone' 
+                                    className={thirdStep.Input} 
+                                    value={formData.personalData.phone} 
+                                    onChange={handleNestedChange} />
                                 </div>
                                 
                                 <div className={`${thirdStep.InputGroup} ${thirdStep.BornDate}`}>
                                     <label htmlFor="bornDate">Data de nascimento</label>
-                                    <input type="date" name='bornDate' className={thirdStep.Input} value={formData.personalData.bornDate} onChange={handleNestedChange} />
+                                    <input 
+                                    type="date" 
+                                    name='bornDate' 
+                                    className={thirdStep.Input} 
+                                    value={formData.personalData.bornDate} 
+                                    onChange={handleNestedChange} />
                                 </div>
                             </div>
                             <div className={style.ButtonsArea}>
@@ -271,8 +319,10 @@ function Cadastro() {
                                     name='zip' 
                                     className={fourthStep.Input} 
                                     value={formData.personalData.address.zip} 
-                                    onChange={handleAddressChange} 
-                                    onBlur={handleCepSearch} />
+                                    onChange={(e) => {
+                                        handleAddressChange(e);
+                                        handleCepSearch(e.target.value)
+                                    }} />
                                 </div>
 
                                 <div className={`${fourthStep.InputGroup} ${fourthStep.Neighborhood}`}>
