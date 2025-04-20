@@ -1,0 +1,102 @@
+.InputContainer {
+    width: 55%;
+    height: 10vh;
+
+    display: flex;
+    flex-direction: column;
+
+    .InputArea {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        .Input {
+            width: 80%;
+            height: 8vh;
+            background-color: rgb(188, 188, 188);
+            outline: none;
+            border: none;
+            padding: 0 1vw;
+
+            border-radius: 10px;
+
+            transition: all .5s ease-in-out;
+
+            &:focus {
+                border-radius: 5px;
+            }
+        }
+
+        .Next {
+            width: 8vh;
+            height: 8vh;
+
+            background-color: #DDA04B;
+
+            border: 0;
+            border-radius: 50%;
+            font-size: larger;
+
+            transition: all .5s ease-in-out;
+
+            color: white;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .ButtonsArea {
+
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        margin-top: 3vh;
+
+        .Prev {
+            width: 40%;
+            height: 7vh;
+            
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+            border: 2px solid #DDA04B;
+            border-radius: 10px;
+
+            transition: all .5s ease-in-out;
+
+            color: #DDA04B;
+            text-decoration: none;
+
+            &:hover{
+                cursor: pointer;
+                border-radius: 5px;
+            }
+        }
+
+        .Next {
+            width: 40%;
+            height: 7vh;
+
+            background-color: #DDA04B;
+
+            border: 0;
+            border-radius: 10px;
+            font-size: larger;
+
+            transition: all .5s ease-in-out;
+
+            color: white;
+
+            &:hover{
+                cursor: pointer;
+                border-radius: 5px;
+            }
+        }
+    }
+}

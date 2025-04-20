@@ -1,0 +1,40 @@
+.InputContainer{
+    width: 55%;
+    height: 40vh;
+
+    display: flex;
+    flex-direction: column;
+
+    .InputArea {
+        width: 100%;
+        height: 25vh;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        .InputGroup {
+            width: 100%;
+        }
+
+        .Input {
+            width: 100%;
+            height: 8vh;
+            background-color: rgb(188, 188, 188);
+            outline: none;
+            border: none;
+            padding: 0 1vw;
+
+            border-radius: 10px;
+
+            transition: all .5s ease-in-out;
+
+            &:focus {
+                border-radius: 5px;
+            }
+        }
+
+    }
+
+}
