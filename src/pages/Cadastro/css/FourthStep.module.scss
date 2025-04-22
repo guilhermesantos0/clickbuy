@@ -9,9 +9,9 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-areas: 
+        "cep neighborhood"
         "road road"
         "number complement"
-        "cep neighborhood"
         "city state";
         gap: 1rem;
 

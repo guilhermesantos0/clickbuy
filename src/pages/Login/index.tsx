@@ -1,11 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import style from './Login.module.scss';
 import { useState } from 'react';
 
 const Login = () => {
 
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
+
+    const handleLogin = () => {
+        navigate('/');
+    }
 
     return (
         <div className={style.Container}>
@@ -21,7 +27,7 @@ const Login = () => {
                 </div>
                 <Link to='/recovery' className={style.Recovery}>Esqueci minha senha</Link>
                 <div className={style.ButtonsArea}>
-                    <button type="submit" className={style.Login}>ENTRAR</button>
+                    <button className={style.Login} onClick={(e) => { e.preventDefault(); handleLogin() }}>ENTRAR</button>
                     <Link to='/cadastro' className={style.SignUp}>CADASTRE-SE</Link>
                 </div>
             </form>
