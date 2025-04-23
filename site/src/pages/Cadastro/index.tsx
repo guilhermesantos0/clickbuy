@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+// uuid
+
 import style from './css/Cadastro.module.scss';
 import firstStep from './css/FirstStep.module.scss';
 import secondStep from './css/SecondStep.module.scss';

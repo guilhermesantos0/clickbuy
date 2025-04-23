@@ -1,32 +1,33 @@
-import {useState} from "react"
 import { Link } from "react-router-dom";
 
 import { ReactComponent as Lupa } from '../../assets/lupa.svg';
 
 import style from './Header.module.scss';
 
-const Header: React.FC<{ account: object }> = (props) => {
+import { User } from '@modules/User';
 
-    const [user, setUser] = useState(null)
+interface Props {
+    user?: User
+}
+
+const Header: React.FC<Props> = ({ user }) => {
 
     return (
         <div className={style.Container}>
             <div className={style.Left}>
-                <img src="/favicon.ico" alt="Click Buy" />
+                <img className={style.LeftImage} src="/favicon.ico" alt="Click Buy" />
             </div>
             <div className={style.Center}>
                 <input className={style.Input} type="text" />
                 <Lupa className={style.SearchImage} />
             </div>
             <div className={style.Right}>
-                <button>Anunciar</button>
+                <button className={style.Announce}>Anunciar</button>
                 { 
                     user ? 
-                    <div>
-                        <img src="" alt="" />
-                    </div>
+                    <img className={style.ProfileImage} src={user?.profilePic} alt="" />
                     :
-                    <Link to="/login">Entrar</Link>
+                    <Link className={style.Login} to="/login">Entrar</Link>
                 }
             </div>
         </div>

@@ -1,0 +1,78 @@
+$container-width: 15vw;
+
+.Container {
+    width: $container-width;
+    height: 40vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 10px;
+    // justify-content: space-evenly;
+
+    background: rgb(212, 212, 212);
+
+    .ImageContainer {
+        width: $container-width;
+        height: 15vh;
+        
+        overflow: hidden;
+
+        position: relative;
+
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+
+        .Image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+
+    .ProductInfo {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        width: 14vw;
+        height: 25vh;
+
+        .Name {
+            font-size: 1.3rem;
+            height: 7vh;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;          // número de linhas
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .Price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            height: 4vh;
+        }
+
+        .Location {
+
+            height: 4vh;
+            display: flex;
+            align-items: center;
+
+            font-size: larger;
+
+            .Pin {
+                width: 2vw;
+                height: 2vw;
+            }
+        }
+    }
+
+}
