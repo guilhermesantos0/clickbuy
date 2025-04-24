@@ -1,0 +1,16 @@
+import { View, Text, Button } from 'react-native';
+import { useRouter } from 'expo-router';
+
+export default function TelaPrincipal() {
+  const router = useRouter();
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>TelaPrincipal</Text>
+      <Button
+        title="Ir para Login"
+        onPress={() => router.push('/Login')}
+      />
+    </View>
+  );
+}
