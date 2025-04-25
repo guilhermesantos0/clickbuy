@@ -1,0 +1,23 @@
+### Criar usuário completo com todos os campos obrigatórios
+POST http://localhost:5000/user
+Content-Type: application/json
+
+{
+  "email": "ana@example.com",
+  "password": "123456",
+  "personalData": {
+    "name": "Ana Clara",
+    "bornDate": "1995-06-10",
+    "cpf": "123.456.789-00",
+    "phone": "(11) 91234-5678",
+    "address": {
+      "road": "Av. Paulista",
+      "number": "1000",
+      "city": "São Paulo",
+      "state": "SP",
+      "zip": "01310-000",
+      "complement": "Ap 101",
+      "neighborhood": "Bela Vista"
+    }
+  }
+}

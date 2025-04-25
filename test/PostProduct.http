@@ -1,0 +1,9 @@
+POST http://localhost:5000/products
+Content-Type: application/json
+
+{
+  "name": "Tênis Adidas Runfalcon",
+  "image": "https://img.olx.com.br/images/42/423750415951728.webp",
+  "price": 249.90,
+  "location": "Rio de Janeiro, RJ"
+}

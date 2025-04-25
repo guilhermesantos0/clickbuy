@@ -16,7 +16,11 @@ interface Props {
 const Product: React.FC<Props> = ({ product }) => {
 
     const formatPrice = (price: number) => {
-        
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2
+        }).format(price)
     }
 
     return (
@@ -25,7 +29,7 @@ const Product: React.FC<Props> = ({ product }) => {
                 <img className={style.Image} src={product.image} alt="" />
             </div>
             <div className={style.ProductInfo}>
-                <div className={style.Price}>R$ {product.price}</div>
+                <div className={style.Price}>{formatPrice(product.price)}</div>
                 <div className={style.Name}>{product.name}</div>
                 <div className={style.Location}><Pin className={style.Pin} />{product.location}</div>
             </div>

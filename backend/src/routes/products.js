@@ -1,0 +1,19 @@
+const express = require('express');
+const router = express.Router();
+const Product = require('../models/Product');
+
+router.get('/', async (req, res) => {
+    console.log('recebeu 1')
+    const products = await Product.find();
+    res.json(products);
+})
+
+router.post('/', async (req, res) => {
+    console.log('recebeu 2')
+
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+    res.status(201).json(newProduct);
+})
+
+module.exports = router;
