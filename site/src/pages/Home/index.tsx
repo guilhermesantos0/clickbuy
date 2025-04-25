@@ -2,6 +2,8 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ProductsList from '../../components/ProductsList';
 
+import Categorias from '../../components/Categorias';
+
 import style from './Home.module.scss';
 
 import { ReactComponent as Eletronicos } from '../../assets/Home/eletronicos.svg';
@@ -32,21 +34,13 @@ const Home = () => {
 
                 <img className={style.Banner} src={banner} alt="" />
 
-                <nav className={style.NavBar}>
-                    { categories.map((category, item) => (
-                        <li className={style.Category} >{category.item}<span>{category.name}</span></li>
-                    )) }
-                </nav>
+                <Categorias/>
 
-                <div className={style.ShopArea}>
-                    <div className={style.ProductsArea}> 
-                        <ProductsList title='Recomendados para Você:'/>
-                        <ProductsList title='Recomendados para Você:'/>
-                    </div>
-                </div>
-                <Footer />
+                <ProductsList title="Recomendados para você:" />
+                <ProductsList title="Recomendados para você:" />
 
             </div>
+            <Footer />
         </div>
     )
 }

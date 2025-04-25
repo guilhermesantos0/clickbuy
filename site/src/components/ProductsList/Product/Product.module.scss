@@ -10,10 +10,15 @@ $container-width: 15vw;
 
     border-radius: 10px;
 
-    background: rgba(0, 0, 255, 0.1); // azul claro
-    // justify-content: space-evenly;
-
     background: rgb(212, 212, 212);
+    
+    transition: all .5s ease-in-out;
+
+    &:hover {
+        background: rgb(174, 174, 174);
+        transform: translateY(-3px);
+        cursor: pointer;
+    }
 
     .ImageContainer {
         width: $container-width;
@@ -43,13 +48,14 @@ $container-width: 15vw;
         justify-content: space-evenly;
 
         width: 14vw;
-        height: 25vh;
+        height: 27vh;
 
         .Name {
             font-size: 1.3rem;
-            height: 7vh;
+            height: 8vh;
 
             display: -webkit-box;
+            line-clamp: 2;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
