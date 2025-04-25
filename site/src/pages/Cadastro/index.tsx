@@ -71,14 +71,12 @@ function Cadastro() {
         }));
     };
 
-    const handleCheckEmail = () => {
-        /* 
-            1. enviar um request checkEmail para o back-end
-            2. checar se o email já existe no banco de dados
-            3. return true se nao existir
-        */
-       const temp = true;
-        if (temp) {
+    const handleCheckEmail = async () => {
+        
+        const response = await fetch(`http://localhost:5000/checkEmail?email=${formData.email}`);
+        const result = await response.json();
+
+        if(result.able) {
             nextStep();
         }else {
             setError([true, "Email já cadastrado"])
@@ -157,8 +155,50 @@ function Cadastro() {
         }
     }
 
-    const handleSignUp = () => {
-        navigate('/');
+    const handleSignUp = async () => {
+        const userPayload = {
+            email: formData.email,
+            password: formData.password,
+            personalData: {
+              name: formData.personalData.name,
+              bornDate: formData.personalData.bornDate,
+              cpf: formData.personalData.cpf,
+              phone: formData.personalData.phone,
+              address: {
+                road: formData.personalData.address.road,
+                number: formData.personalData.address.number,
+                city: formData.personalData.address.city,
+                state: formData.personalData.address.state,
+                zip: formData.personalData.address.zip,
+                complement: formData.personalData.address.complement || "",
+                neighborhood: formData.personalData.address.neighborhood
+              }
+            }
+        };
+
+        try {
+            const response = await fetch("http://localhost:5000/user", {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(userPayload)
+            })
+
+            const result = await response.json();
+
+            if(response.ok) {
+                alert("Usuário cadastrado com sucesso!");
+                console.log('Usuário:', result.user)
+                navigate('/');
+            }else {
+                alert(`Erro: ${result.message}`);
+                console.error(result)
+            }
+        }catch (error) {
+            alert("Erro ao conectar com o servidor.");
+            console.error("Erro:", error)
+        }
     }
 
     const nextStep = () => {
@@ -187,7 +227,7 @@ function Cadastro() {
                                 className={`${firstStep.Input}`} 
                                 value={formData.email} 
                                 onChange={handleChange} />
-                                <button className={firstStep.Next} onClick={handleCheckEmail}>→</button>
+                                <button className={firstStep.Next} onClick={(e) => { e.preventDefault(); handleCheckEmail() }}>→</button>
                             </div>
                         </div>
                     )
