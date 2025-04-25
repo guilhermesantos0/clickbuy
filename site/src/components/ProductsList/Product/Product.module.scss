@@ -2,13 +2,15 @@ $container-width: 15vw;
 
 .Container {
     width: $container-width;
-    height: 40vh;
+    height: auto;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
     border-radius: 10px;
+
+    background: rgba(0, 0, 255, 0.1); // azul claro
     // justify-content: space-evenly;
 
     background: rgb(212, 212, 212);
@@ -48,7 +50,7 @@ $container-width: 15vw;
             height: 7vh;
 
             display: -webkit-box;
-            -webkit-line-clamp: 2;          // número de linhas
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;

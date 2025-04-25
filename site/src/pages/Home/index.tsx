@@ -1,4 +1,5 @@
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import ProductsList from '../../components/ProductsList';
 
 import style from './Home.module.scss';
@@ -13,27 +14,37 @@ import { ReactComponent as Papelaria } from '../../assets/Home/papelaria.svg';
 
 import banner from '../../assets/Home/banner.png';
 
+const categories = [
+    { name: "Eletrônicos", item: <Eletronicos /> },
+    { name: "Cozinha", item: <Cozinha /> },
+    { name: "Moda", item: <Moda /> },
+    { name: "Decoração", item: <Decoracao /> },
+    { name: "Beleza", item: <Beleza /> },
+    { name: "Pets", item: <Pets /> },
+    { name: "Papelaria", item: <Papelaria /> }
+]
+
 const Home = () => {
     return (
         <div className={style.Container}>
             <Header />
             <div className={style.PageContent}>
+
+                <img className={style.Banner} src={banner} alt="" />
+
                 <nav className={style.NavBar}>
-                    <li className={style.Category} ><Eletronicos /><span>Eletrônicos</span></li>
-                    <li className={style.Category} ><Cozinha /><span>Cozinha</span></li>
-                    <li className={style.Category} ><Moda /><span>Moda</span></li>
-                    <li className={style.Category} ><Decoracao /><span>Decoração</span></li>
-                    <li className={style.Category} ><Beleza /><span>Beleza</span></li>
-                    <li className={style.Category} ><Pets /><span>Pets</span></li>
-                    <li className={style.Category} ><Papelaria /><span>Papelaria</span></li>
+                    { categories.map((category, item) => (
+                        <li className={style.Category} >{category.item}<span>{category.name}</span></li>
+                    )) }
                 </nav>
 
                 <div className={style.ShopArea}>
-                    <img className={style.Banner} src={banner} alt="" />
                     <div className={style.ProductsArea}> 
+                        <ProductsList title='Recomendados para Você:'/>
                         <ProductsList title='Recomendados para Você:'/>
                     </div>
                 </div>
+                <Footer />
 
             </div>
         </div>

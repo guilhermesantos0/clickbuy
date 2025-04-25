@@ -2,7 +2,7 @@
 @use '../../assets/scss/mixins' as *;
 
 .Container {
-    width: 100vw;
+    width: 100%;
     height: 12vh;
 
     display: flex;
@@ -19,7 +19,7 @@
     left: 0;
 
     .Left {
-        width: 20vh;
+        width: 20vw;
         height: 8vh;
 
         .LeftImage {

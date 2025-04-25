@@ -1,0 +1,39 @@
+.categoriasContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #dd9b42;
+  padding: 10px 20px;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.categoriaItem {
+  background-color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #333;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s, background-color 0.2s;
+
+  &:hover {
+    background-color: #ffd38d;
+    transform: translateY(-2px);
+  }
+}
+
+.categoriaIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}

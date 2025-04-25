@@ -44,6 +44,12 @@ const list = [
         image: 'https://img.olx.com.br/images/19/190457201189583.webp',
         price: 110,
         location: 'São Caetano do Sul, SP'
+    },
+    {
+        name: 'Panela de Pressão Alusol 2,5 Litros - Nova!',
+        image: 'https://img.olx.com.br/images/19/190457201189583.webp',
+        price: 110,
+        location: 'São Caetano do Sul, SP'
     }
 ]
 
