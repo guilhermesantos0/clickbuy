@@ -9,8 +9,32 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
 
-    const handleLogin = () => {
-        navigate('/');
+    const handleLogin = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({
+                    email, 
+                    password
+                })
+            })
+
+            const result = await response.json();
+
+            if(response.ok) {
+                alert("Login realizado com sucesso!");
+                console.log("Usuário logado: ", result.user)
+                navigate('/');
+            } else {
+                alert(result.message || "Erro ao fazer login")
+            }
+        } catch (error) {
+            alert("Erro de conexão com o servidor.");
+            console.error("Login error:", error)
+        }
     }
 
     return (
