@@ -14,6 +14,7 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 })
     .then(() => {
+        console.clear()
         console.log('Conectado ao MongoDB Atlas!');
         app.listen(PORT, () => console.log(`Servidor na porta ${PORT}`));
     })

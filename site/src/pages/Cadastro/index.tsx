@@ -74,9 +74,8 @@ function Cadastro() {
     const handleCheckEmail = async () => {
         
         const response = await fetch(`http://localhost:5000/checkEmail?email=${formData.email}`);
-        const result = await response.json();
 
-        if(result.able) {
+        if(response.ok) {
             nextStep();
         }else {
             setError([true, "Email já cadastrado"])

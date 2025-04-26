@@ -7,6 +7,7 @@ const Announce = () => {
                 <div><label htmlFor="category">Categoria</label><input type="select" /></div>
                 <div><label htmlFor="brand">Marca</label><input type="text" /></div>
                 <div><label htmlFor="price">Preço</label><input type="text" /></div>
+                <div><label htmlFor="state">Estado</label><input type="select" /></div>
                 <div><label htmlFor="city">Cidade</label><input type="text" /></div>
             </div>
 
