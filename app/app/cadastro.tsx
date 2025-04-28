@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import firstStep from '@/app/(tabs)/Cadastro/firstStep'
-import SecondStep from '@/app/(tabs)/Cadastro/secondStep'
-import thirdStep from '@/app/(tabs)/Cadastro/thirdStep'
-import fourthStep from '@/app/(tabs)/Cadastro/fourthStep'
-import styles from '@/app/(tabs)/Cadastro/styles'
+import firstStep from '@/app/styles/Cadastro/firstStep'
+import SecondStep from '@/app/styles/Cadastro/secondStep'
+import thirdStep from '@/app/styles/Cadastro/thirdStep'
+import fourthStep from '@/app/styles/Cadastro/fourthStep'
+import styles from '@/app/styles/Cadastro/styles'
 import { useRouter } from 'expo-router'
 
 const Cadastro = () => {
@@ -518,7 +518,7 @@ const Cadastro = () => {
             </View>
           )
         }
-        <TouchableOpacity onPress={() => router.push('/Login') }>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/login') }>
           <Text style={styles.Recovery}>Já tenho uma conta</Text>
         </TouchableOpacity>
       </View>
