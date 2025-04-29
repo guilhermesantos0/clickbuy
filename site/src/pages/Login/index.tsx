@@ -25,7 +25,6 @@ const Login = () => {
             const result = await response.json();
 
             if(response.ok) {
-                alert("Login realizado com sucesso!");
                 console.log("Usuário logado: ", result.user)
                 navigate('/');
             } else {

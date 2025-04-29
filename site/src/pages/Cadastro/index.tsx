@@ -187,7 +187,6 @@ function Cadastro() {
             const result = await response.json();
 
             if(response.ok) {
-                alert("Usuário cadastrado com sucesso!");
                 console.log('Usuário:', result.user)
                 navigate('/');
             }else {
