@@ -2,6 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import style from './Login.module.scss';
 import { useState } from 'react';
 
+import { toast } from 'react-toastify';
+
 const Login = () => {
 
     const navigate = useNavigate();
@@ -25,14 +27,13 @@ const Login = () => {
             const result = await response.json();
 
             if(response.ok) {
-                console.log("Usuário logado: ", result.user)
+                toast.success('Login realizado com sucesso!')
                 navigate('/');
             } else {
-                alert(result.message || "Erro ao fazer login")
+                toast.error(result.message)
             }
         } catch (error) {
-            alert("Erro de conexão com o servidor.");
-            console.error("Login error:", error)
+            toast.error("Erro de conexão com o servidor")
         }
     }
 
@@ -54,6 +55,7 @@ const Login = () => {
                     <Link to='/cadastro' className={style.SignUp}>CADASTRE-SE</Link>
                 </div>
             </form>
+            
         </div>
     )
 }
