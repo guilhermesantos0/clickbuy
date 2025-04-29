@@ -7,10 +7,6 @@ export default function TelaPrincipal() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>TelaPrincipal</Text>
-      <Button
-        title="Ir para Login"
-        onPress={() => router.push('/Login')}
-      />
     </View>
   );
 }
