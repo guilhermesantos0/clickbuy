@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { ReactComponent as Lupa } from '../../assets/lupa.svg';
-
+import logo from "../../assets/logo.png";
 import style from './Header.module.scss';
 
 import { User } from '@modules/User';
@@ -15,7 +15,7 @@ const Header: React.FC<Props> = ({ user }) => {
     return (
         <div className={style.Container}>
             <div className={style.Left}>
-                <img className={style.LeftImage} src="/favicon.ico" alt="Click Buy" />
+                <img className={style.LeftImage} src="/" alt="Click Buy" />
             </div>
             <div className={style.Center}>
                 <input className={style.Input} type="text" />

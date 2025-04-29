@@ -1,9 +1,11 @@
 .sliderContainer {
-    position: relative;
-    width: 90%;
-    height: 800px;
-    overflow: hidden;
-  }
+  position: relative;
+  width: 90%;
+  height: 800px;
+  overflow: hidden;
+  margin: 0 auto; /* Isso centraliza o container */
+}
+
   
   .slider {
     display: flex;
