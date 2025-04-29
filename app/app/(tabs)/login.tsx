@@ -1,7 +1,14 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router';
+import { useUser } from '@/contexts/UserContext';
+import Toast from 'react-native-toast-message';
 const Login = () => {
+  const { setUser } = useUser();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
+  const router = useRouter();
+
   const handleLogin = async () => {
     try {
         const response = await fetch("http://localhost:5000/login", {
@@ -18,22 +25,33 @@ const Login = () => {
         const result = await response.json();
 
         if(response.ok) {
-            alert("Login realizado com sucesso!");
-            console.log("Usuário logado: ", result.user)
-            router.push('/')
+          Toast.show({
+            type: 'success',
+            text1: 'Login realizado com sucesso!',
+          });
+
+            setUser( {
+                _id: result.user._id,
+                name: result.user.name,
+                email: result.user.email,
+                profilePic: result.user.profilePic || ""
+            })
+            router.push('/(tabs)')
         } else {
-            alert(result.message || "Erro ao fazer login")
+            Toast.show({
+              type: 'error',
+              text1: result.message,
+            });
         }
     } catch (error) {
-        alert("Erro de conexão com o servidor.");
-        console.error("Login error:", error)
+        Toast.show({
+          type: 'error',
+          text1: 'Erro de conexão com o servidor',
+        });
     }
-  }
-  const router = useRouter();
+}
   const [isFocused, setIsFocused] = useState(false);
   
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
   return (
     <View style ={styles.Container}>
       <View style = {styles.Form}>
@@ -67,18 +85,18 @@ const Login = () => {
         <TouchableOpacity onPress={() => router.push('/(tabs)/login') }>
           <Text style={styles.Recovery}>Esqueci minha senha</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.ButtonsArea}>
+        <View style={styles.ButtonsArea}>
         <TouchableOpacity
-          style={styles.Login}
-          onPress={() => handleLogin()}>
-          <Text style={styles.ButtonText}>ENTRAR</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.SignUP}
-          onPress={() => router.push('../cadastro') }>
-          <Text style={styles.ButtonText2}>CADASTRE-SE</Text>
-        </TouchableOpacity>
+            style={styles.Login}
+            onPress={handleLogin}>
+            <Text style={styles.ButtonText}>ENTRAR</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.SignUP}
+            onPress={() => router.push('../cadastro') }>
+            <Text style={styles.ButtonText2}>CADASTRE-SE</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -94,8 +112,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   Form:{
+    paddingTop:80,
     width: '80%',
-    height: 350,
+    height: '100%',
 
     display: 'flex',
     alignItems: 'center',
@@ -118,7 +137,8 @@ const styles = StyleSheet.create({
     height: 60,
     marginTop: 10,
     fontSize: 15,
-    backgroundColor: 'rgb(188, 188, 188)',
+    backgroundColor: 'rgb(224, 224, 224)',
+    paddingLeft:8,
     outline: 'none',
     borderWidth: 0,
     borderRadius: 10,
@@ -133,7 +153,7 @@ const styles = StyleSheet.create({
   },
   Recovery: {
     fontSize:20,
-    paddingBottom: 50,
+    paddingBottom: 0,
     color: 'black',
     textDecorationLine: 'underline',
   },
@@ -147,6 +167,7 @@ const styles = StyleSheet.create({
   Login: {
     backgroundColor: '#DDA04B',
     paddingVertical: 10,
+    marginRight:25,
     paddingHorizontal: 30,
     borderRadius: 5,
   },

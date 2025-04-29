@@ -35,9 +35,8 @@ const Cadastro = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const handleCheckEmail = async () => {
-    nextStep();//retirar dps
+    nextStep()
     const response = await fetch(`http://localhost:5000/checkEmail?email=${formData.email}`);
-
     if(response.ok) {
         nextStep();
     }else {

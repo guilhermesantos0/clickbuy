@@ -7,15 +7,20 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { UserProvider } from '@/contexts/UserContext';
+import Toast from 'react-native-toast-message';
+import Header from '@/components/clickbuy/Header';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
+    <UserProvider>
+      <Header/>
+      <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
-        tabBarInactiveTintColor: 'white',
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'black',
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -45,6 +50,8 @@ export default function TabLayout() {
         }}
       />
 
-    </Tabs>
+      </Tabs>
+      <Toast />
+    </UserProvider>
   );
 }
