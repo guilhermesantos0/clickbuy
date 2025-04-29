@@ -1,5 +1,7 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 
+import { User } from '@modules/User';
+
 interface UserData {
     _id: string;
     email: string;
@@ -10,14 +12,14 @@ interface UserData {
 }
 
 interface UserContextType {
-    user: UserData | null;
-    setUser: (user: UserData) => void;
+    user: User | null;
+    setUser: (user: User) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<UserData | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

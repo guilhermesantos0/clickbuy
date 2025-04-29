@@ -1,3 +1,5 @@
+import { useUser } from 'contexts/UserContext';
+
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ProductsList from '../../components/ProductsList';
@@ -9,9 +11,12 @@ import style from './Home.module.scss';
 import banner from '../../assets/Home/banner.png';
 
 const Home = () => {
+
+    const { user } = useUser();
+
     return (
         <div className={style.Container}>
-            <Header />
+            <Header user={user} />
             <div className={style.PageContent}>
 
                 <img className={style.Banner} src={banner} alt="" />

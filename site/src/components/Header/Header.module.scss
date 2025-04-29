@@ -98,5 +98,13 @@
             text-decoration: none;
             color: $primary-color;
         }
+
+        .ProfileImage {
+            width: 4vw;
+            height: 4vw;
+
+            border-radius: 50%;
+            border: 2px solid rgb(187, 187, 187);
+        }
     }
 }

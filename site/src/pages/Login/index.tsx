@@ -2,9 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import style from './Login.module.scss';
 import { useState } from 'react';
 
+import { useUser } from '../../contexts/UserContext';
+
 import { toast } from 'react-toastify';
 
 const Login = () => {
+    const { setUser } = useUser();
 
     const navigate = useNavigate();
 
@@ -27,7 +30,14 @@ const Login = () => {
             const result = await response.json();
 
             if(response.ok) {
-                toast.success('Login realizado com sucesso!')
+                toast.success('Login realizado com sucesso!');
+
+                setUser( {
+                    _id: result.user._id,
+                    name: result.user.name,
+                    email: result.user.email,
+                    profilePic: result.user.profilePic || ""
+                })
                 navigate('/');
             } else {
                 toast.error(result.message)

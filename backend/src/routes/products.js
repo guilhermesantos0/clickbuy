@@ -13,4 +13,14 @@ router.post('/', async (req, res) => {
     res.status(201).json(newProduct);
 })
 
+router.delete('/:id', async(req, res) => {
+  try {
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({ message: "Usuário deletado com sucesso! "});
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao deletar usuário", error: err.message })
+  }
+})
+
 module.exports = router;

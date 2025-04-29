@@ -7,7 +7,7 @@ import style from './Header.module.scss';
 import { User } from '@modules/User';
 
 interface Props {
-    user?: User
+    user: User | null
 }
 
 const Header: React.FC<Props> = ({ user }) => {
