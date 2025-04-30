@@ -10,19 +10,28 @@ $container-width: 15vw;
 
     border-radius: 10px;
 
-    background: rgb(212, 212, 212);
+    background: rgb(246, 245, 245);
     
-    transition: all .5s ease-in-out;
+    transition: transform .5s ease-in-out;
 
     &:hover {
-        background: rgb(174, 174, 174);
-        transform: translateY(-3px);
         cursor: pointer;
+        border: 1px solid rgb(158, 158, 158);
+        box-shadow: 0 0 3px black;
+
+        .ImageContainer {
+            .Image {
+                transition: all .5s ease-in-out;
+
+                width: 105%;
+                height: 105%;
+            }
+        }
     }
 
     .ImageContainer {
         width: $container-width;
-        height: 15vh;
+        height: 20vh;
         
         overflow: hidden;
 
@@ -48,7 +57,7 @@ $container-width: 15vw;
         justify-content: space-evenly;
 
         width: 14vw;
-        height: 27vh;
+        height: 22vh;
 
         .Name {
             font-size: 1.3rem;
@@ -63,7 +72,7 @@ $container-width: 15vw;
         }
         
         .Price {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             height: 4vh;
         }

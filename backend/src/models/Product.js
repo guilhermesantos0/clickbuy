@@ -10,7 +10,8 @@ const productSchema = new mongoose.Schema({
   images: { type: [String], required: true }, 
   mainImage: { type: String, required: true }, 
   price: { type: Number, required: true },
-  location: { type: String, required: true }
-}, { versionKey: false });
+  location: { type: String, required: true },
+  category: { type: Number, required: true }
+});
 
 module.exports = mongoose.model('Product', productSchema);
