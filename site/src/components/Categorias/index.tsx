@@ -1,36 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Categorias.module.scss";
 
-
-import eletronicosImg from "../../assets/eletronicosImg.svg";
-import cozinhaImg from "../../assets/cozinhaImg.svg";
-import modaImg from "../../assets/modaImg.svg";
-import decoracaoImg from "../../assets/decoracaoImg.svg";
-import belezaImg from "../../assets/belezaImg.svg";
-import petsImg from "../../assets/petsImg.svg";
-import papelariaImg from "../../assets/papelariaImg.svg";
-
-const categorias = [
-  { nome: "Eletrônicos", icon: eletronicosImg },
-  { nome: "Cozinha", icon: cozinhaImg },
-  { nome: "Moda", icon: modaImg },
-  { nome: "Decoração", icon: decoracaoImg },
-  { nome: "Beleza", icon: belezaImg },
-  { nome: "Pets", icon: petsImg },
-  { nome: "Papelaria", icon: papelariaImg },
-];
+interface Category {
+  _id: number,
+  name: string,
+  icon: string
+}
 
 const Categorias: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/categories');
+
+        const categoriesData = await response.json();
+
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Erro ao buscar categorias', error)
+      }
+    }
+
+    fetchData();
+  })
+
   return (
     <div className={styles.categoriasContainer}>
-      {categorias.map((cat, idx) => (
-        <button className={styles.categoriaItem} key={idx}>
+      {categories.map((cat) => (
+        <button className={styles.categoriaItem} key={cat._id}>
           <img
-            src={cat.icon}
-            alt={cat.nome}
+            src={`http://localhost:5000${cat.icon}`}
+            alt={cat.name}
             className={styles.categoriaIcon}
           />
-          <span>{cat.nome}</span>
+          <span>{cat.name}</span>
         </button>
       ))}
     </div>

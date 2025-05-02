@@ -1,0 +1,14 @@
+### Criar categoria com imagem
+POST http://localhost:5000/categories
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+Papelaria
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="icon"; filename="papelaria.svg"
+Content-Type: image/png
+
+< ./images/papelariaImg.svg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

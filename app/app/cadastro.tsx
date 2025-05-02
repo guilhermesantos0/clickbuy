@@ -93,8 +93,6 @@ const Cadastro = () => {
         const res = await fetch(`https://viacep.com.br/ws/${cep}/json`);
         const data = await res.json();
 
-        console.log(data)
-
         if(data.erro) {
             resetAddress()
             console.log('cep nao encontrado');
@@ -117,7 +115,6 @@ const Cadastro = () => {
 
         setDisabledInput(true)
     } catch (error) {
-        console.log('teste')
         console.error("Erro ao buscar o CEP:", error);
     }
   }

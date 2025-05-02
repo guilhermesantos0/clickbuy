@@ -61,9 +61,6 @@ const ProductsList: React.FC<Props> = ({ title }) => {
     const [isAtStart, setIsAtStart] = useState(true);
 
     const scrollRight = () => {
-
-        console.log(productsRef.current)
-
         if (productsRef.current) {
         productsRef.current.scrollBy({
             left: 300,
@@ -73,9 +70,6 @@ const ProductsList: React.FC<Props> = ({ title }) => {
     };
 
     const scrollLeft = () => {
-
-        console.log(productsRef.current)
-
         if (productsRef.current) {
         productsRef.current.scrollBy({
             left: -300,

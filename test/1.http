@@ -1,15 +1,2 @@
 ### Adicionar Bicicleta Caloi
-POST http://localhost:5000/products
-Content-Type: application/json
-
-{
-  "name": "Bicicleta Caloi Vulcan Aro 29",
-  "images": [
-    "https://app.lojasnossolar.com.br/images/nossolar/produtos/4259/170119_171629_P1000.jpg",
-    "https://m.media-amazon.com/images/I/71O697TvdhL._AC_UF1000,1000_QL80_.jpg",
-    "https://imgcentauro-a.akamaihd.net/1200x1200/94047450A92.jpg"
-  ],
-  "mainImage": "https://app.lojasnossolar.com.br/images/nossolar/produtos/4259/170119_171629_P1000.jpg",
-  "price": 2199.90,
-  "location": "Campinas, SP"
-}
+DELETE http://localhost:5000/categories

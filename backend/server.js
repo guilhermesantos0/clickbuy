@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/upload', express.static('src/upload'));
 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -25,6 +26,7 @@ app.use('/products', require('./src/routes/products'));
 app.use('/user', require('./src/routes/user'));
 app.use('/checkEmail', require('./src/routes/checkEmail'));
 app.use('/login', require('./src/routes/login'));
+app.use('/categories', require('./src/routes/categories'));
 
 
 const PORT = process.env.PORT || 5000;

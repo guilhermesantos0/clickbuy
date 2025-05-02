@@ -34,25 +34,36 @@ interface Admin__Product {
   location: string;
 }
 
+interface Admin__Category {
+  _id: number;
+  name: string;
+  icon: string;
+}
+
 const Admin = () => {
   const [users, setUsers] = useState<Admin__User[]>([]);
   const [products, setProducts] = useState<Admin__Product[]>([]);
+  const [categories, setCategories] = useState<Admin__Category[]>([]);
+
   const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
   const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [usersResponse, productsResponse] = await Promise.all([
+        const [usersResponse, productsResponse, categoriesResponse] = await Promise.all([
           fetch('http://localhost:5000/user'),
-          fetch('http://localhost:5000/products')
+          fetch('http://localhost:5000/products'),
+          fetch('http://localhost:5000/categories')
         ]);
 
         const usersData = await usersResponse.json();
         const productsData = await productsResponse.json();
+        const categoriesData = await categoriesResponse.json();
 
         setUsers(usersData);
         setProducts(productsData);
+        setCategories(categoriesData);
 
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
@@ -218,6 +229,21 @@ const Admin = () => {
           </tbody>
         </table>
       )}
+
+      <h2 className={style.Subtitle}>Categorias</h2>
+      {categories.length === 0 ? (
+        <p>Carregando categorias...</p>
+      ) : (
+        <div className={style.CategoryGrid}>
+          {categories.map((cat) => (
+            <div key={cat._id} className={style.CategoryCard}>
+              <img src={`http://localhost:5000${cat.icon}`} alt={cat.name} className={style.CategoryImage} />
+              <span className={style.CategoryName}>{cat.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 };
