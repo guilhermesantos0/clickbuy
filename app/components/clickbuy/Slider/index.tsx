@@ -4,8 +4,9 @@ import styles from '../Slider/styles'
 const banner1 = require('@/assets/ClickBuy/banner1.jpg');
 const banner2 = require('@/assets/ClickBuy/banner2.jpg');
 const banner3 = require('@/assets/ClickBuy/banner3.jpg');
-
-const Slider = () => {
+interface Props {
+}
+const Slider: React.FC<Props> = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
   const banners = [banner1, banner2, banner3];
 
