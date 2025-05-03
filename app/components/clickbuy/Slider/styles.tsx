@@ -1,8 +1,6 @@
 import { StyleSheet, } from 'react-native'
 const styles = StyleSheet.create({
     SliderContainer:{
-        top: 130,
-        position: 'absolute',
         width: '100%',
         height: 200,
         overflow: 'hidden',

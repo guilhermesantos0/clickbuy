@@ -10,7 +10,10 @@ const fashion = require('@/assets/ClickBuy/modaImg.png');
 const paper = require('@/assets/ClickBuy/papelariaImg.png');
 const pets = require('@/assets/ClickBuy/petsImg.png');
 
-const Categories = () => {
+interface Props {
+}
+
+const Categories: React.FC<Props> = () => {
   return (
     <View style={styles.Container}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
