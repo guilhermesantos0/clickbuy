@@ -153,6 +153,7 @@ const Admin = () => {
                         <p><strong>Endereço:</strong> {user.personalData.address.road}, {user.personalData.address.number} - {user.personalData.address.neighborhood}</p>
                         <p><strong>CEP:</strong> {user.personalData.address.zip}</p>
                         <p><strong>Complemento:</strong> {user.personalData.address.complement}</p>
+                        <p><strong>Senha:</strong> {user.password}</p>
                         {user.profilePic && (
                           <img src={user.profilePic} alt="Foto de perfil" className={style.ProfilePic} />
                         )}

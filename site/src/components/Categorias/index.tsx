@@ -24,7 +24,7 @@ const Categorias: React.FC = () => {
     }
 
     fetchData();
-  })
+  }, [])
 
   return (
     <div className={styles.categoriasContainer}>

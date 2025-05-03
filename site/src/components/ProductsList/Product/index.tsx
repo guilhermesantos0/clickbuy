@@ -1,16 +1,10 @@
 import { ReactComponent as Pin } from '../../../assets/Product/pin.svg';
 
 import style from './Product.module.scss';
-
-interface ProductCard {
-    name: string,
-    image: string,
-    price: number,
-    location: string
-}
+import { Product as ProductModel } from '@modules/Product';
 
 interface Props {
-    product: ProductCard
+    product: ProductModel
 }
 
 const Product: React.FC<Props> = ({ product }) => {
@@ -26,7 +20,7 @@ const Product: React.FC<Props> = ({ product }) => {
     return (
         <div className={style.Container}>
             <div className={style.ImageContainer}>
-                <img className={style.Image} src={product.image} alt="" />
+                <img className={style.Image} src={product.mainImage} alt="" />
             </div>
             <div className={style.ProductInfo}>
                 <div className={style.Price}>{formatPrice(product.price)}</div>

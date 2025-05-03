@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import style from './ProductsList.module.scss';
 
 import Product from './Product';
+import { Product as ProductModel } from '@modules/Product';
 
 interface Props {
     title: string
@@ -55,6 +56,23 @@ const list = [
 
 const ProductsList: React.FC<Props> = ({ title }) => {
 
+    const [products, setProducts] = useState<ProductModel[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/products');
+                const productData = await response.json();
+
+                setProducts(productData);
+            } catch (error) {
+                console.log('Erro ao buscar produtos', error)
+            }
+        }
+
+        fetchData();
+    }, [])
+
     const productsRef = useRef<HTMLDivElement>(null);
 
     const [isAtEnd, setIsAtEnd] = useState(false);
@@ -100,8 +118,8 @@ const ProductsList: React.FC<Props> = ({ title }) => {
         <div className={style.Container}>
             <h2 className={style.Title}>{ title }</h2>
             <div className={style.List} ref={productsRef}>
-                {list.map((item, index) => (
-                    <Product product={{...item}} />
+                {products.map((product) => (
+                    <Product product={{...product}} />
                 ))}
                 
             </div>

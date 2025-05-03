@@ -14,7 +14,7 @@
 
     border-bottom: 2px solid black;
 
-    background: white;
+    background: $primary-color;
 
     position: fixed;
     top: 0;
@@ -76,8 +76,14 @@
             height: 5vh;
 
             border-radius: 3vh;
-            border: 0;
 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+            background: white;
+            color: $primary-color;
             &:hover {
                 cursor: pointer;
             }
@@ -85,26 +91,78 @@
 
         .Login {
             @include secondary-button;
-
+            
             width: 8vw;
             height: 5vh;
-
+            
             border-radius: 3vh;
-
+            
             display: flex;
             align-items: center;
             justify-content: center;
-
+            
             text-decoration: none;
-            color: $primary-color;
+            border-color: white;
+            color: white;
         }
 
-        .ProfileImage {
-            width: 4vw;
-            height: 4vw;
+        .ProfileContainer {
 
-            border-radius: 50%;
-            border: 2px solid rgb(187, 187, 187);
+            position: relative;
+            cursor: pointer;
+
+            .ProfileImage {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+                transition: box-shadow 0.3s ease;
+
+                &:hover {
+                    box-shadow: 0 0 0 3px #DDA04B;
+                }
+            }
+
+            .MenuContainer {
+                position: absolute;
+                top: 50px;
+                right: 0;
+                background-color: #fff;
+                border: 1px solid #e0e0e0;
+                border-radius: 10px;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+                z-index: 1000;
+                min-width: 180px;
+                overflow: hidden;
+                animation: fadeIn 0.2s ease-in-out;
+
+                a {
+                    padding: 12px 18px;
+                    text-decoration: none;
+                    color: #333;
+                    font-weight: 500;
+                    display: block;
+                    transition: background-color 0.25s, color 0.25s;
+
+                    &:hover {
+                        background-color: #f9f9f9;
+                        color: #DDA04B;
+                    }
+                }
+            }
+
         }
+
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

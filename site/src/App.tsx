@@ -20,6 +20,7 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/anunciar" element={<Announce />} />
         <Route path="/admin" element={<Admin />} />
+        
       </Routes>
 
       <ToastContainer style={{ zIndex: 9999 }} theme="colored" />
