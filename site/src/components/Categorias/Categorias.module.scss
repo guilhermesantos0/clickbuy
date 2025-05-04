@@ -1,41 +1,51 @@
+@use '../../assets/scss/variables' as *;
+
 .categoriasContainer {
-  max-width: 1200px;
+  width: 80vw;
+  height: 50px;
   margin: 0 auto;
-  background-color: #dd9b42;
-  padding: 10px 20px;
+  background-color: $primary-color;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 8px;
 
   margin-top: 3vh;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+  gap: 18px;
 
-.categoriaItem {
-  background-color: white;
-  border: none;
-  border-radius: 9999px;
-  padding: 8px 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: #333;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: transform 0.2s, background-color 0.2s;
+  overflow-x: scroll;
 
-  &:hover {
-    background-color: #ffd38d;
-    transform: translateY(-2px);
+  .categoriaItem {
+    background-color: white;
+    height: 38px;
+    border: none;
+    border-radius: 38px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.85rem;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+  
+    &:hover {
+      background-color: #ffd38d;
+      transform: translateY(-2px);
+    }
+
+    .categoriaIcon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
   }
-}
 
-.categoriaIcon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

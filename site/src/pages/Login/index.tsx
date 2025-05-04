@@ -32,12 +32,7 @@ const Login = () => {
             if(response.ok) {
                 toast.success('Login realizado com sucesso!');
 
-                setUser( {
-                    _id: result.user._id,
-                    name: result.user.name,
-                    email: result.user.email,
-                    profilePic: result.user.profilePic || ""
-                })
+                setUser( result.user )
                 navigate('/');
             } else {
                 toast.error(result.message)

@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import Announce from './pages/Announce';
 import Admin from './pages/Admin';
+import EditarPerfil from './pages/EditarPerfil';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +21,7 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/anunciar" element={<Announce />} />
         <Route path="/admin" element={<Admin />} />
-        
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
       </Routes>
 
       <ToastContainer style={{ zIndex: 9999 }} theme="colored" />

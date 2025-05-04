@@ -5,8 +5,6 @@
     width: 100%;
     height: 12vh;
 
-    z-index: 9998;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,19 +12,21 @@
 
     border-bottom: 2px solid black;
 
-    background: $primary-color;
+    // background: $primary-color;
 
-    position: fixed;
-    top: 0;
-    left: 0;
 
     .Left {
-        width: 20vw;
+        width: 25vw;
         height: 8vh;
 
         .LeftImage {
-            width: 4vw;
-            height: 4vw;
+            width: 8vh;
+            height: 8vh;
+
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
@@ -46,6 +46,10 @@
             outline: none;
 
             padding: 0 2vw;
+
+            @media screen and (max-width: $screen-sm) {
+                padding: 0 4vw;
+            }
         }
 
         .SearchImage {
@@ -57,6 +61,14 @@
             top: 50%;
 
             transform: translateY(-50%);
+
+            @media screen and (max-width: $screen-sm) {
+                right: 2.5vw;
+            }
+        }
+
+        @media screen and (max-width: $screen-sm) {
+            width: 50vw;
 
         }
     }
@@ -82,8 +94,7 @@
             justify-content: center;
 
             text-decoration: none;
-            background: white;
-            color: $primary-color;
+            color: white;
             &:hover {
                 cursor: pointer;
             }
@@ -102,8 +113,7 @@
             justify-content: center;
             
             text-decoration: none;
-            border-color: white;
-            color: white;
+            color: $primary-color;
         }
 
         .ProfileContainer {
@@ -150,9 +160,15 @@
                     }
                 }
             }
-
         }
 
+        @media screen and (max-width: $screen-sm) {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: $screen-sm) {
+        padding: 0 10vw;
     }
 }
 

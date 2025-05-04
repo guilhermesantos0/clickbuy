@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { ReactComponent as Lupa } from '../../assets/lupa.svg';
+
 import style from './Header.module.scss';
 
 import { User } from '@modules/User';
@@ -19,6 +20,8 @@ const Header: React.FC<Props> = ({ user }) => {
 
     const toggleMenu = () => setMenuOpen(prev => !prev);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if(menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -32,7 +35,7 @@ const Header: React.FC<Props> = ({ user }) => {
     return (
         <div className={style.Container}>
             <div className={style.Left}>
-                <img className={style.LeftImage} src="/" alt="Click Buy" />
+                <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Click Buy" className={style.LeftImage} onClick={() => navigate('/')} />
             </div>
             <div className={style.Center}>
                 <input className={style.Input} type="text" />

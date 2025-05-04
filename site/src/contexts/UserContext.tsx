@@ -2,15 +2,6 @@ import { createContext, useState, useContext, ReactNode } from "react";
 
 import { User } from '@modules/User';
 
-interface UserData {
-    _id: string;
-    email: string;
-    profilePic: string;
-    personalData: {
-        name: string
-    };
-}
-
 interface UserContextType {
     user: User | null;
     setUser: (user: User) => void;
