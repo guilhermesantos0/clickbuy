@@ -1,0 +1,22 @@
+.Container {
+    width: 100%;
+    height: 80%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "cep neighborhood"
+        "road road"
+        "number complement"
+        "city state";
+    ;
+    place-items: center;
+
+    .Road      { grid-area: road; }
+    .Number    { grid-area: number; }
+    .Complement{ grid-area: complement; }
+    .Cep       { grid-area: cep; }
+    .Neighborhood { grid-area: neighborhood; }
+    .City      { grid-area: city; }
+    .State     { grid-area: state; }
+}

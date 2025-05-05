@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
-import Announce from './pages/Announce';
+import Anunciar from './pages/Anunciar';
 import Admin from './pages/Admin';
 import EditarPerfil from './pages/EditarPerfil';
 
@@ -24,7 +24,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
-        <Route path="/anunciar" element={<Announce />} />
+        <Route path="/anunciar" element={<Anunciar />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 

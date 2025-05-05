@@ -9,6 +9,8 @@ import secondStep from './css/SecondStep.module.scss';
 import thirdStep from './css/ThirdStep.module.scss';
 import fourthStep from './css/FourthStep.module.scss';
 
+import { formatPhoneNumber, formatCPF, formatCEP, formatDate } from 'utils/formatters';
+
 function Cadastro() {
 
     const navigate = useNavigate();
@@ -47,7 +49,16 @@ function Cadastro() {
     };
 
     const handleNestedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
+
+        if (name === "phone") {
+            value = formatPhoneNumber(value);
+        } else if (name === "cpf") {
+            value = formatCPF(value)
+        } else if (name === "bornDate") {
+            value = formatDate(value);
+        }
+
         setFormData(prev => ({
           ...prev,
           personalData: {
@@ -58,7 +69,12 @@ function Cadastro() {
 };
       
     const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
+
+        if (name === "zip") {
+            value = formatCEP(value)
+        }
+
         setFormData(prev => ({
             ...prev,
             personalData: {
@@ -304,7 +320,7 @@ function Cadastro() {
                                 <div className={`${thirdStep.InputGroup} ${thirdStep.BornDate}`}>
                                     <label htmlFor="bornDate">Data de nascimento</label>
                                     <input 
-                                    type="date" 
+                                    type="text" 
                                     name='bornDate' 
                                     className={thirdStep.Input} 
                                     value={formData.personalData.bornDate} 

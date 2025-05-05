@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Categorias.module.scss";
 
-interface Category {
-  _id: number,
-  name: string,
-  icon: string
-}
+import { Category } from "@modules/Category";
 
 const Categorias: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);

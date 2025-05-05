@@ -8,45 +8,4 @@
     justify-content: center;
     gap: 1rem;
 
-    .InputGroup {
-        width: 70%;
-        height: 10vh;
-
-        display: flex;
-        flex-direction: column;
-
-        .Input {
-            height: 7vh;
-            padding: 0 1vw;
-            border: 1px solid transparent;
-            border-radius: 12px;
-          
-            background-color: #f8f8f8;
-            font-size: 1rem;
-            color: #2c2c2c;
-          
-            transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-          
-            &:hover {
-              background-color: #f2f2f2;
-              border-color: #ddd;
-            }
-          
-            &:focus {
-              background-color: #fff;
-              border-color: #DDA04B;
-              outline: none;
-              box-shadow: 0 0 0 3px rgba(221, 160, 75, 0.2);
-            }
-          
-            &::placeholder {
-              color: #aaa;
-              transition: color 0.3s ease;
-            }
-          
-            &:focus::placeholder {
-              color: #bbb;
-            }
-        }
-    }
 }

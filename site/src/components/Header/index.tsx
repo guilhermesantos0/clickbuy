@@ -69,6 +69,7 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
                             <div className={style.MenuContainer}>
                                 <Link to="/editar-perfil">Editar Perfil</Link>
                                 <Link to="/meus-produtos">Meus Produtos</Link>
+                                <Link to="/meus-pedidos">Meus Pedidos</Link>
                                 <Link to="/favoritos">Favoritos</Link>
                                 <span onClick={handleLogout}>Sair</span>
                             </div>
