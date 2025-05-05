@@ -6,6 +6,8 @@ import { useUser } from '../../contexts/UserContext';
 
 import { toast } from 'react-toastify';
 
+import Header from '../../components/Header';
+
 const Login = () => {
     const { setUser } = useUser();
 
@@ -44,6 +46,7 @@ const Login = () => {
 
     return (
         <div className={style.Container}>
+            <Header hideOptions={true } user={null} />
             <form action="login" className={style.Form}>
                 <h1 className={style.Title}>Entre para comprar!</h1>
                 <div className={style.InputContainer}>

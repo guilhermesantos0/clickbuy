@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './Footer.module.scss';
-
-import whatsappIcon from '../../assets/whats.svg';
-import facebookIcon from '../../assets/face.svg';
-import instagramIcon from '../../assets/insta.svg';
-import visaIcon from '../../assets/visa.svg';
-import mastercardIcon from '../../assets/mastercard.svg';
-import pixIcon from '../../assets/pix.svg';
 import { Link } from 'react-router-dom';
+
+import whatsappIcon from '../../assets/Footer/whats.svg';
+import facebookIcon from '../../assets/Footer/face.svg';
+import instagramIcon from '../../assets/Footer/insta.svg';
+import visaIcon from '../../assets/Footer/visa.svg';
+import mastercardIcon from '../../assets/Footer/mastercard.svg';
+import pixIcon from '../../assets/Footer/pix.svg';
 
 const Footer: React.FC = () => {
   return (

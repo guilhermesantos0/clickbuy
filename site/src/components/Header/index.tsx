@@ -11,10 +11,11 @@ import { User } from '@modules/User';
 import { useUser } from 'contexts/UserContext';
 
 interface Props {
-    user: User | null
+    user: User | null,
+    hideOptions?: boolean
 }
 
-const Header: React.FC<Props> = ({ user }) => {
+const Header: React.FC<Props> = ({ user, hideOptions }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -45,10 +46,14 @@ const Header: React.FC<Props> = ({ user }) => {
             <div className={style.Left}>
                 <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Click Buy" className={style.LeftImage} onClick={() => navigate('/')} />
             </div>
-            <div className={style.Center}>
-                <input className={style.Input} type="text" />
-                <Lupa className={style.SearchImage} />
-            </div>
+            {
+                !hideOptions && (
+                    <div className={style.Center}>
+                        <input className={style.Input} type="text" />
+                        <Lupa className={style.SearchImage} />
+                    </div>
+                )
+            }
             <div className={style.Right}>
                 <Link className={style.Announce} to='/anunciar'>Anunciar</Link>
                 { 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// uuid
+import Header from '../../components/Header';
 
 import style from './css/Cadastro.module.scss';
 import firstStep from './css/FirstStep.module.scss';
@@ -210,6 +210,7 @@ function Cadastro() {
 
     return(
         <div className={style.Container}>
+            <Header hideOptions={true} user={null} />
             <form action="login" className={style.Form}>
                 <h1 className={style.Title}>Crie sua conta!</h1>
 

@@ -118,8 +118,8 @@ const ProductsList: React.FC<Props> = ({ title }) => {
         <div className={style.Container}>
             <h2 className={style.Title}>{ title }</h2>
             <div className={style.List} ref={productsRef}>
-                {products.map((product) => (
-                    <Product product={{...product}} />
+                {products.map((product, idx) => (
+                    <Product product={{...product}} key={idx} />
                 ))}
                 
             </div>

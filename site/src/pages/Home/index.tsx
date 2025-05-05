@@ -8,6 +8,8 @@ import Slider from '../../components/Slider'; // Importa o Slider
 
 import style from './Home.module.scss';
 
+import Bar from '../../components/Bar';
+
 const Home = () => {
     const { user } = useUser();
 
@@ -24,6 +26,7 @@ const Home = () => {
                 <ProductsList title="Recomendados para você:" />
 
             </div>
+            <Bar selected={1} />
             <Footer />
         </div>
     );

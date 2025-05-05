@@ -71,7 +71,9 @@
     }
 
     @media screen and (max-width: $screen-sm) {
-        width: 90vw;
+        min-width: 50vw;
+        width: 50vw;
+
         .ImageContainer {
             height: 35vh;
         }

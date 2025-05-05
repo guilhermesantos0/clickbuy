@@ -1,13 +1,15 @@
+@use '../../../assets/scss/variables' as *;
+
 .Container {
     width: 100vw;
     height: 100vh;
 
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
 
     .Form {
+        margin-top: 10vh;
         width: clamp(320px, 50vw, 700px);
         height: clamp(400px, 60vh, 800px);
         display: flex;
@@ -35,6 +37,10 @@
     
             &:hover {
                 cursor: pointer;
+            }
+
+            @media screen and (max-width: $screen-sm) {
+                width: 80%;
             }
         }
     
