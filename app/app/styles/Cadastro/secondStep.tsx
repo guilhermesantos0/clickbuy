@@ -30,9 +30,6 @@ const SecondStep = StyleSheet.create({
         paddingVertical: 0,
         paddingHorizontal: '1%',
     },
-    InputFocused: {
-      borderRadius: 5,
-    },
     InvalidPassword:{
       borderWidth: 2,
       borderColor: 'red'

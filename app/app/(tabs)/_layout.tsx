@@ -16,7 +16,6 @@ export default function TabLayout() {
 
   return (
     <UserProvider>
-      <Header/>
       <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'white',
@@ -49,9 +48,7 @@ export default function TabLayout() {
           tabBarIcon: ({color}) => <IconSymbol size={28} name='person.fill' color={color} />,
         }}
       />
-
       </Tabs>
-      <Toast />
     </UserProvider>
   );
 }

@@ -1,105 +1,116 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated, Button } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,Image } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router';
 import { useUser } from '@/contexts/UserContext';
 import Toast from 'react-native-toast-message';
+import ip from '@/ip'
+import HeaderAccount from '@/components/clickbuy/HeaderAccount';
 const Login = () => {
-  const { setUser } = useUser();
+  const {user, setUser} = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const router = useRouter();
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Preencha todos os campos',
+      });
+    }
+  
     try {
-        const response = await fetch("http://localhost:5000/login", {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                email, 
-                password
-            })
+      const response = await fetch(`http://${ip}:5000/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
         })
+      });
+  
+      const result = await response.json();
+      
 
-        const result = await response.json();
-
-        if(response.ok) {
-          Toast.show({
-            type: 'success',
-            text1: 'Login realizado com sucesso!',
-          });
-
-            setUser( {
-                _id: result.user._id,
-                name: result.user.name,
-                email: result.user.email,
-                profilePic: result.user.profilePic || ""
-            })
-            router.push('/(tabs)')
-        } else {
-            Toast.show({
-              type: 'error',
-              text1: result.message,
-            });
-        }
-    } catch (error) {
+  
+      if (response.ok) {
+        Toast.show({
+          type: 'success',
+          text1: 'Login realizado com sucesso!',
+        });
+  
+        setUser(result.user);
+        router.push('/');
+      } else {
         Toast.show({
           type: 'error',
-          text1: 'Erro de conexão com o servidor',
+          text1: result.message || 'Falha no login',
         });
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro de conexão com o servidor',
+      });
     }
-}
-  const [isFocused, setIsFocused] = useState(false);
+  };
+
+  
   
   return (
-    <View style ={styles.Container}>
-      <View style = {styles.Form}>
-        <Text style ={styles.Title}>Entre para comprar!</Text>
-        <View style={styles.InputContainer}>
-          <Text style={styles.Texto}>Email</Text>
-          <TextInput
-            style={[styles.Input, isFocused && styles.InputFocused]}
-            value={email}
-            onChangeText={text => setEmail(text)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholder="Digite seu e-mail"
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text style={styles.Texto} >Senha</Text>
+    user ? (
+      <View>
+        <HeaderAccount user={user}/>
+
+      </View>
+    ) : (
+      <View style={styles.Container}>
+        <View style={styles.Form}>
+          <Text style={styles.Title}>Entre para comprar!</Text>
+
+          <View style={styles.InputContainer}>
+            <Text style={styles.Texto}>Email</Text>
             <TextInput
-              style={[styles.Input, isFocused && styles.InputFocused]}
+              style={[styles.Input]}
+              value={email}
+              onChangeText={text => setEmail(text)}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              placeholder="Digite seu e-mail"
+            />
+          </View>
+
+          <View style={styles.InputContainer}>
+            <Text style={styles.Texto}>Senha</Text>
+            <TextInput
+              style={[styles.Input]}
               value={password}
               onChangeText={text => setPassword(text)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
               autoCapitalize="none"
               placeholder="Digite sua senha"
               secureTextEntry
             />
-        </View>
-        <TouchableOpacity onPress={() => router.push('/(tabs)/login') }>
-          <Text style={styles.Recovery}>Esqueci minha senha</Text>
-        </TouchableOpacity>
-        <View style={styles.ButtonsArea}>
-        <TouchableOpacity
-            style={styles.Login}
-            onPress={handleLogin}>
-            <Text style={styles.ButtonText}>ENTRAR</Text>
+          </View>
+
+          <TouchableOpacity onPress={() => router.push('/(tabs)/login')}>
+            <Text style={styles.Recovery}>Esqueci minha senha</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.SignUP}
-            onPress={() => router.push('../cadastro') }>
-            <Text style={styles.ButtonText2}>CADASTRE-SE</Text>
-          </TouchableOpacity>
+
+          <View style={styles.ButtonsArea}>
+            <TouchableOpacity style={styles.Login} onPress={handleLogin}>
+              <Text style={styles.ButtonText}>ENTRAR</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.SignUP} onPress={() => router.push('../cadastro')}>
+              <Text style={styles.ButtonText2}>CADASTRE-SE</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
-  )
+    )
+  );
+
 }
 const styles = StyleSheet.create({
   Container: {
@@ -112,7 +123,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   Form:{
-    paddingTop:80,
     width: '80%',
     height: '100%',
 
@@ -144,9 +154,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 0,
     paddingHorizontal: '1%',
-  },
-  InputFocused: {
-    borderRadius: 5,
   },
   Texto: {
     fontSize: 20,
