@@ -49,6 +49,8 @@ const Admin = () => {
   const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
 
   useEffect(() => {
+    document.title = 'Click Buy - Admin';
+
     const fetchData = async () => {
       try {
         const [usersResponse, productsResponse, categoriesResponse] = await Promise.all([
