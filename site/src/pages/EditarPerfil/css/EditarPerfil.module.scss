@@ -1,0 +1,88 @@
+@use '../../../assets/scss/variables' as *;
+@use '../../../assets/scss/mixins' as *;
+
+.Container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .PageContent {
+        width: 50vw;
+        height: 70vh;
+        margin-top: 8vh;
+        padding: 30px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+
+        .Tabs {
+            width: 100%;
+            height: 6vh;
+
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #ddd;
+            
+            .Tab {
+                height: 100%;
+                width: 16vw;    
+                cursor: pointer;
+                position: relative;
+                transition: color 0.3s;
+                flex: 1;
+                text-align: center;
+            
+                &:hover {
+                    color: #DDA04B;
+                }
+            }
+          
+            .ActiveTab {
+                color: #DDA04B;
+                font-weight: bold;
+            }
+          
+          
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              height: 2px;
+              width: 16vw;
+              background-color: #DDA04B;
+              transition: transform 0.3s ease;
+              transform: translateX(calc(var(--active-tab-index, 0) * 100%));
+            }
+        }
+
+        .ButtonsArea {
+            width: 100%;
+            height: 5vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1vw;
+
+            .Save {
+                @include primary-button;
+                width: 8vw;
+                height: 5vh;
+
+                border-radius: 5px
+            }
+            
+            .Cancel {
+                @include secondary-button;
+                width: 8vw;
+                height: 5vh;
+
+                border-radius: 5px
+            }
+        }
+    }
+}
