@@ -6,37 +6,36 @@ import thirdStep from '@/app/styles/Cadastro/thirdStep'
 import fourthStep from '@/app/styles/Cadastro/fourthStep'
 import styles from '@/app/styles/Cadastro/styles'
 import { useRouter } from 'expo-router'
+import ip from '@/ip'
 
 const Cadastro = () => {
   const router = useRouter();
   const [disabledInput, setDisabledInput] = useState(false);
-  const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    personalData: {
-        name: "",
-        bornDate: "",
-        cpf: "",
-        phone: "",
-        address: { 
-            road: "",
-            number: "",
-            city: "",
-            state: "",
-            zip: "",
-            complement: "",
-            neighborhood: ""
+    const [step, setStep] = useState(1)
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        personalData: {
+            name: "",
+            bornDate: "",
+            cpf: "",
+            phone: "",
+            address: { 
+                road: "",
+                number: "",
+                city: "",
+                state: "",
+                zip: "",
+                complement: "",
+                neighborhood: ""
+            }
         }
-    }
-  })
-  const [error, setError] = useState([false, ""]);
+    })
+  const [error, setError] = useState([false, ""]);    
   const [validPassword, setValidPassword] = useState(true)
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
   const handleCheckEmail = async () => {
-    nextStep()
-    const response = await fetch(`http://localhost:5000/checkEmail?email=${formData.email}`);
+    const response = await fetch(`http://${ip}:5000/checkEmail?email=${formData.email}`);
     if(response.ok) {
         nextStep();
     }else {
@@ -119,7 +118,6 @@ const Cadastro = () => {
     }
   }
   const handleSignUp = async () => {
-    router.push('/')//retirar dps
     const userPayload = {
         email: formData.email,
         password: formData.password,
@@ -141,7 +139,7 @@ const Cadastro = () => {
     };
 
     try {
-        const response = await fetch("http://localhost:5000/user", {
+        const response = await fetch(`http://${ip}:5000/user`, {
             method: "POST",
             headers: {
                 'Content-Type': "application/json"
@@ -175,11 +173,9 @@ const Cadastro = () => {
               {error[0] && (<Text style={styles.Error}>{error[1]}</Text>)}
               <View style= {firstStep.InputArea}>
                 <TextInput
-                  style={[firstStep.Input, isFocused && firstStep.InputFocused]}
+                  style={[firstStep.Input]}
                   value={formData.email}
                   onChangeText={text => setFormData(prev => ({ ...prev, email: text }))}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
                   keyboardType="email-address"
                   autoCapitalize="none"
                   placeholder="Digite seu e-mail"
@@ -187,7 +183,7 @@ const Cadastro = () => {
                 <TouchableOpacity
                     style={firstStep.Next}
                     onPress={() => handleCheckEmail()}>
-                    <Text style ={firstStep.buttomText}>→</Text>
+                    <Text style ={firstStep.buttomText}>Próximo</Text>
                   </TouchableOpacity>
               </View>
             </View>
@@ -200,11 +196,9 @@ const Cadastro = () => {
                 <View style ={SecondStep.InputGroup}>
                 <Text style={SecondStep.text}>Senha</Text>
                   <TextInput
-                    style={[SecondStep.Input, isFocused && SecondStep.InputFocused]}
+                    style={[SecondStep.Input]}
                     value={formData.password}
                     onChangeText={text => setFormData(prev => ({ ...prev, password: text }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     autoCapitalize="none"
                     placeholder="Digite sua senha"
                     secureTextEntry
@@ -213,14 +207,12 @@ const Cadastro = () => {
                 <View style ={SecondStep.InputGroup}>
                 <Text style={SecondStep.text}>Confirme sua senha</Text>
                   <TextInput
-                    style={[SecondStep.Input, isFocused && SecondStep.InputFocused, !validPassword && SecondStep.InvalidPassword]}
+                    style={[SecondStep.Input, !validPassword && SecondStep.InvalidPassword]}
                     value={confirmPassword}
                     onChangeText={(e) => {
                       setConfirmPassword(e); 
                       handleCheckPassword(e);
                     }}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     autoCapitalize="none"
                     placeholder="Confirme sua senha"
                     secureTextEntry
@@ -236,7 +228,7 @@ const Cadastro = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={SecondStep.Next}
-                    onPress={(e) => { e.preventDefault(); handleConfirmPassword()}}>
+                    onPress={handleConfirmPassword}>
                     <Text style ={SecondStep.buttomText}>Próximo</Text>
                   </TouchableOpacity>
                 </View>
@@ -250,7 +242,7 @@ const Cadastro = () => {
                 <View style ={thirdStep.InputGroup}>
                   <Text style ={thirdStep.text}>Nome</Text>
                   <TextInput
-                    style={[firstStep.Input, isFocused && firstStep.InputFocused]}
+                    style={[firstStep.Input]}
                     value={formData.personalData.name}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -258,8 +250,6 @@ const Cadastro = () => {
                         name:text
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite seu nome completo"
@@ -268,7 +258,7 @@ const Cadastro = () => {
                 <View style ={thirdStep.InputGroup}>
                   <Text style ={thirdStep.text}>CPF</Text>
                   <TextInput
-                    style={[firstStep.Input, isFocused && firstStep.InputFocused]}
+                    style={[firstStep.Input]}
                     value={formData.personalData.cpf}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -276,8 +266,6 @@ const Cadastro = () => {
                         cpf:text
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite seu CPF"
@@ -286,7 +274,7 @@ const Cadastro = () => {
                 <View style ={thirdStep.InputGroup}>
                   <Text style ={thirdStep.text}>Telefone</Text>
                   <TextInput
-                    style={[firstStep.Input, isFocused && firstStep.InputFocused]}
+                    style={[firstStep.Input]}
                     value={formData.personalData.phone}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -294,8 +282,6 @@ const Cadastro = () => {
                         phone:text
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='phone-pad'
                     autoCapitalize="none"
                     placeholder="Digite seu número de telefone"
@@ -304,7 +290,7 @@ const Cadastro = () => {
                 <View style ={thirdStep.InputGroup}>
                   <Text style ={thirdStep.text}>Data de nascimento</Text>
                   <TextInput
-                    style={[firstStep.Input, isFocused && firstStep.InputFocused]}
+                    style={[firstStep.Input]}
                     value={formData.personalData.bornDate}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -312,8 +298,6 @@ const Cadastro = () => {
                         bornDate:text
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='decimal-pad'
                     autoCapitalize="none"
                     placeholder="Digite sua data de nascimento"
@@ -343,7 +327,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>Rua</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input,]}
                     value={formData.personalData.address.road}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -354,8 +338,6 @@ const Cadastro = () => {
                         }
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite o nome da sua rua"
@@ -365,7 +347,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>Número</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.address.number}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -376,8 +358,6 @@ const Cadastro = () => {
                         }
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType= 'decimal-pad'
                     autoCapitalize="none"
                     placeholder="Digite o número"
@@ -386,7 +366,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>Complemento</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.address.complement}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -397,8 +377,6 @@ const Cadastro = () => {
                         }
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite o complemento(opcional)"
@@ -407,7 +385,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>CEP</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.address.zip}
                     onChangeText={(text) => {
                       setFormData(prev => ({
@@ -422,8 +400,6 @@ const Cadastro = () => {
                       }));
                       handleCepSearch(text);
                     }}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType= 'decimal-pad'
                     autoCapitalize="none"
                     placeholder="Digite o seu CEP"
@@ -432,7 +408,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>Bairro</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.address.neighborhood}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -443,8 +419,6 @@ const Cadastro = () => {
                         }
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite o seu bairro"
@@ -454,7 +428,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>Cidade</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.address.city}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -465,8 +439,6 @@ const Cadastro = () => {
                         }
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite o nome da sua cidade"
@@ -476,7 +448,7 @@ const Cadastro = () => {
                 <View style={fourthStep.InputGroup}>
                   <Text style ={thirdStep.text}>Estado</Text>
                   <TextInput
-                    style={[fourthStep.Input, isFocused && fourthStep.InputFocused]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.address.state}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -487,8 +459,6 @@ const Cadastro = () => {
                         }
                       }
                     }))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
                     keyboardType='default'
                     autoCapitalize="none"
                     placeholder="Digite o nome do seu Estado"
@@ -505,7 +475,7 @@ const Cadastro = () => {
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={fourthStep.Next}
-                        onPress={(e) => { e.preventDefault(); handleSignUp()}}>
+                        onPress={handleSignUp}>
                         <Text style ={SecondStep.buttomText}>Próximo</Text>
                       </TouchableOpacity>
                     </View>

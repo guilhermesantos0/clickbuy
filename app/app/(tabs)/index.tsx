@@ -20,6 +20,7 @@ export default function TelaPrincipal() {
 
   return (
     <View style={{ flex: 1}}>
+      <Header/>
       <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
         <Slider/>
         <Categories/>

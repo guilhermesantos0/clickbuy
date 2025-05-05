@@ -23,22 +23,17 @@ const firstStep = StyleSheet.create({
       paddingVertical: 0,
       paddingHorizontal: '1%',
     },
-    InputFocused: {
-      borderRadius: 5,
-    },
     Next: {
       alignItems: 'center',
+      justifyContent: 'center',
       paddingHorizontal: 90,
       marginTop: 30,
-      justifyContent: 'space-evenly',
-      flexDirection: 'row',
       backgroundColor: '#DDA04B',
       borderRadius: 5,
     },
     buttomText: {
       color: 'white',
-      fontSize: 60,
-      paddingHorizontal: 55,
+      fontSize: 40,
     },
     text:{
       fontSize:16,
