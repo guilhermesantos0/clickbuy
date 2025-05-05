@@ -2,62 +2,63 @@
 
 .Container {
     width: 100%;
-    height: 48vh;
-
-    z-index: 1;
-
-    overflow-y: hidden;
-
-    display: flex;
-    flex-direction: column;
-    
     margin-top: 3vh;
-
+    padding: 0 2vw;
     position: relative;
 
     .Title {
         color: $primary-color;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1vh;
     }
 
     .List {
         display: flex;
-        align-items: center;
         gap: 1.5vw;
-
-        margin-top: 1vh;
-        width: 100%;
-        height: 100%;
         overflow-x: auto;
-        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1vh;
 
         &::-webkit-scrollbar {
-            display: none;
+        display: none;
+        }
+
+        .ProductCard {
+        scroll-snap-align: start;
+        flex: 0 0 auto;
         }
     }
 
     .ScrollButton {
-        width: 3vw;
-        height: 3vw;
-
+        position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        
-        position: absolute;
-        
+        width: 3vw;
+        height: 3vw;
+        border: none;
         border-radius: 50%;
-        border: 0;
-        
+        background-color: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+
         &:hover {
-            cursor: pointer;
-            box-shadow: 0 0 5px rgb(139, 139, 139);
+        background-color: rgba(0, 0, 0, 0.1);
         }
-        
+
+        @media screen and (max-width: $screen-sm) {
+        display: none;
+        }
     }
-    
-    .ScrollRight {
-        right: 2vw;
-    }
+
     .ScrollLeft {
-        left: 2vw;
+        left: 1vw;
+    }
+
+    .ScrollRight {
+        right: 1vw;
     }
 }

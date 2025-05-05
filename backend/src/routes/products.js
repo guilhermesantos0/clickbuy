@@ -14,8 +14,6 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  
-  
   try {
     const product = await Product.findOne({ name: req.params.id });
 
@@ -28,8 +26,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Erro ao buscar produto', error: err.message });
   }
 });
-
-
 
 router.delete('/:id', async (req, res) => {
   try {

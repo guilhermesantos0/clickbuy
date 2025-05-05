@@ -8,98 +8,89 @@
     flex-direction: column;
 
     .Form {
-        width: 50vw;
-        height: 60vh;
-
+        width: clamp(320px, 50vw, 700px);
+        height: clamp(400px, 60vh, 800px);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 3vh;
-
+    
         .Title {
             color: #DDA04B;
+            font-size: clamp(1.5rem, 2vw, 2rem);
+            font-weight: 600;
         }
-
+    
         .Login {
             width: 40%;
-            height: 8vh;
-            
+            // height: 8vh;
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
-
+            justify-content: center;
             border-radius: 10px;
-
-            transition: all .5s ease-in-out;
-
+            transition: all 0.3s ease-in-out;
             text-decoration: none;
-
-            &:hover{
+            color: #444;
+    
+            &:hover {
                 cursor: pointer;
-                border-radius: 5px;
             }
         }
-
+    
         .ButtonsArea {
-
             display: flex;
             align-items: center;
             justify-content: space-evenly;
-    
             margin-top: 3vh;
+            width: 100%;
     
-            .Prev {
+            .Prev, .Next {
                 width: 40%;
                 height: 7vh;
-                
+                font-size: 1rem;
+                border-radius: 10px;
+                transition: all 0.3s ease-in-out;
                 display: flex;
                 align-items: center;
-                justify-content: space-evenly;
-    
-                border: 2px solid #DDA04B;
-                border-radius: 10px;
-    
-                transition: all .5s ease-in-out;
-    
-                color: #DDA04B;
+                justify-content: center;
                 text-decoration: none;
+            }
     
-                &:hover{
+            .Prev {
+                border: 2px solid #DDA04B;
+                color: #DDA04B;
+        
+                &:hover {
                     cursor: pointer;
+                    background-color: #fff7ea;
                     border-radius: 5px;
                 }
             }
     
             .Next {
-                width: 40%;
-                height: 7vh;
-    
                 background-color: #DDA04B;
-    
-                border: 0;
-                border-radius: 10px;
-                font-size: larger;
-    
-                transition: all .5s ease-in-out;
-    
+                border: none;
                 color: white;
-    
-                &:hover{
+        
+                &:hover {
                     cursor: pointer;
+                    background-color: darken(#DDA04B, 5%);
                     border-radius: 5px;
                 }
             }
         }
-    }   
+    }
 }
 
 .Error {
     color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
 input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px rgb(188, 188, 188) inset !important;
     -webkit-text-fill-color: #000 !important;
 }
-  
+    

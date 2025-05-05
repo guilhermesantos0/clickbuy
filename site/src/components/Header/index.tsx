@@ -8,6 +8,8 @@ import style from './Header.module.scss';
 
 import { User } from '@modules/User';
 
+import { useUser } from 'contexts/UserContext';
+
 interface Props {
     user: User | null
 }
@@ -22,6 +24,8 @@ const Header: React.FC<Props> = ({ user }) => {
 
     const navigate = useNavigate();
 
+    const { setUser } = useUser();
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if(menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -31,6 +35,10 @@ const Header: React.FC<Props> = ({ user }) => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [])
+
+    const handleLogout = () => {
+        setUser( null )
+    }
 
     return (
         <div className={style.Container}>
@@ -57,7 +65,7 @@ const Header: React.FC<Props> = ({ user }) => {
                                 <Link to="/editar-perfil">Editar Perfil</Link>
                                 <Link to="/meus-produtos">Meus Produtos</Link>
                                 <Link to="/favoritos">Favoritos</Link>
-                                <Link to="/logout">Sair</Link>
+                                <span onClick={handleLogout}>Sair</span>
                             </div>
                         )}
                     </div>

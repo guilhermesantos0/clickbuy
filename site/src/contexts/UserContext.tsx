@@ -4,7 +4,7 @@ import { User } from '@modules/User';
 
 interface UserContextType {
     user: User | null;
-    setUser: (user: User) => void;
+    setUser: (user: User | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

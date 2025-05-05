@@ -1,0 +1,92 @@
+.contactPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content {
+    max-width: 700px;
+    margin: 5vh auto;
+    padding: 0 2vw;
+  
+    h1 {
+      font-size: 2.2rem;
+      color: #dd9b42;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+  
+    p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+  
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+  
+      .inputGroup {
+        display: flex;
+        flex-direction: column;
+  
+        label {
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+        }
+  
+        input,
+        textarea {
+          padding: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 1rem;
+          background-color: #f4f4f4;
+          outline: none;
+  
+          &:focus {
+            border-color: #dd9b42;
+            background-color: #fff;
+          }
+        }
+      }
+  
+      button {
+        align-self: flex-end;
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        background-color: #dd9b42;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: #c68838;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .content {
+      padding: 0 1rem;
+  
+      h1 {
+        font-size: 1.8rem;
+      }
+  
+      p {
+        font-size: 1rem;
+      }
+    }
+  
+    .form button {
+      width: 100%;
+      align-self: center;
+    }
+  }
+  

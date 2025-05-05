@@ -2,183 +2,186 @@
 @use '../../assets/scss/mixins' as *;
 
 .Container {
-    width: 100%;
-    height: 12vh;
+  width: 100%;
+  height: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3vw;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 3vw;
+  .Left {
+    width: 25vw;
+    height: 8vh;
 
-    border-bottom: 2px solid black;
+    .LeftImage {
+      height: 100%;
+      width: auto;
+      transition: transform 0.3s ease;
 
-    // background: $primary-color;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+      }
+    }
+  }
 
+  .Center {
+    width: 22vw;
+    height: 60%;
+    position: relative;
 
-    .Left {
-        width: 25vw;
-        height: 8vh;
+    .Input {
+      width: 100%;
+      height: 100%;
+      background: $input-background;
+      border: none;
+      border-radius: 4vh;
+      padding: 0 2vw;
+      font-size: 1rem;
+      transition: box-shadow 0.3s ease;
 
-        .LeftImage {
-            width: 8vh;
-            height: 8vh;
+      &:focus {
+        box-shadow: 0 0 0 2px $primary-color;
+        outline: none;
+      }
 
-
-            &:hover {
-                cursor: pointer;
-            }
-        }
+      @media screen and (max-width: $screen-sm) {
+        padding: 0 4vw;
+      }
     }
 
-    .Center {
-        width: 20vw;
-        height: 60%;
+    .SearchImage {
+      width: 3vh;
+      height: 3vh;
+      position: absolute;
+      right: 1.2vw;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
 
-        position: relative;
-
-        .Input {
-            width: 100%;
-            height: 100%;
-
-            background: $input-background;
-            border: 0;
-            border-radius: 4vh;
-            outline: none;
-
-            padding: 0 2vw;
-
-            @media screen and (max-width: $screen-sm) {
-                padding: 0 4vw;
-            }
-        }
-
-        .SearchImage {
-            width: 3vh;
-            height: 3vh;
-
-            position: absolute;
-            right: 1.2vw;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            @media screen and (max-width: $screen-sm) {
-                right: 2.5vw;
-            }
-        }
-
-        @media screen and (max-width: $screen-sm) {
-            width: 50vw;
-
-        }
-    }
-
-    .Right {
-        width: 20vw;
-        height: 8vh;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-
-        .Announce {
-            @include primary-button;
-
-            width: 8vw;
-            height: 5vh;
-
-            border-radius: 3vh;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            text-decoration: none;
-            color: white;
-            &:hover {
-                cursor: pointer;
-            }
-        }
-
-        .Login {
-            @include secondary-button;
-            
-            width: 8vw;
-            height: 5vh;
-            
-            border-radius: 3vh;
-            
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            text-decoration: none;
-            color: $primary-color;
-        }
-
-        .ProfileContainer {
-
-            position: relative;
-            cursor: pointer;
-
-            .ProfileImage {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                object-fit: cover;
-                transition: box-shadow 0.3s ease;
-
-                &:hover {
-                    box-shadow: 0 0 0 3px #DDA04B;
-                }
-            }
-
-            .MenuContainer {
-                position: absolute;
-                top: 50px;
-                right: 0;
-                background-color: #fff;
-                border: 1px solid #e0e0e0;
-                border-radius: 10px;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-                z-index: 1000;
-                min-width: 180px;
-                overflow: hidden;
-                animation: fadeIn 0.2s ease-in-out;
-
-                a {
-                    padding: 12px 18px;
-                    text-decoration: none;
-                    color: #333;
-                    font-weight: 500;
-                    display: block;
-                    transition: background-color 0.25s, color 0.25s;
-
-                    &:hover {
-                        background-color: #f9f9f9;
-                        color: #DDA04B;
-                    }
-                }
-            }
-        }
-
-        @media screen and (max-width: $screen-sm) {
-            display: none;
-        }
+      @media screen and (max-width: $screen-sm) {
+        right: 2.5vw;
+      }
     }
 
     @media screen and (max-width: $screen-sm) {
-        padding: 0 10vw;
+      width: 60vw;
     }
+  }
+
+  .Right {
+    width: 20vw;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1vw;
+
+    .Announce {
+      @include primary-button;
+      width: 8vw;
+      height: 5vh;
+      border-radius: 2.5vh;
+      text-decoration: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.03);
+      }
+    }
+
+    .Login {
+      @include secondary-button;
+      width: 8vw;
+      height: 5vh;
+      border-radius: 2.5vh;
+      text-decoration: none;
+      color: $primary-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+
+    .ProfileContainer {
+      position: relative;
+      cursor: pointer;
+
+      .ProfileImage {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+          box-shadow: 0 0 0 3px $primary-color;
+          transform: scale(1.05);
+        }
+      }
+
+      .MenuContainer {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        z-index: 1000;
+        min-width: 180px;
+        overflow: hidden;
+        animation: fadeIn 0.2s ease-in-out;
+
+        a, span {
+          padding: 12px 18px;
+          text-decoration: none;
+          color: #333;
+          font-weight: 500;
+          display: block;
+          transition: background-color 0.25s, color 0.25s;
+
+          &:hover {
+            background-color: #f9f9f9;
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: $screen-sm) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: $screen-sm) {
+    padding: 0 8vw;
+    height: 10vh;
+  }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

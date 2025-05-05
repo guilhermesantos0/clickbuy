@@ -7,6 +7,11 @@ import Announce from './pages/Announce';
 import Admin from './pages/Admin';
 import EditarPerfil from './pages/EditarPerfil';
 
+import AboutUs from './pages/Institucional/pages/AboutUs';
+import Contact from './pages/Institucional/pages/Contact';
+import TermsOfUse from './pages/Institucional/pages/TermsOfUse';
+import PrivacyPolicy from './pages/Institucional/pages/PrivacyPolicy';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,6 +27,11 @@ function App() {
         <Route path="/anunciar" element={<Announce />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
+
+        <Route path="/institucional/sobrenos" element = {<AboutUs />} />
+        <Route path="/institucional/contato" element = {<Contact />} />
+        <Route path="/institucional/termos-de-uso" element = {<TermsOfUse />} />
+        <Route path="/institucional/politica-de-privacidade" element = {<PrivacyPolicy />} />
       </Routes>
 
       <ToastContainer style={{ zIndex: 9999 }} theme="colored" />
