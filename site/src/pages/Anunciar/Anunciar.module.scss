@@ -26,7 +26,7 @@
 //       }
 //     }
 //   }
-  
+@use '../../assets/scss/variables' as *;
 
 .Container {
     width: 100%;
@@ -104,16 +104,9 @@
                     &.InputTitle {
                         width: 30vw;
                     }
-
-                    .SelectOption {
-                        background-color: #fff;
-                        border: 1px solid #e0e0e0;
-
-                        &:hover {
-                            background: #e0e0e0;
-                        }
-                    }
                 }
+
+                
             }
 
             .CheckBox {

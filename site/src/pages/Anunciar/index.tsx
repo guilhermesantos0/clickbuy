@@ -6,8 +6,10 @@ import style from './Anunciar.module.scss';
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import SelectMenu from "../../components/SelectMenu";
 
 import { useUser } from "contexts/UserContext";
+
 
 interface State {
     id: number,
@@ -95,16 +97,16 @@ const Anunciar = () => {
             <div className={style.Form}>
                 <h1>Anunciar Produto</h1>
                 <div className={style.FormGrid}>
-                    <div className={`${style.InputContainer} ${style.Category}`}>
-                        <label htmlFor="category">Categoria</label>
-                        <select name="category" id="category" value={category} className={style.Input} onChange={e => { setCategory(e.target.value) }}>
-                            {categories.map((cat) => (
-                                <option className={style.SelectOption} key={cat._id} value={cat._id}>
-                                    {cat.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                <div className={`${style.InputContainer} ${style.Category}`}>
+                    <label htmlFor="category">Categoria</label>
+                    <SelectMenu 
+                    value={category} 
+                    onValueChange={setCategory} 
+                    options={categories} 
+                    type="category"
+                    placeholder="Categoria" 
+                    label="Categoria" />
+                </div>
                     <div className={`${style.InputContainer} ${style.Title}`}>
                         <label htmlFor="title">Título</label>
                         <input name="title" type="text" value={title} onChange={e => setTitle(e.target.value)} className={`${style.Input} ${style.InputTitle}`} />
@@ -113,14 +115,26 @@ const Anunciar = () => {
                         <label htmlFor="price">Preço</label>
                         <input name="price" type="string" value={price} onChange={e => setPrice(formatPrice(e.target.value))} className={style.Input} />
                     </div>
+
                     <div className={`${style.InputContainer} ${style.State}`}>
                         <label htmlFor="state">Estado</label>
-                        <select name="state" id="state" className={style.Input} value={state} disabled={disableCity} onChange={e => { setState(e.target.value); setCity('') }}>
+                        {/* <select name="state" id="state" className={style.Input} value={state} disabled={disableCity} onChange={e => { setState(e.target.value); setCity('') }}>
                             {states.map(stt => (
                                 <option key={stt.id} value={stt.sigla}>{stt.nome}</option>
                             ))}
-                        </select>
+                        </select> */}
+                        <SelectMenu 
+                        value={state}
+                        onValueChange={setState}
+                        options={states}
+                        type="state"
+                        placeholder="Estado"
+                        label="Estado"
+                        />
+
+
                     </div>
+
                     <div className={`${style.InputContainer} ${style.City}`}>
                         <label htmlFor="city">Cidade</label>
                         <select name="city" id="city" className={style.Input} value={city} disabled={disableCity} onChange={e => { setCity(e.target.value) }}>

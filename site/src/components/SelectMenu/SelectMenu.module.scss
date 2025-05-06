@@ -1,0 +1,90 @@
+@use '../../assets/scss/variables' as *;
+
+.SelectContent {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 100;
+  }
+  
+  .SelectScrollButton {
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+  }
+  
+  .SelectOption {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.25s, color 0.25s;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+    width: 14vw;
+    
+
+    &:hover {
+        background-color: #f9f9f9;
+        color: $primary-color;
+    }
+  }
+  
+  .SelectItemIndicator {
+    margin-left: 10px;
+    color: #DDA04B;
+  }
+  
+  .SelectTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .Input {
+    height: 7vh;
+    width: 14vw;
+    padding: 0 1vw;
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background-color: #f8f8f8;
+    font-size: 1rem;
+    color: #2c2c2c;
+
+    
+    transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    
+    &:hover {
+        cursor: pointer;
+        background-color: #f2f2f2;
+        border-color: #ddd;
+    }
+
+    &:focus {
+        background-color: #fff;
+        border-color: #DDA04B;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(221, 160, 75, 0.2);
+    }
+
+    &::placeholder {
+        color: #aaa;
+        transition: color 0.3s ease;
+    }
+
+    &:focus::placeholder {
+        color: #bbb;
+    }
+
+    &.InputTitle {
+        width: 30vw;
+    }
+}
