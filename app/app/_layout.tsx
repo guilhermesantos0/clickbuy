@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Toast from 'react-native-toast-message';
+import { UserProvider } from '@/contexts/UserContext';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,14 +30,25 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="cadastro" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-      <Toast/>
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="cadastro" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="editAccount"
+            options={{
+              headerTitle: 'Minha Conta',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+        <Toast/>
+      </ThemeProvider>
+    </UserProvider>
   );
 }

@@ -16,29 +16,25 @@ const styles = StyleSheet.create({
         height:'100%',
         objectFit: 'cover'
     },
-    NavButton:{
-        position: 'absolute',
-        top: '50%',
-        transform: [{ translateY: -15 }],
-    },
     navButton: {
-        position: 'absolute',
-        justifyContent: 'center',
-        height: '100%',
-        transform: [{ translateY: -15 }],
-        backgroundColor: 'transparent',
-        zIndex: 1,
-        paddingHorizontal: 10,
-      },
-      arrow: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.45)',
+      zIndex: 1,
+      paddingHorizontal: 10,
+      
+    },
+    Prev: {
+      left: 0,
+    },
+    Next: {
+      right: 0,
+    },    
+    arrow: {
         fontSize: 32,
-        color: 'white',
+        color: '#00000'
       },
-      Prev :{
-        left:10
-      },
-      Next:{
-        right: 10
-      }
   });
   export default styles

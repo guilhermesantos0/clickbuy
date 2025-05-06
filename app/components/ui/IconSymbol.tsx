@@ -3,7 +3,9 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { OpaqueColorValue, StyleProp, ViewStyle } from 'react-native';
 
 // Add your SFSymbol to MaterialIcons mappings here.
@@ -16,7 +18,14 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'person.fill' : 'person',
   'cart.fill' : 'shopping-cart',
-  'magnifyingglass' : 'search'
+  'magnifyingglass' : 'search',
+  'basket.fill': 'shopping-basket',
+  'tag.fill' : 'sell',
+  'heart.fill' : 'favorite',
+  'questionmark.circle.fill' : 'help',
+  'info.circle.fill' : 'info',
+  'arrow.right.square': 'logout',
+  'pencil' : 'edit'
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

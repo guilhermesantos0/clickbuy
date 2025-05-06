@@ -2,7 +2,7 @@ import { StyleSheet, } from 'react-native'
 const styles = StyleSheet.create({
     Container:{
       width:'100%',
-      height: 300,
+      height: 250,
       zIndex: 99999,
       display: 'flex',
       paddingTop: 0,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     Image:{
-        resizeMode: 'contain',
+        resizeMode: 'cover',
         width: 80,
         height: 80
     },
