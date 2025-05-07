@@ -198,13 +198,13 @@ const Admin = () => {
                 >
                   <td>
                     <img
-                      src={product.mainImage}
+                      src={`http://localhost:5000${product.mainImage}`}
                       alt="Principal"
                       className={style.ProductImage}
                     />
                   </td>
                   <td>{product.name}</td>
-                  <td>R$ {product.price.toFixed(2)}</td>
+                  <td>{product.price}</td>
                   <td>{product.location}</td>
                 </tr>
 
@@ -215,7 +215,7 @@ const Admin = () => {
                         <h3>Galeria de Imagens</h3>
                         <div className={style.Gallery}>
                           {product.images.map((img, index) => (
-                            <img key={index} src={img} alt={`Imagem ${index + 1}`} className={style.GalleryImage} />
+                            <img key={index} src={`http://localhost:5000${img}`} alt={`Imagem ${index + 1}`} className={style.GalleryImage} />
                           ))}
                         </div>
                       </div>

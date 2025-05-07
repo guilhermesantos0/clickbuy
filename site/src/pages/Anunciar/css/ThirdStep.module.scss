@@ -1,0 +1,91 @@
+@use '../../../assets/scss/variables' as *;
+
+.Dropzone {
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    background: #fafafa;
+    transition: border-color 0.3s;
+  
+    &:hover {
+      border-color: $primary-color;
+    }
+}
+  
+.PreviewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+
+    width: 50vw;
+    height: 50vh;
+
+    overflow-y: auto;
+
+    .PreviewItem {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .ImageWrapper {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+          
+            &:hover {
+                opacity: 0.9;
+            }
+          
+            &.Main {
+                border-color: $primary-color;
+            
+                .MainLabel {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    background: #dda04be0;
+                    color: white;
+                    text-align: center;
+                    padding: 0.3rem 0;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                }
+            }
+
+            .PreviewImage {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }           
+        }
+
+        .RemoveButton {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            padding: 0.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+          
+            &:hover {
+              background: #f8f8f8;
+              transform: scale(1.1);
+            }
+          
+            svg {
+              display: block;
+            }
+        }
+    }
+}

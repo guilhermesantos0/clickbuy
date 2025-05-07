@@ -28,6 +28,7 @@ app.use('/checkEmail', require('./src/routes/checkEmail'));
 app.use('/login', require('./src/routes/login'));
 app.use('/categories', require('./src/routes/categories'));
 
+app.use('/test', require('./src/routes/test'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor iniciado na porta ${PORT}`) )

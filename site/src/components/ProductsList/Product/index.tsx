@@ -20,10 +20,10 @@ const Product: React.FC<Props> = ({ product }) => {
     return (
         <div className={style.Container}>
             <div className={style.ImageContainer}>
-                <img className={style.Image} src={product.mainImage} alt="" />
+                <img className={style.Image} src={`http://localhost:5000${product.mainImage}`} alt="" />
             </div>
             <div className={style.ProductInfo}>
-                <div className={style.Price}>{formatPrice(product.price)}</div>
+                <div className={style.Price}>{product.price}</div>
                 <div className={style.Name}>{product.name}</div>
                 <div className={style.Location}><Pin className={style.Pin} />{product.location}</div>
             </div>
