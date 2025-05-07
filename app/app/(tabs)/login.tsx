@@ -1,10 +1,14 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity,Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,Image, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router';
 import { useUser } from '@/contexts/UserContext';
 import Toast from 'react-native-toast-message';
 import ip from '@/ip'
+import styles from '../styles/Login/styles';
+import conta from '../styles/Login/conta';
 import HeaderAccount from '@/components/clickbuy/HeaderAccount';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import fourthStep from '../styles/Cadastro/fourthStep';
 const Login = () => {
   const {user, setUser} = useUser();
   const [email, setEmail] = useState("");
@@ -62,8 +66,59 @@ const Login = () => {
   return (
     user ? (
       <View>
-        <HeaderAccount user={user}/>
-
+        <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
+          <HeaderAccount user={user}/>
+          <View>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/editAccount')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='person.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Meu Perfil</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='heart.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Favoritos</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='basket.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Meus Pedidos</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='cart.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Carrinho</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='tag.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Meus Produtos</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='questionmark.circle.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Ajuda</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='info.circle.fill' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Sobre nós</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='arrow.right.square' color='red' />
+                <Text style={conta.TextExit}>Sair</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     ) : (
       <View style={styles.Container}>
@@ -112,88 +167,5 @@ const Login = () => {
   );
 
 }
-const styles = StyleSheet.create({
-  Container: {
-    width: '100%',
-    height: '100%',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  },
-  Form:{
-    width: '80%',
-    height: '100%',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    gap: '3%'
-  },
-  Title:{
-    color:'#DDA04B',
-    fontSize: 32
-  },
-  InputContainer:{
-    paddingVertical: 10,
-    width: '85%',
-
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  Input:{
-    height: 60,
-    marginTop: 10,
-    fontSize: 15,
-    backgroundColor: 'rgb(224, 224, 224)',
-    paddingLeft:8,
-    outline: 'none',
-    borderWidth: 0,
-    borderRadius: 10,
-    paddingVertical: 0,
-    paddingHorizontal: '1%',
-  },
-  Texto: {
-    fontSize: 20,
-  },
-  Recovery: {
-    fontSize:20,
-    paddingBottom: 0,
-    color: 'black',
-    textDecorationLine: 'underline',
-  },
-  ButtonsArea:{
-    width: '80%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-  },
-  Login: {
-    backgroundColor: '#DDA04B',
-    paddingVertical: 10,
-    marginRight:25,
-    paddingHorizontal: 30,
-    borderRadius: 5,
-  },
-  ButtonText: {
-    color: 'white',
-  },
-  ButtonText2: {
-    color: '#DDA04B',
-  },
-  SignUP: {
-    backgroundColor: 'white',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#DDA04B',
-  },
-
-
-});
 
 export default Login
