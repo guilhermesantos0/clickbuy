@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 import styles from '@/components/clickbuy/ProfilePictureEditor/styles'
 import { IconSymbol } from '@/components/ui/IconSymbol'
+import * as FileSystem from 'expo-file-system';
 
 interface Props {
   currentImage: string;
-  onImageChange: (file: File) => void;
+  onImageChange: (file: { uri: string; name: string | undefined; type: string; }) => void;
 }
 
 const ProfilePictureEditor: React.FC<Props> = ({ currentImage, onImageChange }) => {
@@ -31,16 +32,23 @@ const ProfilePictureEditor: React.FC<Props> = ({ currentImage, onImageChange }) 
         aspect: [1, 1],
         quality: 1,
       });
-
+  
       if (!result.canceled) {
         const uri = result.assets[0].uri;
         setPreview(uri);
-
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        const file = new File([blob], 'profile.jpg', { type: blob.type });
-
-        onImageChange(file);
+  
+        const fileInfo = await FileSystem.getInfoAsync(uri);
+        const fileUri = fileInfo.uri;
+        const fileName = fileUri.split('/').pop();
+        const mimeType = 'image/jpeg';
+  
+        const fileBlob = {
+          uri: fileUri,
+          name: fileName,
+          type: mimeType,
+        };
+  
+        onImageChange(fileBlob);
       }
     } catch (error) {
       console.error('Erro ao escolher imagem:', error);

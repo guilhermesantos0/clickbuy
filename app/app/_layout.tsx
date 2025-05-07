@@ -34,11 +34,34 @@ export default function RootLayout() {
       <ThemeProvider value={DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="cadastro" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="cadastro"
+            options={{
+              headerTitle: 'Cadastro',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen
             name="editAccount"
             options={{
               headerTitle: 'Minha Conta',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="myProducts"
+            options={{
+              headerTitle: 'Meus Produtos',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="addProduct"
+            options={{
+              headerTitle: 'Meus Produtos',
               headerStyle: { backgroundColor: '#DDA04B' },
               headerTintColor: '#fff',
             }}

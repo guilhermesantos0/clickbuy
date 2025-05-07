@@ -25,7 +25,10 @@ const MAPPING = {
   'questionmark.circle.fill' : 'help',
   'info.circle.fill' : 'info',
   'arrow.right.square': 'logout',
-  'pencil' : 'edit'
+  'pencil' : 'edit',
+  'location' : 'location-pin',
+  'plus' : 'add'
+
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

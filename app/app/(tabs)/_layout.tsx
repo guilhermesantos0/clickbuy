@@ -15,7 +15,6 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <UserProvider>
       <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'white',
@@ -49,6 +48,5 @@ export default function TabLayout() {
         }}
       />
       </Tabs>
-    </UserProvider>
   );
 }
