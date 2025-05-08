@@ -6,14 +6,17 @@ import Footer from "components/Footer";
 import { useUser } from "contexts/UserContext";
 import { useEffect, useState } from "react";
 
-import { Product } from "@modules/Product";
+import { Product as ProductType } from "@modules/Product";
+import Product from "components/Product";
+
+import style from './Category.module.scss';
 
 const Category = () => {
 
     const { category } = useParams<{ category: string }>();
     const {user} = useUser();
 
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductType[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,31 +24,38 @@ const Category = () => {
             const result = await response.json();
 
             setProducts(result.products)
-
         }
+        fetchData();
     }, [])
 
     return (
-        <div>
+        <div className={style.Container}>
             <Header user={user} />
-            <div>
-                <h1></h1>
-                <aside>
-                    <h2>Preço</h2>
+            <h1 className={style.Title}>{category}</h1>
+            <div className = {style.PageContent}>
+                <aside className={style.Filter}>
+                    <h2 className={style.FilterLabel}>Preço</h2>
                     <div>
-                        <input type="number" />
+                        R$
+                        <input className={style.Input} type="number" />
                         <span>até</span>
-                        <input type="number" />
+                        <input className={style.Input} type="number" />
                     </div>
-                    <h2>Ordenar Por</h2>
-                    <ul>
-                        <li>Mais relevante</li>
-                        <li>Maior Preço</li>
-                        <li>Menor Preço</li>
-                        <li>Mais Recentes</li>
+                    <h2 className={style.FilterLabel}>Ordenar Por</h2>
+                    <ul className={style.FilterOptions}>
+                        <li className={style.FilterOption} >Mais relevante</li>
+                        <li className={style.FilterOption} >Maior Preço</li>
+                        <li className={style.FilterOption} >Menor Preço</li>
+                        <li className={style.FilterOption} >Mais Recentes</li>
                     </ul>
                 </aside>
-
+                <div className={style.ProductsArea}>
+                    {
+                        products.map((product) => (
+                            <Product product={product} favouriteOption />
+                        ))
+                    }
+                </div>
             </div>
             <Footer />
         </div>

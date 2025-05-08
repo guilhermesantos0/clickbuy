@@ -8,10 +8,11 @@ import { Product as ProductModel } from '@modules/Product';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 
 interface Props {
-    title: string
+    title: string,
+    favouriteOption?: boolean
 }
 
-const ProductsList: React.FC<Props> = ({ title }) => {
+const ProductsList: React.FC<Props> = ({ title, favouriteOption }) => {
 
     const [products, setProducts] = useState<ProductModel[]>([]);
 
@@ -83,7 +84,7 @@ const ProductsList: React.FC<Props> = ({ title }) => {
             <h2 className={style.Title}>{ title }</h2>
             <div className={style.List} ref={productsRef}>
                 {products.map((product, idx) => (
-                    <Product product={{...product}} favouriteOption key={idx} />
+                    <Product product={{...product}} favouriteOption={favouriteOption} key={idx} />
                 ))}
                 
             </div>

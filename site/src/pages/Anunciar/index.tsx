@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react"
+import { useNavigate } from "react-router-dom";
 
 import { Category } from "@modules/Category";
 
@@ -20,6 +21,8 @@ import axios from "axios";
 
 import { TrashIcon } from '@radix-ui/react-icons';
 
+import Product from "components/Product";
+
 interface State {
     id: number,
     sigla: string,
@@ -32,6 +35,8 @@ interface City {
 }
 
 const Anunciar = () => {
+
+    const navigate = useNavigate();
 
     const [step, setStep] = useState(1); 
 
@@ -141,7 +146,7 @@ const Anunciar = () => {
 
     const postProduct = async () => {
         if (images.length === 0 || mainImageIndex === null) {
-          alert("Preencha todos os campos e selecione a imagem principal");
+          toast.error("Preencha todos os campos e selecione a imagem principal");
           return;
         }
     
@@ -165,9 +170,15 @@ const Anunciar = () => {
               'Content-Type': 'multipart/form-data',
             },
           });
-          console.log('Produto cadastrado:', response.data);
+
+          if (response.status == 201) {
+            const productData = response.data
+            toast.success('Produto cadastrado com sucesso!')
+            navigate(`/${productData.category}/${productData._id}`)
+          }
         } catch (error) {
-          console.error('Erro ao cadastrar produto:', error);
+          toast.error('Erro ao cadastrar produto')
+          console.error(error)
         }
     };
 
