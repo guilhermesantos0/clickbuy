@@ -2,23 +2,37 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 const upload = require("../middleware/upload");
+const Category = require('../models/Category');
 
 router.get('/', async (req, res) => {
-    const products = await Product.find();
-    res.json(products);
+
+    try {
+      if(req.query.category) {
+  
+        const products = await Product.find({ category: req.query.category });
+        res.status(200).json({ products })
+
+      }else {
+        const products = await Product.find();
+        res.status(200).json({ products });
+      }
+    } catch (err) {
+      res.status(500).json({ message: 'Erro ao buscar produtos', err })
+    }
 })
 
 router.post('/', upload.array('images', 10), async (req, res) => {
   
     try {
-      console.log(req.body)
-      console.log(req.files)
       const  filePaths = req.files.map(file => `/upload/${file.filename}`);
-      const { name, price, location, category, announcer, used, condition, mainImageIndex } = req.body;
-      
+      const { name, price, location, categoryId, announcer, used, condition, mainImageIndex } = req.body;
+
+      const category = await Category.findOne({ _id: Number(categoryId)})
+      console.log(category.name)
+
       const mainImage = filePaths[Number(mainImageIndex)] || filePaths [0];
 
-      const newProduct = new Product({ name, price, location, category, announcer, condition: { used: used === "true", quality: condition }, images: filePaths, mainImage });
+      const newProduct = new Product({ name, price, location, category: category.name, announcer, condition: { used: used === "true", quality: condition }, images: filePaths, mainImage });
       await newProduct.save();
 
       res.status(201).json(newProduct);
