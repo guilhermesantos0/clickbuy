@@ -1,5 +1,5 @@
-import { View, Text, TextInput } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, TextInput, ScrollView, Switch, TouchableOpacity } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { useUser } from '@/contexts/UserContext';
 import Toast from 'react-native-toast-message';
 import { Category } from "@/types/Category";
@@ -9,6 +9,7 @@ import firstStep from './styles/addProduct/firstStep';
 import SelectDropdown from 'react-native-select-dropdown';
 import Categories from '@/components/clickbuy/Categories';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import fourthStep from './styles/Cadastro/fourthStep';
 interface State {
     id: number,
     sigla: string,
@@ -45,6 +46,7 @@ const addProduct = () => {
 
     const conditionOptions = ["Bom", "Médio", "Ruim"];
     const usedOptions = [{ label: "Novo", value: false }, { label: "Usado", value: true }]
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,6 +78,8 @@ const addProduct = () => {
             setCities([]);
         }
     }, [state]);
+    
+    
 
     useEffect(() => {
         setLocation(`${city}, ${state}`)
@@ -83,16 +87,21 @@ const addProduct = () => {
 
     const formatPrice = (price: string) => {
         const numeric = price.replace(/\D/g, '');
-
+    
         if (!numeric) return 'R$ ';
-
-        const number = parseFloat(numeric) / 100;
-
+    
+        let number = parseFloat(numeric) / 100;
+    
+        if (number > 10000000) {
+            number = 10000000;
+        }
+    
         return number.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
         });
-    }
+    };
+    
 
     const prevStep = () => {
         setStep(step - 1)
@@ -113,9 +122,10 @@ const addProduct = () => {
 
   return (
     <View style={styles.Container}>
-      <View style={styles.Form}>
+    <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.Page}>
         {step ===1 &&(
-            <View>
+            <View style={styles.Form}>
                 <Text style={styles.Title}>Anunciar Produto</Text>
                 <View>
                     <Text style={firstStep.text}>Título</Text>
@@ -131,13 +141,13 @@ const addProduct = () => {
                     <SelectDropdown
                         data={categories}
                         onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index);
+                            setCategory(selectedItem.name)
                         }}
                         renderButton={(selectedItem, isOpened) => {
                             return (
                             <View style={styles.dropdownButtonStyle}>
                                 <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem.name) || 'Select your mood'}
+                                {(selectedItem && selectedItem.name) || 'Categoria'}
                                 </Text>
                                 <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
                             </View>
@@ -150,13 +160,155 @@ const addProduct = () => {
                             </View>
                             );
                         }}
-                        showsVerticalScrollIndicator={false}
                         dropdownStyle={styles.dropdownMenuStyle}
                         />
+                        
+                        <Text style={firstStep.text}>Estado</Text>
+                        <SelectDropdown
+                        defaultValue={state}
+                        data={states}
+                        onSelect={(selectedItem, index) => {
+                            setState(selectedItem.sigla);
+                        }}
+                        renderButton={(selectedItem, isOpened) => {
+                            return (
+                            <View style={styles.dropdownButtonStyle}>
+                                <Text style={styles.dropdownButtonTxtStyle}>
+                                {(selectedItem && selectedItem.sigla) || 'Estado'}
+                                </Text>
+                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
+                            </View>
+                            );
+                        }}
+                        renderItem={(item, index, isSelected) => {
+                            return (
+                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={styles.dropdownItemTxtStyle}>{item.sigla}</Text>
+                            </View>
+                            );
+                        }}
+                        dropdownStyle={styles.dropdownMenuStyle}
+                        disabled={disableCity}
+                        />
+                        <Text style={firstStep.text}>Cidade</Text>
+                        <SelectDropdown
+                        data={cities}
+
+                        onSelect={(selectedItem, index) => {
+                            setCity(selectedItem.nome)
+                        }}
+                        renderButton={(selectedItem, isOpened) => {
+                            return (
+                            <View style={styles.dropdownButtonStyle}>
+                                <Text style={styles.dropdownButtonTxtStyle}>
+                                {(selectedItem && selectedItem.nome) || 'Cidade'}
+                                </Text>
+                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
+                            </View>
+                            );
+                        }}
+                        renderItem={(item, index, isSelected) => {
+                            return (
+                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={styles.dropdownItemTxtStyle}>{item.nome}</Text>
+                            </View>
+                            );
+                        }}
+                        dropdownStyle={styles.dropdownMenuStyle}
+                        disabled={disableCity}
+                        />
+                        <Text style={firstStep.text}>Preço</Text>
+                        <TextInput
+                        style={[firstStep.Input]}
+                        value={price}
+                        onChangeText={text => setPrice(formatPrice(text))}
+                        keyboardType='decimal-pad'
+                        autoCapitalize="none"
+                        placeholder="Digite o preço do produto"
+                        />
+                        <View style={firstStep.ButtonsArea}>
+                            <TouchableOpacity
+                                style={firstStep.Next}
+                                onPress={nextStep}>
+                                <Text style ={firstStep.buttomText}>Próximo</Text>
+                            </TouchableOpacity>
+                        </View>
                 </View>
             </View>
-        )}
+        )}{step === 2 && (
+            <View style={styles.Form}>
+                <Text style={styles.Title}>Qualidade do Produto</Text>
+                    <Text style={firstStep.text}>Qualidade do Produto</Text>
+                    <SelectDropdown
+                        data={conditionOptions}
+                        onSelect={(selectedItem, index) => {
+                            setCategory(selectedItem)
+                        }}
+                        renderButton={(selectedItem, isOpened) => {
+                            return (
+                            <View style={styles.dropdownButtonStyle}>
+                                <Text style={styles.dropdownButtonTxtStyle}>
+                                {(selectedItem && selectedItem) || 'Condição'}
+                                </Text>
+                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
+                            </View>
+                            );
+                        }}
+                        renderItem={(item, index, isSelected) => {
+                            return (
+                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
+                            </View>
+                            );
+                        }}
+                        dropdownStyle={styles.dropdownMenuStyle}
+                        />
+                        
+                        <Text style={firstStep.text}>Condição</Text>
+                        <SelectDropdown
+                        data={usedOptions}
+                        onSelect={(selectedItem, index) => {
+                            setState(selectedItem.label);
+                        }}
+                        renderButton={(selectedItem, isOpened) => {
+                            return (
+                            <View style={styles.dropdownButtonStyle}>
+                                <Text style={styles.dropdownButtonTxtStyle}>
+                                {(selectedItem && selectedItem.label) || 'Estado'}
+                                </Text>
+                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
+                            </View>
+                            );
+                        }}
+                        renderItem={(item, index, isSelected) => {
+                            return (
+                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={styles.dropdownItemTxtStyle}>{item.label}</Text>
+                            </View>
+                            );
+                        }}
+                        dropdownStyle={styles.dropdownMenuStyle}
+                        disabled={disableCity}
+                        />
+                        
+                        <View style ={styles.ButtonsArea}>
+                            <TouchableOpacity
+                                style={firstStep.Next}
+                                onPress={() => prevStep()}>
+                                <Text style ={firstStep.buttomText}>Voltar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={firstStep.Next}
+                                onPress={nextStep}>
+                                <Text style ={firstStep.buttomText}>Próximo</Text>
+                            </TouchableOpacity>
+                        </View>
+                </View>
+        )
+
+        }
       </View>
+      </ScrollView>
     </View>
   )
 }
