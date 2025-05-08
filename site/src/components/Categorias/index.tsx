@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Categorias.module.scss";
 
 import { Category } from "@modules/Category";
+import { Link } from "react-router-dom";
 
 const Categorias: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -25,14 +26,14 @@ const Categorias: React.FC = () => {
   return (
     <div className={styles.categoriasContainer}>
       {categories.map((cat) => (
-        <button className={styles.categoriaItem} key={cat._id}>
+        <Link to={`/${cat.name}`} className={styles.categoriaItem} key={cat._id}>
           <img
             src={`http://localhost:5000${cat.icon}`}
             alt={cat.name}
             className={styles.categoriaIcon}
           />
           <span>{cat.name}</span>
-        </button>
+        </Link>
       ))}
     </div>
   );

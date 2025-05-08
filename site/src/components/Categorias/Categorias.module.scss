@@ -32,6 +32,9 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s ease-in-out;
+
+    text-decoration: none;
+    font-size: 1rem;
   
     &:hover {
       background-color: #ffd38d;

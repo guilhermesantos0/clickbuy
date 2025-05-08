@@ -64,7 +64,7 @@ const Admin = () => {
         const categoriesData = await categoriesResponse.json();
 
         setUsers(usersData);
-        setProducts(productsData);
+        setProducts(productsData.products);
         setCategories(categoriesData);
 
       } catch (error) {

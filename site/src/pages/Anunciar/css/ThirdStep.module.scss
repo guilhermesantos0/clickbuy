@@ -21,8 +21,8 @@
     gap: 1rem;
 
     width: 50vw;
-    height: 50vh;
-
+    min-height: 20vh;
+    
     overflow-y: auto;
 
     .PreviewItem {

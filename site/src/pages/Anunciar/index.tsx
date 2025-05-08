@@ -33,7 +33,7 @@ interface City {
 
 const Anunciar = () => {
 
-    const [step, setStep] = useState(3); 
+    const [step, setStep] = useState(1); 
 
     const { user } = useUser();
 
@@ -129,10 +129,6 @@ const Anunciar = () => {
         }
     }
 
-    const imageAdd = (file: File) => {
-
-    }
-
     const onDrop = useCallback((acceptedFiles: File[]) => {
         setImages(prev => [...prev, ...acceptedFiles]);
     }, []);
@@ -153,7 +149,7 @@ const Anunciar = () => {
         formData.append('name', title);
         formData.append('price', price.toString());
         formData.append('location', location);
-        formData.append('category', category);
+        formData.append('categoryId', category);
         formData.append('condition', condition);
         formData.append('used', String(used));
         formData.append('announcer', user ? user._id : ''); // Puxar do contexto de usuário

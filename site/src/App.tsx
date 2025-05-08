@@ -12,6 +12,9 @@ import Contact from './pages/Institucional/pages/Contact';
 import TermsOfUse from './pages/Institucional/pages/TermsOfUse';
 import PrivacyPolicy from './pages/Institucional/pages/PrivacyPolicy';
 
+import Category from './pages/Category';
+import ProductPage from './pages/Category/Product';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,10 +31,13 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 
-        <Route path="/institucional/sobrenos" element = {<AboutUs />} />
-        <Route path="/institucional/contato" element = {<Contact />} />
-        <Route path="/institucional/termos-de-uso" element = {<TermsOfUse />} />
-        <Route path="/institucional/politica-de-privacidade" element = {<PrivacyPolicy />} />
+        <Route path="/institucional/sobrenos" element={<AboutUs />} />
+        <Route path="/institucional/contato" element={<Contact />} />
+        <Route path="/institucional/termos-de-uso" element={<TermsOfUse />} />
+        <Route path="/institucional/politica-de-privacidade" element={<PrivacyPolicy />} />
+
+        <Route path="/:category" element={<Category />} />
+        <Route path="/:category/:id" element={<ProductPage />} />
       </Routes>
 
       <ToastContainer style={{ zIndex: 9999 }} theme="colored" />

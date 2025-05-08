@@ -18,7 +18,9 @@
         gap: 1.5vw;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        scroll-snap-align: start;
         padding-bottom: 1vh;
+        flex: 0 0 auto;
 
         &::-webkit-scrollbar {
             display: none;
@@ -38,27 +40,33 @@
         height: 3vw;
         border: none;
         border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: rgba(255, 255, 255, 0.7);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 
         &:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .Icon {
+            width: 25px;
+            height: 25px;
+        }
+
+        &.ScrollLeft {
+            left: .2vw;
+        }
+
+        &.ScrollRight {
+            right: .2vw;
         }
 
         @media screen and (max-width: $screen-sm) {
             display: none;
         }
-    }
-
-    .ScrollLeft {
-        left: 1vw;
-    }
-
-    .ScrollRight {
-        right: 1vw;
     }
 }
