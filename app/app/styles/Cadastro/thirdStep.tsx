@@ -8,7 +8,7 @@ const thirdStep = StyleSheet.create({
     },
     InputArea: {
       width: '100%',
-      height: 400,
+      height: 310,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

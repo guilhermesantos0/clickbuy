@@ -6,6 +6,7 @@ import thirdStep from '@/app/styles/Cadastro/thirdStep'
 import fourthStep from '@/app/styles/Cadastro/fourthStep'
 import styles from '@/app/styles/Cadastro/styles'
 import { useRouter } from 'expo-router'
+import { formatPhoneNumber, formatCPF, formatCEP, formatDate } from '@/utils/formatters';
 import ip from '@/ip'
 
 const Cadastro = () => {
@@ -239,10 +240,11 @@ const Cadastro = () => {
           step === 3 && (
             <View style ={thirdStep.InputContainer}>
               <View style ={thirdStep.InputArea}>
-                <View style ={thirdStep.InputGroup}>
-                  <Text style ={thirdStep.text}>Nome</Text>
+              <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
+                <View style ={fourthStep.InputGroup}>
+                  <Text style ={fourthStep.text}>Nome</Text>
                   <TextInput
-                    style={[firstStep.Input]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.name}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
@@ -255,15 +257,15 @@ const Cadastro = () => {
                     placeholder="Digite seu nome completo"
                   />
                 </View>
-                <View style ={thirdStep.InputGroup}>
-                  <Text style ={thirdStep.text}>CPF</Text>
+                <View style ={fourthStep.InputGroup}>
+                  <Text style ={fourthStep.text}>CPF</Text>
                   <TextInput
-                    style={[firstStep.Input]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.cpf}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
                         ...prev.personalData,
-                        cpf:text
+                        cpf:formatCPF(text)
                       }
                     }))}
                     keyboardType='default'
@@ -271,15 +273,16 @@ const Cadastro = () => {
                     placeholder="Digite seu CPF"
                   />
                 </View>
-                <View style ={thirdStep.InputGroup}>
-                  <Text style ={thirdStep.text}>Telefone</Text>
+                
+                <View style ={fourthStep.InputGroup}>
+                  <Text style ={fourthStep.text}>Telefone</Text>
                   <TextInput
-                    style={[firstStep.Input]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.phone}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
                         ...prev.personalData,
-                        phone:text
+                        phone:formatPhoneNumber(text)
                       }
                     }))}
                     keyboardType='phone-pad'
@@ -287,15 +290,15 @@ const Cadastro = () => {
                     placeholder="Digite seu número de telefone"
                   />
                 </View>
-                <View style ={thirdStep.InputGroup}>
-                  <Text style ={thirdStep.text}>Data de nascimento</Text>
+                <View style ={fourthStep.InputGroup}>
+                  <Text style ={fourthStep.text}>Data de nascimento</Text>
                   <TextInput
-                    style={[firstStep.Input]}
+                    style={[fourthStep.Input]}
                     value={formData.personalData.bornDate}
                     onChangeText={text => setFormData(prev => ({
                       ...prev, personalData:{
                         ...prev.personalData,
-                        bornDate:text
+                        bornDate:formatDate(text)
                       }
                     }))}
                     keyboardType='decimal-pad'
@@ -303,6 +306,7 @@ const Cadastro = () => {
                     placeholder="Digite sua data de nascimento"
                   />
                 </View>
+                </ScrollView>
               </View>
               <View style ={SecondStep.ButtonsArea}>
                   <TouchableOpacity
@@ -394,7 +398,7 @@ const Cadastro = () => {
                           ...prev.personalData,
                           address: {
                             ...prev.personalData.address,
-                            zip: text
+                            zip: formatCEP(text)
                           }
                         }
                       }));

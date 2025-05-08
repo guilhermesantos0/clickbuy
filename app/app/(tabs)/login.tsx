@@ -93,7 +93,7 @@ const Login = () => {
                 <Text style={conta.Text}>Carrinho</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/myProducts')}>
               <View style={conta.Option}>
                 <IconSymbol size={45} name='tag.fill' color='rgb(101, 101, 101)' />
                 <Text style={conta.Text}>Meus Produtos</Text>
