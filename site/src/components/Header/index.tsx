@@ -10,6 +10,8 @@ import { User } from '@modules/User';
 
 import { useUser } from 'contexts/UserContext';
 
+import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+
 interface Props {
     user: User | null,
     hideOptions?: boolean
@@ -49,13 +51,27 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
             {
                 !hideOptions && (
                     <div className={style.Center}>
-                        <input className={style.Input} type="text" />
-                        <Lupa className={style.SearchImage} />
+                         <div className={style.SearchBar}>
+                            <MagnifyingGlassIcon className={style.SearchIcon} />
+                            <input
+                                type="text"
+                                placeholder="Pesquisar produtos, categorias..."
+                                className={style.SearchInput}
+                            />
+                        </div>
+                        {/* <div className={style.Center}>
+                            <input className={style.Input} type="text" />
+                            <Lupa className={style.SearchImage} />
+                        </div> */}
                     </div>
                 )
             }
             <div className={style.Right}>
-                <Link className={style.Announce} to='/anunciar'>Anunciar</Link>
+            {/* <Link className={style.Announce} to='/anunciar'>Anunciar</Link> */}
+            <Link to="/anunciar" className={style.AnnounceButton}>
+                <PlusIcon className={style.PlusIcon} />
+                Anunciar
+            </Link>
                 { 
                     user ? 
                     <div className={style.ProfileContainer} ref={menuRef}>
@@ -84,3 +100,4 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
 }
 
 export default Header;
+
