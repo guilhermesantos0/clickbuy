@@ -23,8 +23,7 @@ const firstStep = StyleSheet.create({
         marginTop: 10,
         fontSize: 15,
         backgroundColor: 'rgb(224, 224, 224)',
-    paddingLeft:8,
-        outline: 'none',
+        paddingLeft:8,
         borderWidth: 0,
         borderRadius: 10,
         paddingVertical: 0,
@@ -37,7 +36,7 @@ const firstStep = StyleSheet.create({
     ButtonsArea:{
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-evenly',
+      justifyContent:  'flex-end',
       flexDirection: 'row',
       marginTop: '3%',
     },
@@ -50,10 +49,11 @@ const firstStep = StyleSheet.create({
       flexDirection: 'row',
       backgroundColor: '#DDA04B',
       borderRadius: 5,
+      paddingVertical: 10,
     },
     buttomText: {
       color: 'white',
-      fontSize: 32,
+      fontSize: 20,
     },
     text:{
         fontSize:16,

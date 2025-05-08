@@ -17,7 +17,6 @@ const firstStep = StyleSheet.create({
       fontSize: 15,
       backgroundColor: 'rgb(224, 224, 224)',
       paddingLeft:8,
-      outline: 'none',
       borderWidth: 0,
       borderRadius: 10,
       paddingVertical: 0,

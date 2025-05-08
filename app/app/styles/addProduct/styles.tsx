@@ -9,18 +9,20 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flexDirection: 'column',
     },
-    Form: {
-      width: '90%',
-      height: '75%',
+    Page: {
+      width: '100%',
+      height: '100%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column',
-      gap: '3%'
     },
     Title:{
       color: '#DDA04B',
       fontSize: 32,
+    },
+    Form:{
+      width: '80%',
     },
     dropdownButtonStyle: {
         width: '100%',
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
         marginRight: 8,
       },
       dropdownMenuStyle: {
+        height:'20%' ,
         backgroundColor: '#E9ECEF',
         borderRadius: 8,
       },
@@ -63,5 +66,12 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#151E26',
       },
+      ButtonsArea:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        flexDirection: 'row',
+        marginTop: '3%',
+      }
   });
   export default styles
