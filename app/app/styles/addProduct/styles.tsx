@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     },
     Form:{
       width: '80%',
+      
     },
     dropdownButtonStyle: {
         width: '100%',
@@ -52,6 +53,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#E9ECEF',
         borderRadius: 8,
       },
+      dropdownMenuStyle2: {
+        height:'13%' ,
+        backgroundColor: '#E9ECEF',
+        borderRadius: 8,
+      },
+      dropdownMenuStyle3: {
+        height:'10%' ,
+        backgroundColor: '#E9ECEF',
+        borderRadius: 8,
+      },
       dropdownItemStyle: {
         width: '100%',
         flexDirection: 'row',
@@ -72,6 +83,57 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         flexDirection: 'row',
         marginTop: '3%',
-      }
+      },
+      ImageButton:{
+        width: '80%',
+        height: '60%',
+        borderWidth: 2,
+        borderColor: 'grey',
+        borderStyle: 'dashed',
+        borderRadius: 10,
+        backgroundColor: 'lightgray',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      ImageForm:{
+        width: '80%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+    },
+    ImageRow:{
+      display: 'flex',
+      flexDirection: 'row',
+      width: '95%',
+      height: 80,
+      overflow: 'hidden'
+
+    },
+    Image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover', 
+
+  },
+  deleteIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  ImageContainer:{
+    width: 120,
+    height: 120,
+    margin: 10,
+    borderRadius: 3,
+  },
+  MainImage:{
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover', 
+    borderWidth: 3,
+    borderColor: '#DDA04B',
+  },
   });
   export default styles

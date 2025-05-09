@@ -39,9 +39,11 @@ const firstStep = StyleSheet.create({
       justifyContent:  'flex-end',
       flexDirection: 'row',
       marginTop: '3%',
+      
     },
     Next: {
       width: '49%',
+      marginHorizontal: 5,
       alignItems: 'center',
       paddingHorizontal: 2,
       marginTop: 30,
@@ -53,7 +55,7 @@ const firstStep = StyleSheet.create({
     },
     buttomText: {
       color: 'white',
-      fontSize: 20,
+      fontSize: 15,
     },
     text:{
         fontSize:16,

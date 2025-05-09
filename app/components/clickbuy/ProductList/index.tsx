@@ -20,14 +20,15 @@ const ProductsList: React.FC<Props> = ({ title }) => {
                 const response = await fetch(`http://${ip}:5000/products`);
                 const productData = await response.json();
 
-                setProducts(productData.products);
+                setProducts(productData.products.slice(0, 10));
             } catch (error) {
-                console.log('Erro ao buscar produtos', error)
+                console.log('Erro ao buscar produtos', error);
             }
-        }
+        };
 
         fetchData();
-    }, [])
+    }, []);
+
     const [dupla, setStep] = useState(1)
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('pt-BR', {
