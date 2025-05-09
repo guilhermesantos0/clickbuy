@@ -45,7 +45,7 @@ router.post('/', upload.array('images', 10), async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const product = await Product.findOne({ name: req.params.id });
+    const product = await Product.findById(req.params.id);
 
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });

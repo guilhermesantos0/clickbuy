@@ -10,5 +10,6 @@ export interface Product {
     condition: {
         quality: string,
         used: boolean
-    }
+    },
+    createdAt: string | Date
 }

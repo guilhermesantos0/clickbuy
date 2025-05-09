@@ -48,6 +48,17 @@
                 margin-right: .5vw;
 
                 border-radius: 5px;
+
+                outline: none;
+                padding: 0 .5rem;
+
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+                -moz-appearance: textfield;
             }
 
             .FilterOptions {
