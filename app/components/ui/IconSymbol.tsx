@@ -27,7 +27,8 @@ const MAPPING = {
   'arrow.right.square': 'logout',
   'pencil' : 'edit',
   'location' : 'location-pin',
-  'plus' : 'add'
+  'plus' : 'add',
+  'funnel' : 'funnel'
 
 } as Partial<
   Record<
