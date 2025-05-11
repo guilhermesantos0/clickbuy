@@ -48,6 +48,7 @@ const Anunciar = () => {
 
     const [category, setCategory] = useState<any>();
     const [title, setTitle] = useState<any>();
+    const [description, setDescription] = useState('')
     const [price, setPrice] = useState<any>('R$ ');
     const [state, setState] = useState<any | undefined>('');
     const [city, setCity] = useState<any | undefined>('');
@@ -156,8 +157,9 @@ const Anunciar = () => {
         formData.append('location', location);
         formData.append('categoryId', category);
         formData.append('condition', condition);
+        formData.append('description', description);
         formData.append('used', String(used));
-        formData.append('announcer', user ? user._id : ''); // Puxar do contexto de usuário
+        formData.append('announcer', user ? user._id : ''); 
         formData.append('mainImageIndex', mainImageIndex.toString());
     
         images.forEach((img) => {
@@ -190,7 +192,7 @@ const Anunciar = () => {
         <div className={style.Container}>
             <Header user={user}></Header>
 
-                <div className={style.Form}>
+                <div className={`${style.Form} ${step === 1 ? style.FirstStep : ''}`}>
                 { step === 1 && (
                     <>
                         <h1>Anunciar Produto</h1>
@@ -244,6 +246,18 @@ const Anunciar = () => {
                                 id="disablecity"
                                 checked={disableCity}
                                 onChange={handleChange} />
+                            </div>
+
+                            <div className={`${style.InputContainer} ${firstStep.Description}`}>
+                                <label htmlFor="description">Descrição</label>
+                                <textarea
+                                    name="description"
+                                    id="description"
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
+                                    className={`${style.Input} ${firstStep.TextArea}`}
+                                    // placeholder="Descreva os detalhes do produto..."
+                                />
                             </div>
 
                             <div className={style.ButtonContainer}><button onClick={nextStep} className={style.Next}>Avançar</button></div>
