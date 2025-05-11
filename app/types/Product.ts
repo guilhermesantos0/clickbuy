@@ -3,12 +3,13 @@ export interface Product {
     name: string,
     price: number,
     location: string,
-    images: string[],
+    images: String[],
     mainImage: string,
     category: string,
     announcer: string,
     condition: {
         quality: string,
         used: boolean
-    }
+    },
+    createdAt: string | Date
 }

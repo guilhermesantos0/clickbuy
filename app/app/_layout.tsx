@@ -66,7 +66,14 @@ export default function RootLayout() {
               headerTintColor: '#fff',
             }}
           />
-
+          <Stack.Screen
+            name="category"
+            options={{
+              headerTitle: 'Buscar Produtos',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />

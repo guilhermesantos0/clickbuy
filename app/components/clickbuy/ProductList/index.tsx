@@ -8,26 +8,12 @@ import ip from '@/ip'
 
 interface Props {
     title: string
+    products: ProductModel[]
 }
 
 
-const ProductsList: React.FC<Props> = ({ title }) => {
-    const [products, setProducts] = useState<ProductModel[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`http://${ip}:5000/products`);
-                const productData = await response.json();
-
-                setProducts(productData.products.slice(0, 10));
-            } catch (error) {
-                console.log('Erro ao buscar produtos', error);
-            }
-        };
-
-        fetchData();
-    }, []);
+const ProductsList: React.FC<Props> = ({ title, products }) => {
+    
 
     const [dupla, setStep] = useState(1)
     const formatPrice = (price: number) => {

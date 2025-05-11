@@ -9,7 +9,9 @@ const styles = StyleSheet.create({
     },
     Duplas:{
         display: 'flex',
-        flexDirection: 'row'
+        width:'100%',
+        flexDirection: 'row',
+        justifyContent:'flex-start',
     },
     Title:{
         fontSize:25,

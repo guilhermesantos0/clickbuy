@@ -7,15 +7,28 @@ import fourthStep from '../styles/Cadastro/fourthStep';
 import Categories from '@/components/clickbuy/Categories';
 import ProductsList from '@/components/clickbuy/ProductList';
 import Product from '@/components/clickbuy/ProductList/Product';
+import { Product as ProductModel } from '@/types/Product';
+import { useEffect, useState } from 'react';
+import ip from '@/ip';
 
 export default function TelaPrincipal() {
   const { user } = useUser();
-  const sampleProduct = {
-    name: 'Tênis Esportivo',
-    image: 'https://img.olx.com.br/images/54/546580515113727.webp',
-    price: 249.90,
-    location: 'São Paulo, SP'
-  }
+  const [products, setProducts] = useState<ProductModel[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://${ip}:5000/products`);
+                const productData = await response.json();
+
+                setProducts(productData.products.slice(0, 10));
+            } catch (error) {
+                console.log('Erro ao buscar produtos', error);
+            }
+        };
+
+        fetchData();
+    }, []);
   const router = useRouter();
 
   return (
@@ -24,8 +37,8 @@ export default function TelaPrincipal() {
       <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
         <Slider/>
         <Categories/>
-        <ProductsList title={'Mais Vendidos:'}/>
-        <ProductsList title={'Recomendados para você:'}/>
+        <ProductsList title={'Mais Vendidos:'} products={products}/>
+        <ProductsList title={'Recomendados para você:'} products={products}/>
       </ScrollView>
     </View>
   );

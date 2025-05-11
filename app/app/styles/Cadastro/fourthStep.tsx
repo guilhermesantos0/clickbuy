@@ -32,21 +32,25 @@ const fourthStep = StyleSheet.create({
       fontSize:16,
   },
   ButtonsArea:{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    marginTop:15
-  },
-  Next: {
-    width: '49%',
-    alignItems: 'center',
-    paddingHorizontal: 2,
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    backgroundColor: '#DDA04B',
-    borderRadius: 5,
-  },
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent:  'flex-end',
+      flexDirection: 'row',
+      marginTop: '3%',
+      
+    },
+    Next: {
+      width: '49%',
+      marginHorizontal: 5,
+      alignItems: 'center',
+      paddingHorizontal: 2,
+      marginTop: 30,
+      justifyContent: 'space-evenly',
+      flexDirection: 'row',
+      backgroundColor: '#DDA04B',
+      borderRadius: 5,
+      paddingVertical: 10,
+    },
   Scroll:{
     width: '100%'
   }

@@ -1,6 +1,9 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../Categories/styles'
+import { router } from 'expo-router';
+import { Category } from '@/types/Category';
+import ip from '@/ip';
 
 const eletronics = require('@/assets/ClickBuy/eletronicosImg.png');
 const beauty = require('@/assets/ClickBuy/belezaImg.png');
@@ -14,37 +17,41 @@ interface Props {
 }
 
 const Categories: React.FC<Props> = () => {
+    const images = [
+      eletronics,
+      kitchen,
+      fashion,
+      decorations,
+      beauty,
+      pets,
+      paper,
+    ];
+   const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://${ip}:5000/categories`);
+
+        const categoriesData = await response.json();
+
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Erro ao buscar categorias', error)
+      }
+    }
+
+    fetchData();
+  }, [])
   return (
     <View style={styles.Container}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Eletrônicos')}>
-          <Image style={styles.SliderImage} source={eletronics} />
-          <Text>Eletrônicos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Beleza')}>
-          <Image style={styles.SliderImage} source={beauty} />
-          <Text>Beleza</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Cozinha')}>
-          <Image style={styles.SliderImage} source={kitchen} />
-          <Text>Cozinha</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Decoração')}>
-          <Image style={styles.SliderImage} source={decorations} />
-          <Text>Decoração</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Moda')}>
-          <Image style={styles.SliderImage} source={fashion} />
-          <Text>Moda</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Papelaria')}>
-          <Image style={styles.SliderImage} source={paper} />
-          <Text>Papelaria</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.Botao} onPress={() => console.log('Pets')}>
-          <Image style={styles.SliderImage} source={pets} />
-          <Text>Pets</Text>
-        </TouchableOpacity>
+        {categories.map((cat, index) => (
+          <TouchableOpacity key={index} style={styles.Botao} onPress={() => router.push(`/category?categoria=${cat.name}`)}>
+            <Image style={styles.SliderImage} source={images[index]} />
+            <Text>{cat.name}</Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
     </View>
   )

@@ -36,12 +36,14 @@ const SecondStep = StyleSheet.create({
     ButtonsArea:{
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-evenly',
+      justifyContent:  'flex-end',
       flexDirection: 'row',
       marginTop: '3%',
+      
     },
     Next: {
       width: '49%',
+      marginHorizontal: 5,
       alignItems: 'center',
       paddingHorizontal: 2,
       marginTop: 30,
@@ -49,10 +51,11 @@ const SecondStep = StyleSheet.create({
       flexDirection: 'row',
       backgroundColor: '#DDA04B',
       borderRadius: 5,
+      paddingVertical: 10,
     },
     buttomText: {
       color: 'white',
-      fontSize: 32,
+      fontSize: 15,
     },
     text:{
         fontSize:16,

@@ -8,6 +8,7 @@ import styles from '@/app/styles/Cadastro/styles'
 import { useRouter } from 'expo-router'
 import { formatPhoneNumber, formatCPF, formatCEP, formatDate } from '@/utils/formatters';
 import ip from '@/ip'
+import Toast from 'react-native-toast-message'
 
 const Cadastro = () => {
   const router = useRouter();
@@ -36,31 +37,56 @@ const Cadastro = () => {
   const [validPassword, setValidPassword] = useState(true)
   const [confirmPassword, setConfirmPassword] = useState("");
   const handleCheckEmail = async () => {
-    const response = await fetch(`http://${ip}:5000/checkEmail?email=${formData.email}`);
+    if (formData.email === ""){
+        Toast.show({
+                              type: 'error',
+                              text1: 'Preencha todos os campos',
+                            });
+    }else{
+      const response = await fetch(`http://${ip}:5000/checkEmail?email=${formData.email}`);
     if(response.ok) {
         nextStep();
     }else {
         setError([true, "Email já cadastrado"])
     }
+    }
   }
   const handleCheckPassword = (value: string) => {
-    if(formData.password === value) {
+    if(formData.password === value ) {
         setValidPassword(true)
     }else{
         setValidPassword(false)
     }
   }
   const handleConfirmPassword = () => {
-    if(validPassword){
+    if(formData.password === "" || confirmPassword === ""){
+      Toast.show({
+                              type: 'error',
+                              text1: 'Preencha todos os campos',
+                            });
+    }else{
+      if(validPassword){
         nextStep();
-    }else {
-        setError([true, "As senhas não coincidem"])
+      }else {
+          setError([true, "As senhas não coincidem"])
+      }
     }
   }
   
   const nextStep = () => {
     setError([false, ""])
     setStep(prev => prev + 1)
+  }
+  const nextStep2 = () => {
+    if(formData.personalData.bornDate === "" || formData.personalData.cpf === "" || formData.personalData.name === "" || formData.personalData.phone === "" ){
+      Toast.show({
+                              type: 'error',
+                              text1: 'Preencha todos os campos',
+                            });
+    }else{
+      setError([false, ""])
+      setStep(prev => prev + 1)
+    }
   }
   const prevStep = () => {
       setError([false, ""])
@@ -119,7 +145,13 @@ const Cadastro = () => {
     }
   }
   const handleSignUp = async () => {
-    const userPayload = {
+    if(formData.personalData.address.city === "" || formData.personalData.address.neighborhood === "" ||formData.personalData.address.number === "" || formData.personalData.address.road === "" || formData.personalData.address.state === "" ||formData.personalData.address.zip === ""){
+      Toast.show({
+                              type: 'error',
+                              text1: 'Preencha todos os campos',
+                            });
+    }else{
+      const userPayload = {
         email: formData.email,
         password: formData.password,
         personalData: {
@@ -151,16 +183,26 @@ const Cadastro = () => {
         const result = await response.json();
 
         if(response.ok) {
-            alert("Usuário cadastrado com sucesso!");
+            Toast.show({
+                                type: 'success',
+                                text1: 'Cadastro realizado com sucesso',
+                              });
             console.log('Usuário:', result.user)
             router.push('/')
         }else {
-            alert(`Erro: ${result.message}`);
+          Toast.show({
+                              type: 'error',
+                              text1: `Erro: ${result.message}`,
+                            });
             console.error(result)
         }
     }catch (error) {
-        alert("Erro ao conectar com o servidor.");
+       Toast.show({
+                              type: 'error',
+                              text1: 'Erro ao conectar com o servidor',
+                            });
         console.error("Erro:", error)
+    }
     }
 }
   return (
@@ -181,11 +223,13 @@ const Cadastro = () => {
                   autoCapitalize="none"
                   placeholder="Digite seu e-mail"
                 />
-                <TouchableOpacity
+                <View style={firstStep.ButtonsArea}>
+                  <TouchableOpacity
                     style={firstStep.Next}
                     onPress={() => handleCheckEmail()}>
                     <Text style ={firstStep.buttomText}>Próximo</Text>
                   </TouchableOpacity>
+                </View>
               </View>
             </View>
           )
@@ -316,7 +360,7 @@ const Cadastro = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={SecondStep.Next}
-                    onPress={nextStep}>
+                    onPress={nextStep2}>
                     <Text style ={SecondStep.buttomText}>Próximo</Text>
                   </TouchableOpacity>
                 </View>
