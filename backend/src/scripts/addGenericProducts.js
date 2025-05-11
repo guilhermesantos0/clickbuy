@@ -12,132 +12,146 @@ const announcers = [
 ];
 
 const products = [
-    {
-      name: 'Smartphone Samsung Galaxy S22',
-      price: '3499.99',
-      location: 'São Paulo, SP',
-      category: 'Eletrônicos',
-      used: false,
-      condition: 'Médio',
-      images: ['samsung_s22_1.jpg', 'samsung_s22_2.jpg']
-    },
-    {
-      name: 'Notebook Dell Inspiron i7 16GB',
-      price: '4299.90',
-      location: 'Campinas, SP',
-      category: 'Eletrônicos',
-      used: true,
-      condition: 'Bom',
-      images: ['notebook_dell_1.jpg']
-    },
-    {
-      name: 'Liquidificador Philips Walita Turbo',
-      price: '229.00',
-      location: 'Rio de Janeiro, RJ',
-      category: 'Cozinha',
-      used: false,
-      condition: 'Bom',
-      images: ['liquidificador_philips.jpg']
-    },
-    {
-      name: 'Conjunto de Panelas Tramontina 5 Peças',
-      price: '379.90',
-      location: 'Curitiba, PR',
-      category: 'Cozinha',
-      used: true,
-      condition: 'Bom',
-      images: ['panelas_tramontina.jpg']
-    },
-    {
-      name: 'Vestido Longo Estampado',
-      price: '149.90',
-      location: 'Belo Horizonte, MG',
-      category: 'Moda',
-      used: false,
-      condition: 'Ruim',
-      images: ['vestido_estampado.jpg']
-    },
-    {
-      name: 'Tênis Adidas Ultraboost 42',
-      price: '599.00',
-      location: 'Fortaleza, CE',
-      category: 'Moda',
-      used: true,
-      condition: 'Bom',
-      images: ['tenis_adidas.jpg']
-    },
-    {
-      name: 'Poltrona Reclinável de Couro',
-      price: '1250.00',
-      location: 'São Paulo, SP',
-      category: 'Decoração',
-      used: true,
-      condition: 'Médio',
-      images: ['poltrona_couro.jpg']
-    },
-    {
-      name: 'Conjunto de Quadros Decorativos Minimalistas',
-      price: '200.00',
-      location: 'Recife, PE',
-      category: 'Decoração',
-      used: false,
-      condition: 'Bom',
-      images: ['quadros_minimalistas.jpg']
-    },
-    {
-      name: 'Kit Maquiagem Ruby Rose Completo',
-      price: '179.90',
-      location: 'Salvador, BA',
-      category: 'Beleza',
-      used: false,
-      condition: 'Novo',
-      images: ['kit_maquiagem.jpg']
-    },
-    {
-      name: 'Secador de Cabelo Taiff 2000W',
-      price: '199.00',
-      location: 'São Luís, MA',
-      category: 'Beleza',
-      used: true,
-      condition: 'Ruim',
-      images: ['secador_taiff.jpg']
-    },
-    {
-      name: 'Cama Pet Almofadada Grande',
-      price: '120.00',
-      location: 'Brasília, DF',
-      category: 'Pets',
-      used: false,
-      condition: 'Bom',
-      images: ['cama_pet.jpg']
-    },
-    {
-      name: 'Coleira com Guia para Cães',
-      price: '49.90',
-      location: 'Porto Alegre, RS',
-      category: 'Pets',
-      used: true,
-      condition: 'Bom',
-      images: ['coleira_guia.jpg']
-    },
-    {
-      name: 'Kit Papelaria com Cadernos e Canetas',
-      price: '85.50',
-      location: 'Natal, RN',
-      category: 'Papelaria',
-      used: false,
-      condition: 'Médio',
-      images: ['kit_papelaria.jpg']
-    },
-    {
-      name: 'Planner Semanal 2024',
-      price: '39.90',
-      location: 'Maceió, AL',
-      category: 'Papelaria',
-      used: false,
-      condition: 'Bom',
-      images: ['planner_2024.jpg']
-    }
+  {
+    name: 'Smartphone Samsung Galaxy S22',
+    price: '3499.99',
+    location: 'São Paulo, SP',
+    category: 'Eletrônicos',
+    used: false,
+    condition: 'Médio',
+    images: ['samsung_s22_1.jpg', 'samsung_s22_2.jpg'],
+    description: 'Smartphone potente com tela AMOLED, câmera de alta resolução e desempenho ideal para multitarefas e jogos.'
+  },
+  {
+    name: 'Notebook Dell Inspiron i7 16GB',
+    price: '4299.90',
+    location: 'Campinas, SP',
+    category: 'Eletrônicos',
+    used: true,
+    condition: 'Bom',
+    images: ['notebook_dell_1.jpg'],
+    description: 'Notebook com processador i7 de última geração e 16GB de RAM, ideal para estudos, trabalho e uso profissional.'
+  },
+  {
+    name: 'Liquidificador Philips Walita Turbo',
+    price: '229.00',
+    location: 'Rio de Janeiro, RJ',
+    category: 'Cozinha',
+    used: false,
+    condition: 'Bom',
+    images: ['liquidificador_philips.jpg'],
+    description: 'Liquidificador de alta potência com copo resistente e várias velocidades. Perfeito para sucos e vitaminas.'
+  },
+  {
+    name: 'Conjunto de Panelas Tramontina 5 Peças',
+    price: '379.90',
+    location: 'Curitiba, PR',
+    category: 'Cozinha',
+    used: true,
+    condition: 'Bom',
+    images: ['panelas_tramontina.jpg'],
+    description: 'Conjunto completo da Tramontina com 5 peças antiaderentes. Ótimo estado de conservação e ideal para o dia a dia.'
+  },
+  {
+    name: 'Vestido Longo Estampado',
+    price: '149.90',
+    location: 'Belo Horizonte, MG',
+    category: 'Moda',
+    used: false,
+    condition: 'Ruim',
+    images: ['vestido_estampado.jpg'],
+    description: 'Vestido longo com estampa floral, leve e confortável. Possui pequenos defeitos, mas ainda utilizável.'
+  },
+  {
+    name: 'Tênis Adidas Ultraboost 42',
+    price: '599.00',
+    location: 'Fortaleza, CE',
+    category: 'Moda',
+    used: true,
+    condition: 'Bom',
+    images: ['tenis_adidas.jpg'],
+    description: 'Tênis esportivo Adidas Ultraboost tamanho 42, muito confortável para caminhadas e corridas.'
+  },
+  {
+    name: 'Poltrona Reclinável de Couro',
+    price: '1250.00',
+    location: 'São Paulo, SP',
+    category: 'Decoração',
+    used: true,
+    condition: 'Médio',
+    images: ['poltrona_couro.jpg'],
+    description: 'Poltrona reclinável em couro sintético, ideal para sala de estar. Apresenta sinais de uso.'
+  },
+  {
+    name: 'Conjunto de Quadros Decorativos Minimalistas',
+    price: '200.00',
+    location: 'Recife, PE',
+    category: 'Decoração',
+    used: false,
+    condition: 'Bom',
+    images: ['quadros_minimalistas.jpg'],
+    description: 'Conjunto com 3 quadros minimalistas. Perfeito para modernizar e decorar ambientes com estilo.'
+  },
+  {
+    name: 'Kit Maquiagem Ruby Rose Completo',
+    price: '179.90',
+    location: 'Salvador, BA',
+    category: 'Beleza',
+    used: false,
+    condition: 'Novo',
+    images: ['kit_maquiagem.jpg'],
+    description: 'Kit completo com bases, sombras e batons da Ruby Rose. Produto novo e lacrado.'
+  },
+  {
+    name: 'Secador de Cabelo Taiff 2000W',
+    price: '199.00',
+    location: 'São Luís, MA',
+    category: 'Beleza',
+    used: true,
+    condition: 'Ruim',
+    images: ['secador_taiff.jpg'],
+    description: 'Secador potente de 2000W, ideal para uso doméstico. Funcionando, mas com sinais visíveis de uso.'
+  },
+  {
+    name: 'Cama Pet Almofadada Grande',
+    price: '120.00',
+    location: 'Brasília, DF',
+    category: 'Pets',
+    used: false,
+    condition: 'Bom',
+    images: ['cama_pet.jpg'],
+    description: 'Cama confortável e almofadada para pets de grande porte. Produto novo e muito resistente.'
+  },
+  {
+    name: 'Coleira com Guia para Cães',
+    price: '49.90',
+    location: 'Porto Alegre, RS',
+    category: 'Pets',
+    used: true,
+    condition: 'Bom',
+    images: ['coleira_guia.jpg'],
+    description: 'Coleira ajustável com guia, em ótimo estado. Ideal para cães de médio porte.'
+  },
+  {
+    name: 'Kit Papelaria com Cadernos e Canetas',
+    price: '85.50',
+    location: 'Natal, RN',
+    category: 'Papelaria',
+    used: false,
+    condition: 'Médio',
+    images: ['kit_papelaria.jpg'],
+    description: 'Kit completo com cadernos, canetas e adesivos. Ideal para estudantes e profissionais criativos.'
+  },
+  {
+    name: 'Planner Semanal 2024',
+    price: '39.90',
+    location: 'Maceió, AL',
+    category: 'Papelaria',
+    used: false,
+    condition: 'Bom',
+    images: ['planner_2024.jpg'],
+    description: 'Planner semanal 2024 com capa resistente e espaço para organização diária. Produto novo.'
+  }
 ];
   
 
@@ -170,6 +184,7 @@ async function sendProduct(product, announcerId) {
     form.append('used', product.used.toString());
     form.append('condition', product.condition);
     form.append('mainImageIndex', mainImageIndex.toString());
+    form.append('description', product.description)
 
     const response = await axios.post('http://localhost:5000/products', form, {
       headers: form.getHeaders()
@@ -190,7 +205,3 @@ async function sendAllProducts() {
 }
 
 sendAllProducts();
-
-async function testRequest() {
-    const res = await axios.get('http://localhost:5000/products')
-}
