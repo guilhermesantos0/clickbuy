@@ -52,6 +52,7 @@ const firstStep = StyleSheet.create({
       backgroundColor: '#DDA04B',
       borderRadius: 5,
       paddingVertical: 10,
+      marginBottom: 40
     },
     buttomText: {
       color: 'white',
@@ -60,6 +61,19 @@ const firstStep = StyleSheet.create({
     text:{
         fontSize:16,
         marginTop: 10
-    }
+    },
+    TextArea: {
+      width: '100%',
+        height: 200,
+        marginTop: 10,
+        fontSize: 15,
+        backgroundColor: 'rgb(224, 224, 224)',
+        paddingLeft:8,
+        borderWidth: 0,
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: '1%',
+        textAlignVertical: 'top',
+    },
   });
   export default firstStep
