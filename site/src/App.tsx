@@ -29,6 +29,7 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/anunciar" element={<Anunciar />} />
         <Route path="/admin" element={<Admin />} />
+        
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 
         <Route path="/institucional/sobrenos" element={<AboutUs />} />
