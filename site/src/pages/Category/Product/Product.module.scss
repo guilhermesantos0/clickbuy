@@ -1,0 +1,79 @@
+@use '../../../assets/scss/variables' as *;
+
+.Container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .TopSection {
+        width: 90%;
+        // height: 50vh;
+
+        display: flex;
+        justify-content: center;
+        gap: 3vw;
+
+        padding: 3rem;
+
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+        }
+        
+    }
+}
+
+.ProductDetails {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #DDA04B;
+  }
+
+  button {
+    padding: 1rem 2rem;
+    background-color: #DDA04B;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: darken(#DDA04B, 8%);
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    button {
+      width: 100%;
+      font-size: 1rem;
+    }
+  }
+}
