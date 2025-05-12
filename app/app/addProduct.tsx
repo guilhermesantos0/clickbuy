@@ -41,6 +41,7 @@ const addProduct = () => {
 
     const [category, setCategory] = useState<any>();
     const [title, setTitle] = useState<any>();
+    const [description, setDescription] = useState('')
     const [price, setPrice] = useState<any>('R$ ');
     const [state, setState] = useState<any | undefined>('');
     const [city, setCity] = useState<any | undefined>('');
@@ -119,7 +120,7 @@ const addProduct = () => {
     }
 
     const nextStep = () => {
-        if(category == null || title == null || price == "R$ " || state == null || city == null) {
+        if(category == null || title == null || price == "R$ " || state == null || city == null || description == null) {
             return Toast.show({
                     type: 'error',
                     text1: 'Preencha todos os campos',
@@ -184,6 +185,7 @@ const addProduct = () => {
         }
         const formData = new FormData();
         formData.append('name', title);
+        formData.append('description', description);
         formData.append('price', price.toString());
         formData.append('location', location);
         formData.append('categoryId', category._id);
@@ -330,6 +332,17 @@ const addProduct = () => {
                         keyboardType='decimal-pad'
                         autoCapitalize="none"
                         placeholder="Digite o preço do produto"
+                        />
+                        <Text style={firstStep.text}>Descrição</Text>
+                        <TextInput
+                        style={[firstStep.TextArea]}
+                        value={description}
+                        onChangeText={text => setDescription(text)}
+                        keyboardType='default'
+                        autoCapitalize="none"
+                        multiline
+                        numberOfLines={10}
+                        placeholder="Descreva os detalhes do produto..."
                         />
                         <View style={firstStep.ButtonsArea}>
                             <TouchableOpacity
