@@ -14,11 +14,16 @@ import style from './Product.module.scss';
 
 import { ReactComponent as Pin } from '../../../assets/Product/pin.svg';
 
+import { HeartIcon, HeartFilledIcon, Share1Icon, TokensIcon } from "@radix-ui/react-icons";
+import { ReactComponent as Report } from 'assets/Product/flag.svg';
+
 const ProductPage = () => {
     const { user } = useUser();
     const { category, id } = useParams<{ category: string, id: string }>();
     const [product, setProduct] = useState<Product>();
     const [announcer, setAnnouncer] = useState<User>();
+    const [isFavourited, setIsFavourited] = useState<boolean>(true);
+    const [createdDate, setCreatedDate] = useState<Date>();
 
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
 
@@ -29,6 +34,8 @@ const ProductPage = () => {
 
             setProduct(productResult);
 
+            setCreatedDate(new Date(productResult.createdAt))
+
             const userResponse = await fetch(`http://localhost:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
 
@@ -37,6 +44,15 @@ const ProductPage = () => {
 
         fetchData();
     },[id])
+
+    const toggleIsFavourited = () => {
+        setIsFavourited(prev => !prev)
+    }
+
+    const formatZero = (number: number) => {
+        const res = number > 9 ? number : '0' + number
+        return res
+    }
 
     return (
         <div className={style.Container}>
@@ -50,7 +66,14 @@ const ProductPage = () => {
 
                             <div className={style.ProductDetails}>
                                 <div className={style.DetailsTop}>
-                                    <h1 className={style.Title}>{product?.name}</h1>
+                                    <span className={style.TopInfos}>
+                                        <h1 className={style.Title}>{product?.name}</h1> 
+                                        { 
+                                            createdDate && (
+                                                <p className={style.CreatedAt}>{formatZero(createdDate?.getDate())}/{formatZero(createdDate?.getMonth())} ás {formatZero(createdDate?.getHours())}:{formatZero(createdDate?.getMinutes())}</p>
+                                            )
+                                        }
+                                    </span>
                                     <h2 className={style.Price}>{product?.price}</h2>
                                     <button className={style.Buy}>COMPRAR</button>
                                 </div>
@@ -70,11 +93,51 @@ const ProductPage = () => {
                                         </div>
                                     )
                                 }
+                                <div className={style.OptionsArea}>
+                                    <div className={style.Option}>{isFavourited ? <HeartFilledIcon onClick={toggleIsFavourited} className={`${style.Icon} ${style.FavouritedIcon}`} /> : <HeartIcon onClick={toggleIsFavourited} className={style.Icon} /> }</div>
+                                    <div className={style.Option}><Share1Icon className={style.Icon} /></div>
+                                    <div className={style.Option}><Report className={style.Icon} /></div>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <h2>Descrição do produto</h2>
-                            <p>{product?.description}</p>
+                        <div className={style.BottomSection}>
+                            <div className={style.Description}>
+                                <h2>Descrição do produto</h2>
+                                <p>{product?.description}</p>
+                            </div>
+                            <div className={style.DetailsSection}>
+                                <h2>Detalhes</h2>
+                                <div className={style.DetailsWrapper}>
+                                    <div className={`${style.Detail} ${style.Category}`}>
+                                        <TokensIcon className={style.Icon} />
+                                        <div>
+                                            <h3 className={style.Title} >Categoria</h3>
+                                            <h4 className={style.Desc}>{product.category}</h4>
+                                        </div>
+                                    </div>
+                                    <div className={`${style.Detail} ${style.Location}`}>
+                                        <TokensIcon className={style.Icon} />
+                                        <div>
+                                            <h3 className={style.Title} >Localização</h3>
+                                            <h4 className={style.Desc}>{product.location}</h4>
+                                        </div>
+                                    </div>
+                                    <div className={`${style.Detail} ${style.Quality}`}>
+                                        <TokensIcon className={style.Icon} />
+                                        <div>
+                                            <h3 className={style.Title} >Qualidade</h3>
+                                            <h4 className={style.Desc}>{product.condition.quality}</h4>
+                                        </div>
+                                    </div>
+                                    <div className={`${style.Detail} ${style.Esed}`}>
+                                        <TokensIcon className={style.Icon} />
+                                        <div>
+                                            <h3 className={style.Title} >Usado?</h3>
+                                            <h4 className={style.Desc}>{product.condition.used ? 'Sim' : 'Não'}</h4>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </>
                 )

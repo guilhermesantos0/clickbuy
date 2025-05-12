@@ -23,9 +23,11 @@
             flex-direction: column;
             gap: 1.5rem;
 
+            overflow: hidden;
+
             border-radius: 10px;
 
-            box-shadow: 0 2px 5px black;
+            box-shadow: 0 2px 5px rgb(141, 141, 141);
 
             .DetailsTop {
                 width: 100%;
@@ -37,11 +39,22 @@
 
                 border-bottom: 1px solid #ccc;
 
-                .Title {
-                    font-size: 2rem;
-                    font-weight: 600;
-                    color: #222;
-                    line-height: 1.2;
+                .TopInfos {
+
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .Title {
+                        font-size: 2rem;
+                        font-weight: 600;
+                        color: #222;
+                        line-height: 1.2;
+                    }
+
+                    .CreatedAt {
+                        color: #606060;
+                    }
                 }
 
                 .Price {
@@ -82,19 +95,19 @@
                     color: black;
                     text-decoration: none;
 
-                    margin-top: 3vh;
+                    margin-top: 1vh;
     
                     .ProfileImage {
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            object-fit: cover;
-                            box-shadow: 0 0 0 3px #ccc;
-                            transition: transform .3s ease-in-out;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        box-shadow: 0 0 0 3px #ccc;
+                        transition: transform .3s ease-in-out;
 
-                            &:hover {
-                                transform: scale(1.05);
-                            }
+                        &:hover {
+                            transform: scale(1.01);
+                        }
                     }
                 }
     
@@ -111,6 +124,46 @@
                         margin-right: 0.5rem;
                     }
                 }
+            }
+
+            .OptionsArea {
+
+                width: 80%;
+                height: 5vh;
+
+                display: flex;
+                align-items: center;
+                padding-left: 1rem;
+                gap: 1vw;
+
+                .Option {
+                    height: 5vh;
+                    width: 5vh;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+
+                    background: #ccc;
+
+                    transition: transform .2s ease-in-out;
+
+                    .Icon {
+                        width: 60%;
+                        height: 60%;
+
+                        &.FavouritedIcon {
+                            color: red;
+                        }
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        transform: scale(1.05);
+                    }
+                }
+            
             }
 
 
@@ -136,6 +189,69 @@
             flex-direction: column;
         }
         
+    }
+
+    .BottomSection {
+        display: flex;
+        justify-content: space-evenly;
+        width: 85%;
+
+        padding: 1rem;
+
+        .Description {
+            width: 50%;
+
+            padding: 1rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 2vw;
+
+            border-right: 1px solid #ccc;
+        }
+
+        .DetailsSection {
+            width: 50%;
+
+            padding: 1rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+
+            .DetailsWrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas: 
+                "category location"
+                "quality used";
+                gap: 1rem;
+
+                .Detail {
+                    display: flex;
+                    gap: 1rem;
+
+                    .Icon {
+                        width: 4vh;
+                        height: 4vh;
+
+                    }
+
+                    .Title {
+                        color: $primary-color;
+                    }
+
+                    .Desc {
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            .Category  { grid-area: category; }
+            .Location  { grid-area: location; }
+            .Quality   { grid-area: quality; }
+            .Used      { grid-area: used; }
+        }
     }
 }
 
