@@ -14,21 +14,21 @@ import ip from '@/ip';
 export default function TelaPrincipal() {
   const { user } = useUser();
   const [products, setProducts] = useState<ProductModel[]>([]);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`http://${ip}:5000/products`);
                 const productData = await response.json();
 
-                setProducts(productData.products.slice(0, 10));
+                setProducts(productData.slice(0,10));
             } catch (error) {
-                console.log('Erro ao buscar produtos', error);
+                console.log('Erro ao buscar produtos', error)
             }
-        };
+        }
 
         fetchData();
-    }, []);
+    }, [])
+
   const router = useRouter();
 
   return (
