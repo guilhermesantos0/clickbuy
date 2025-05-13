@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
       }else {
         const products = await Product.find();
-        res.status(200).json({ products });
+        res.status(200).json(products);
       }
     } catch (err) {
       res.status(500).json({ message: 'Erro ao buscar produtos', err })
@@ -89,5 +89,6 @@ router.delete('/', async (req, res) => {
         res.status(500).json({ message: "Erro ao deletar produto", error: err.message })
     }
 })
+
 
 module.exports = router;

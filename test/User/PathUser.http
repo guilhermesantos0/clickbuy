@@ -1,7 +1,7 @@
-PATCH http://localhost:5000/user/6a5b06f0-a80c-4bb3-a7af-827a78e01be9
+PATCH http://localhost:5000/user/b6b6828e-69ba-43a7-ad3f-5e997645ecba
 Content-Type: application/json
 
 {
-    "field": "email",
-    "value": "email3@teste.com.br"
+    "field": "personalData.name",
+    "value": "Guilherme Santos"
 }
