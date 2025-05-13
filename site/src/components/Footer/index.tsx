@@ -29,8 +29,8 @@ const Footer: React.FC = () => {
           <ul>
             <li>Meus Pedidos</li>
             <li>Favoritos</li>
-            <li>Cadastro</li>
-            <li>Login</li>
+            <Link to='/cadastro'>Cadastro</Link>
+            <Link to='/login'>Login</Link>
           </ul>
         </div>
 
@@ -38,9 +38,9 @@ const Footer: React.FC = () => {
           <h4>Ajuda</h4>
           <ul>
             <li>Frete e Entrega</li>
-            <li>Trocas e Devoluções</li>
-            <li>Garantia</li>
-            <li>Central de Suporte</li>
+            <Link to='/Ajuda/TrocaDevolucao'>Troca e Devoluções</Link>
+            <Link to='/Ajuda/Garantia'>Garantia</Link>
+            <Link to='/institucional/contato'>Central de Suporte</Link>
           </ul>
         </div>
 

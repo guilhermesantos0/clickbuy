@@ -1,41 +1,131 @@
 .aboutUsPage {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom right, #ffffff, #f7f9fb);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 8vh auto;
+  padding: 0 2vw;
+
+  h1 {
+    font-size: 2.8rem;
+    color: #ff9800;
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background-color: #ff9800;
+      display: block;
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
+    }
   }
-  
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+    text-align: center;
+    margin-top: 2rem;
+    background: #fff;
+    padding: 1.2rem 1.5rem;
+    border-left: 4px solid #ff9800;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.iconSection {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  h2 {
+    color: #ff9800;
+    margin-top: 1rem;
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-top: 0.8rem;
+  }
+}
+
+.icon {
+  font-size: 3rem;
+  color: #ff9800;
+  animation: pulse 2s infinite;
+}
+
+// Animação de pulsação no ícone
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Animação de scroll reveal
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
   .content {
-    max-width: 800px;
-    margin: 5vh auto;
-    padding: 0 2vw;
-  
+    padding: 0 1rem;
+
     h1 {
-      font-size: 2.2rem;
-      color: #dd9b42;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-  
-    p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #333;
-      margin-bottom: 1.5rem;
-      text-align: justify;
+      font-size: 2rem;
     }
   }
-  
-  @media (max-width: 768px) {
-    .content {
-      padding: 0 1rem;
-  
-      h1 {
-        font-size: 1.8rem;
-      }
-  
-      p {
-        font-size: 1rem;
-      }
-    }
+
+  .card {
+    width: 100%;
   }
-  
+}
