@@ -1,0 +1,9 @@
+DELETE http://localhost:5000/favourites
+Content-Type: application/json
+
+{
+    "data": {
+        "userId": "b6b6828e-69ba-43a7-ad3f-5e997645ecba",
+        "productId": "a1ff3728-31c0-4750-a2f3-a6120f43e50b"
+    }
+}

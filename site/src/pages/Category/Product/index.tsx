@@ -17,6 +17,9 @@ import { ReactComponent as Pin } from '../../../assets/Product/pin.svg';
 import { HeartIcon, HeartFilledIcon, Share1Icon, TokensIcon } from "@radix-ui/react-icons";
 import { ReactComponent as Report } from 'assets/Product/flag.svg';
 
+import { addToFavourites, removeFromFavourites } from "services/favouriteService";
+import { toast } from "react-toastify";
+
 const ProductPage = () => {
     const { user } = useUser();
     const { category, id } = useParams<{ category: string, id: string }>();
@@ -45,8 +48,18 @@ const ProductPage = () => {
         fetchData();
     },[id])
 
-    const toggleIsFavourited = () => {
-        setIsFavourited(prev => !prev)
+    const toggleIsFavourited = async () => {
+        try {
+            if (isFavourited) {
+                await removeFromFavourites(user?._id, product?._id);
+            }else {
+                await addToFavourites(user?._id, product?._id);
+            }
+            
+            setIsFavourited(prev => !prev)
+        } catch {
+            toast.error('Erro ao adicionar aos favoritos!')
+        }
     }
 
     const formatZero = (number: number) => {

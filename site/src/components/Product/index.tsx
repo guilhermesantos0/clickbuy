@@ -8,6 +8,11 @@ import { Link } from 'react-router-dom';
 import { HeartIcon, HeartFilledIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
+import { addToFavourites, removeFromFavourites } from 'services/favouriteService';
+
+import { useUser } from 'contexts/UserContext';
+import { toast } from 'react-toastify';
+
 interface Props {
     product: ProductModel,
     favouriteOption?: boolean,
@@ -15,11 +20,21 @@ interface Props {
 }
 
 const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
+    const { user } = useUser();
     const [isFavourited, setIsFavourited] = useState(favourited);
 
-    const toggleIsFavourited = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setIsFavourited(prev => !prev)
+    const toggleIsFavourited = async () => {
+        try {
+            if (isFavourited) {
+                await removeFromFavourites(user?._id, product?._id);
+            }else {
+                await addToFavourites(user?._id, product?._id);
+            }
+            
+            setIsFavourited(prev => !prev)
+        } catch {
+            toast.error('Erro ao adicionar aos favoritos!')
+        }
     }
 
     return (

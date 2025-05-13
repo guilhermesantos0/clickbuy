@@ -1,13 +1,14 @@
-// src/components/AdminUser.tsx
 import React, { useEffect, useState } from 'react';
-import api from '../services/api';
-import styles from './AdminUser.module.scss';
+import api from '../../../services/api';
+import styles from './AdminProduct.module.scss'; // Reaproveitando o estilo visual
 import { User } from '@modules/User';
+
+import { toast } from 'react-toastify';
 
 const AdminUser = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [formData, setFormData] = useState<Partial<User>>({});
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [formData, setFormData] = useState<Record<string, any>>({});
 
   useEffect(() => {
     fetchUsers();
@@ -22,100 +23,111 @@ const AdminUser = () => {
     }
   };
 
-  const handleEditClick = (user: User) => {
-    setEditingUser(user);
-    setFormData(user);
+  const toggleExpand = (user: User) => {
+    const isExpanding = expanded !== user._id;
+    setExpanded(isExpanding ? user._id : null);
+    setFormData(isExpanding ? structuredClone(user) : {});
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleChange = (path: string, value: any) => {
+    const keys = path.split('.');
+    setFormData(prev => {
+      const newData = { ...prev };
+      let current = newData;
+      keys.forEach((key, i) => {
+        if (i === keys.length - 1) {
+          current[key] = value;
+        } else {
+          current[key] = { ...current[key] };
+          current = current[key];
+        }
+      });
+      return newData;
+    });
   };
 
-  const handleSave = async () => {
-    if (!editingUser) return;
+  const handleSave = async (id: string) => {
     try {
-      await api.put(`/user/${editingUser._id}`, formData);
-      setEditingUser(null);
+      await api.put(`/user/${id}`, formData);
+      setExpanded(null);
       fetchUsers();
+      toast.success('Usuário editado com sucesso!')
     } catch (error) {
+      toast.error('Erro ao salvar usuário!')
       console.error('Erro ao salvar usuário:', error);
     }
   };
 
+  const renderInput = (label: string, path: string, value: any) => (
+    <div className={styles.field} key={path}>
+      <label className={styles.label}>{label}</label>
+      <input
+        className={styles.value}
+        type="text"
+        value={String(value)}
+        onChange={(e) => handleChange(path, e.target.value)}
+      />
+    </div>
+  );
+
   return (
     <div className={styles.container}>
-      <h2>Gerenciar Usuários</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>CPF</th>
-            <th>Telefone</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user._id}>
-              <td>{user.personalData.name}</td>
-              <td>{user.email}</td>
-              <td>{user.personalData.cpf}</td>
-              <td>{user.personalData.phone}</td>
-              <td>
-                <button onClick={() => handleEditClick(user)}>Editar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {editingUser && (
-        <div className={styles.modal}>
-          <h3>Editar Usuário</h3>
-          <label>
-            Nome:
-            <input
-              type="text"
-              name="name"
-              value={formData.personalData?.name || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={formData.email || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            CPF:
-            <input
-              type="text"
-              name="cpf"
-              value={formData.personalData?.cpf || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Telefone:
-            <input
-              type="text"
-              name="phone"
-              value={formData.personalData?.phone || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <div className={styles.modalActions}>
-            <button onClick={handleSave}>Salvar</button>
-            <button onClick={() => setEditingUser(null)}>Cancelar</button>
+      <h2>Usuários</h2>
+      {users.map((user) => (
+        <div key={user._id} className={styles.card}>
+          <div className={styles.cardHeader} onClick={() => toggleExpand(user)}>
+            <strong>{user.personalData.name}</strong>
+            <span className={styles.expandBtn}>
+              {expanded === user._id ? "▲" : "▼"}
+            </span>
           </div>
+          {expanded === user._id && (
+            <div className={styles.cardContent}>
+              {renderInput('_id', '_id', formData._id)}
+              {renderInput('Email', 'email', formData.email)}
+              {renderInput('Senha', 'password', formData.password)}
+              {formData.profilePic && (
+                <div className={styles.field}>
+                  <label className={styles.label}>Imagem de Perfil</label>
+                  <img
+                    src={`http://localhost:5000${formData.profilePic}`}
+                    alt="Perfil"
+                    className={styles.imagePreview}
+                  />
+                </div>
+              )}
+
+              {/* Dados Pessoais */}
+              {formData.personalData && (
+                <>
+                  {renderInput('Nome', 'personalData.name', formData.personalData.name)}
+                  {renderInput('Nascimento', 'personalData.bornDate', formData.personalData.bornDate)}
+                  {renderInput('CPF', 'personalData.cpf', formData.personalData.cpf)}
+                  {renderInput('Telefone', 'personalData.phone', formData.personalData.phone)}
+                </>
+              )}
+
+              {/* Endereço */}
+              {formData.personalData?.address && (
+                <>
+                  {renderInput('Rua', 'personalData.address.road', formData.personalData.address.road)}
+                  {renderInput('Número', 'personalData.address.number', formData.personalData.address.number)}
+                  {renderInput('Cidade', 'personalData.address.city', formData.personalData.address.city)}
+                  {renderInput('Estado', 'personalData.address.state', formData.personalData.address.state)}
+                  {renderInput('CEP', 'personalData.address.zip', formData.personalData.address.zip)}
+                  {renderInput('Complemento', 'personalData.address.complement', formData.personalData.address.complement)}
+                  {renderInput('Bairro', 'personalData.address.neighborhood', formData.personalData.address.neighborhood)}
+                </>
+              )}
+
+              <div className={styles.modalActions}>
+                <button onClick={() => handleSave(user._id)}>Salvar alterações</button>
+                <button onClick={() => setExpanded(null)}>Cancelar</button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      ))}
     </div>
   );
 };

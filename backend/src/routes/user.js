@@ -37,31 +37,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.patch('/:id', async(req, res) => {
-  try {
-    const { id } = req.params;
-    const { field, value } = req.body;
-
-    if (!field || typeof value === "undefind" ) {
-      return res.status(400).json({ message: 'É obrigatório alterar algo!'});
-    }
-
-    const updateObject = {};
-    updateObject[field] = value;
-
-    const user = await User.findByIdAndUpdate(id, updateObject, { new: true });
-
-    if (!user) {
-      return res.status(400).json({ message: "Usuário não encontrado." });
-    }
-
-    res.status(200).json({ message: "Usuário atualizado com sucesso!", user });
-  } catch (err) {
-    res.status(500).json({ message: "Erro ao atualiar usuário.", error: err.message });
-  }
-
-})
-
 router.delete('/:id', async(req, res) => {
   try {
     const { id } = req.params;
@@ -71,5 +46,15 @@ router.delete('/:id', async(req, res) => {
     res.status(500).json({ message: "Erro ao deletar usuário", error: err.message })
   }
 })
+
+router.put("/:id", async (req, res) => {
+  try {
+    const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    console.error("Erro ao atualizar usuário:", err);
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
+});
 
 module.exports = router;

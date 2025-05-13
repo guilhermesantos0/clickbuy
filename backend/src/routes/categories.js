@@ -35,4 +35,14 @@ router.delete('/', async (req, res) => {
     }
 })
 
+router.put("/:id", async (req, res) => {
+  try {
+    const updated = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    console.error("Erro ao atualizar categoria:", err);
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
+});
+
 module.exports = router;
