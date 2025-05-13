@@ -24,7 +24,7 @@ const Category = () => {
     const fetchData = async () => {
       const response = await fetch(`http://${ip}:5000/products?category=${categoria}`);
       const result = await response.json();
-      setProducts(result.products);
+      setProducts(result.products.slice(0, 10));
     };
     fetchData();
   }, [categoria]);

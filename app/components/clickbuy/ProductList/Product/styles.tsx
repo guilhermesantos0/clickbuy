@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
   },
   Image: {
     width: '100%',
-    height: 'auto', 
-    aspectRatio: 1, 
+    height: '100%', 
     resizeMode: 'cover', 
   },
   

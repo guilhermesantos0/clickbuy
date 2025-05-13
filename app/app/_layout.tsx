@@ -69,7 +69,15 @@ export default function RootLayout() {
           <Stack.Screen
             name="category"
             options={{
-              headerTitle: 'Buscar Produtos',
+              headerTitle: '',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="productPage"
+            options={{
+              headerTitle: '',
               headerStyle: { backgroundColor: '#DDA04B' },
               headerTintColor: '#fff',
             }}

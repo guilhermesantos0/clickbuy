@@ -4,6 +4,8 @@ import styles from '@/components/clickbuy/ProductList/Product/styles'
 import { IconSymbol } from '@/components/ui/IconSymbol'
 import { Product as ProductModel } from '@/types/Product';
 import ip from '@/ip'
+import { routeToScreen } from 'expo-router/build/useScreens';
+import { router } from 'expo-router';
 
 
 interface Props {
@@ -19,7 +21,7 @@ const Product: React.FC<Props> = ({ product }) => {
         }).format(price)
     }
   return (
-    <TouchableOpacity style={styles.Container} onPress={() => console.log(product.name)}>
+    <TouchableOpacity style={styles.Container} onPress={() => router.push(`/productPage?id=${product._id}`)}>
       <View style={styles.ImageContainer}>
         <Image
           source={{ uri: `http://${ip}:5000${product.mainImage}`}}
