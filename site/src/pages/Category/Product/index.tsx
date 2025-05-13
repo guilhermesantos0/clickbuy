@@ -21,42 +21,68 @@ import { addToFavourites, removeFromFavourites } from "services/favouriteService
 import { toast } from "react-toastify";
 
 const ProductPage = () => {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
     const { category, id } = useParams<{ category: string, id: string }>();
     const [product, setProduct] = useState<Product>();
     const [announcer, setAnnouncer] = useState<User>();
-    const [isFavourited, setIsFavourited] = useState<boolean>(true);
+    const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
-
+    
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
-
+    
     useEffect(() => {
         const fetchData = async () => {
             const productResponse = await fetch(`http://localhost:5000/products/${id}`);
             const productResult = await productResponse.json();
+            
+            if(user && user.favourites){
+                setIsFavourited(user?.favourites?.includes(product?._id))
+            }
 
             setProduct(productResult);
-
             setCreatedDate(new Date(productResult.createdAt))
-
+            
             const userResponse = await fetch(`http://localhost:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
-
+            
             setAnnouncer(userResult)
         }
 
         fetchData();
     },[id])
 
+    useEffect(() => {
+        console.log(user?.favourites, product?._id)
+        if (!user || !user?.favourites || !product) return;
+
+        const isAlreadyFavourited = user.favourites.some(
+            (fav) => fav === product._id
+        );
+
+        setIsFavourited(isAlreadyFavourited);
+    });
+
+
+    
     const toggleIsFavourited = async () => {
+        console.log(isFavourited)
+        if(!product || !user) return
+
         try {
             if (isFavourited) {
+                const updatedFavourites = (user?.favourites || []).filter(
+                    (fav) => fav !== product._id
+                );
+                
+                setUser({ ...user!, favourites: updatedFavourites });
                 await removeFromFavourites(user?._id, product?._id);
+                setIsFavourited(false)
             }else {
                 await addToFavourites(user?._id, product?._id);
+                const favourites = [...(user?.favourites || []), product?._id];
+                setUser({ ...user!, favourites});
+                setIsFavourited(true)
             }
-            
-            setIsFavourited(prev => !prev)
         } catch {
             toast.error('Erro ao adicionar aos favoritos!')
         }

@@ -6,32 +6,51 @@ import { Product as ProductModel } from '@modules/Product';
 import { Link } from 'react-router-dom';
 
 import { HeartIcon, HeartFilledIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { addToFavourites, removeFromFavourites } from 'services/favouriteService';
 
 import { useUser } from 'contexts/UserContext';
 import { toast } from 'react-toastify';
 
+
 interface Props {
     product: ProductModel,
-    favouriteOption?: boolean,
-    favourited?: boolean
+    favouriteOption?: boolean
 }
 
-const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
-    const { user } = useUser();
-    const [isFavourited, setIsFavourited] = useState(favourited);
+const Product: React.FC<Props> = ({ product, favouriteOption }) => {
+    const { user, setUser } = useUser();
+    const [isFavourited, setIsFavourited] = useState(false);
+
+    useEffect(() => {
+        if (!user?.favourites) return;
+
+        const isAlreadyFavourited = user.favourites.some(
+            (fav) => fav === product._id
+        );
+
+        setIsFavourited(isAlreadyFavourited);
+    }, [user, product._id]);
 
     const toggleIsFavourited = async () => {
+        console.log(isFavourited)
+
         try {
             if (isFavourited) {
+                const updatedFavourites = (user?.favourites || []).filter(
+                    (fav) => fav !== product._id
+                );
+                
+                setUser({ ...user!, favourites: updatedFavourites });
                 await removeFromFavourites(user?._id, product?._id);
+                setIsFavourited(false)
             }else {
                 await addToFavourites(user?._id, product?._id);
+                const favourites = [...(user?.favourites || []), product?._id];
+                setUser({ ...user!, favourites});
+                setIsFavourited(true)
             }
-            
-            setIsFavourited(prev => !prev)
         } catch {
             toast.error('Erro ao adicionar aos favoritos!')
         }
