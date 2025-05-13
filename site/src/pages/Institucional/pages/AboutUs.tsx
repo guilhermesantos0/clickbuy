@@ -30,9 +30,18 @@ const AboutUs: React.FC = () => {
         </p>
 
         <p>
-          Agradecemos ao Instituto Mauá de Tecnologia pela oportunidade e suporte neste desafio
-          enriquecedor.
+          Além da parte técnica, focamos na experiência do usuário (UX) e na performance do site,
+          buscando simular ao máximo um ambiente profissional de desenvolvimento full stack. Essa
+          vivência também nos proporcionou o trabalho em equipe, versionamento de código com Git e
+          integração contínua.
         </p>
+
+        <p>
+          Agradecemos ao Instituto Mauá de Tecnologia pela oportunidade e suporte neste desafio
+          enriquecedor. Este projeto representa não apenas nosso crescimento técnico, mas também
+          pessoal e colaborativo dentro da área de tecnologia.
+        </p>
+
       </main>
 
       <Footer />

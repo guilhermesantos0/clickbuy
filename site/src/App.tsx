@@ -17,6 +17,9 @@ import ProductPage from './pages/Category/Product';
 
 import Admin2 from './pages/Admin/Admin2';
 
+import Garantia from 'pages/Ajuda/pages/Garantia';
+import TrocaDevolucao from 'pages/Ajuda/pages/TrocaDevolucao';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -43,6 +46,9 @@ function App() {
 
         <Route path="/:category" element={<Category />} />
         <Route path="/:category/:id" element={<ProductPage />} />
+
+        <Route path="/ajuda/garantia" element={<Garantia/>} />
+        <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />
       </Routes>
 
       <ToastContainer style={{ zIndex: 9999 }} theme="colored" />
