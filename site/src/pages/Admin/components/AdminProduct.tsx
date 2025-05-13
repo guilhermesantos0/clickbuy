@@ -1,13 +1,14 @@
-// src/components/AdminProduct.tsx
 import React, { useEffect, useState } from 'react';
-import api from '../services/api';
+import api from '../../../services/api';
 import styles from './AdminProduct.module.scss';
 import { Product } from '@modules/Product';
 
+import { toast } from 'react-toastify';
+
 const AdminProduct = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState<Partial<Product>>({});
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [formData, setFormData] = useState<Record<string, any>>({});
 
   useEffect(() => {
     fetchProducts();
@@ -22,108 +23,119 @@ const AdminProduct = () => {
     }
   };
 
-  const handleEditClick = (product: Product) => {
-    setEditingProduct(product);
-    setFormData(product);
+  const toggleExpand = (product: Product) => {
+    const isExpanding = expanded !== product._id;
+    setExpanded(isExpanding ? product._id : null);
+    setFormData(isExpanding ? structuredClone(product) : {});
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleChange = (path: string, value: any) => {
+    const keys = path.split('.');
+    setFormData((prev: any) => {
+      const newData = { ...prev };
+      let current: any = newData;
+      keys.forEach((key, i) => {
+        if (i === keys.length - 1) {
+          current[key] = value;
+        } else {
+          current[key] = { ...current[key] };
+          current = current[key];
+        }
+      });
+      return newData;
+    });
   };
 
-  const handleSave = async () => {
-    if (!editingProduct) return;
+  const handleSave = async (id: string) => {
     try {
-      await api.put(`/products/${editingProduct._id}`, formData);
-      setEditingProduct(null);
+      await api.put(`/products/${id}`, formData);
+      setExpanded(null);
       fetchProducts();
+      toast.success('Produto editado com sucesso!')
     } catch (error) {
+      toast.error('Erro ao salvar produto!')
       console.error('Erro ao salvar produto:', error);
     }
   };
 
+  const renderInput = (label: string, path: string, value: any) => (
+    <div className={styles.field} key={path}>
+      <label className={styles.label}>{label}</label>
+      <input
+        className={styles.value}
+        type="text"
+        value={String(value)}
+        onChange={(e) => handleChange(path, e.target.value)}
+      />
+    </div>
+  );
+
   return (
     <div className={styles.container}>
-      <h2>Gerenciar Produtos</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Localização</th>
-            <th>Categoria</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(prod => (
-            <tr key={prod._id}>
-              <td>{prod.name}</td>
-              <td>R$ {prod.price}</td>
-              <td>{prod.location}</td>
-              <td>{prod.category}</td>
-              <td>
-                <button onClick={() => handleEditClick(prod)}>Editar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {editingProduct && (
-        <div className={styles.modal}>
-          <h3>Editar Produto</h3>
-          <label>
-            Nome:
-            <input
-              type="text"
-              name="name"
-              value={formData.name || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Preço:
-            <input
-              type="number"
-              name="price"
-              value={formData.price || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Localização:
-            <input
-              type="text"
-              name="location"
-              value={formData.location || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Categoria:
-            <input
-              type="text"
-              name="category"
-              value={formData.category || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Descrição:
-            <textarea
-              name="description"
-              value={formData.description || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <div className={styles.modalActions}>
-            <button onClick={handleSave}>Salvar</button>
-            <button onClick={() => setEditingProduct(null)}>Cancelar</button>
+      <h2>Produtos</h2>
+      {products.map((product) => (
+        <div key={product._id} className={styles.card}>
+          <div className={styles.cardHeader} onClick={() => toggleExpand(product)}>
+            <strong>{product.name}</strong>
+            <span className={styles.expandBtn}>
+              {expanded === product._id ? "▲" : "▼"}
+            </span>
           </div>
+          {expanded === product._id && (
+            <div className={styles.cardContent}>
+              {renderInput('_id', '_id', formData._id)}
+              {renderInput('Nome', 'name', formData.name)}
+              {renderInput('Preço', 'price', formData.price)}
+              {renderInput('Localização', 'location', formData.location)}
+              {renderInput('Categoria', 'category', formData.category)}
+              {renderInput('Anunciante', 'announcer', formData.announcer)}
+              {renderInput('Descrição', 'description', formData.description)}
+              {renderInput('Criado em', 'createdAt', formData.createdAt)}
+
+              {/* Condição */}
+              {formData.condition && (
+                <>
+                  {renderInput('Condição - Qualidade', 'condition.quality', formData.condition.quality)}
+                  {renderInput('Condição - Usado', 'condition.used', String(formData.condition.used))}
+                </>
+              )}
+
+              {/* Imagens */}
+              {formData.mainImage && (
+                <div className={styles.field}>
+                  <label className={styles.label}>Imagem Principal</label>
+                  <img
+                    src={`http://localhost:5000${formData.mainImage}`}
+                    alt="Main"
+                    className={styles.imagePreview}
+                  />
+                </div>
+              )}
+
+              {formData.images && Array.isArray(formData.images) && (
+                <div className={styles.field}>
+                  <label className={styles.label}>Outras Imagens</label>
+                  <div className={styles.imageGrid}>
+                    {formData.images.map((img: string, index: number) => (
+                      <img
+                        key={index}
+                        src={`http://localhost:5000${img}`}
+                        alt={`img-${index}`}
+                        className={styles.imagePreview}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className={styles.modalActions}>
+                <button onClick={() => handleSave(product._id)}>Salvar alterações</button>
+                <button onClick={() => setExpanded(null)}>Cancelar</button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      ))}
     </div>
   );
 };

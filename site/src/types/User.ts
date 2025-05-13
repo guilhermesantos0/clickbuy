@@ -3,6 +3,7 @@ export interface User {
     email: string;
     password: string;
     profilePic?: string;
+    favourites?: any[];
     personalData: {
         name: string;
         bornDate: string;

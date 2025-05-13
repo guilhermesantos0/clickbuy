@@ -27,6 +27,7 @@ app.use('/user', require('./src/routes/user'));
 app.use('/checkEmail', require('./src/routes/checkEmail'));
 app.use('/login', require('./src/routes/login'));
 app.use('/categories', require('./src/routes/categories'));
+app.use('/favourites', require('./src/routes/favourites'))
 
 app.use('/test', require('./src/routes/test'));
 

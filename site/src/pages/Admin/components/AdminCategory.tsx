@@ -1,13 +1,12 @@
-// src/components/AdminCategory.tsx
 import React, { useEffect, useState } from 'react';
-import api from '../services/api';
-import styles from './AdminCategory.module.scss';
+import api from '../../../services/api';
+import styles from './AdminProduct.module.scss'; // Reaproveitando estilos globais
 import { Category } from '@modules/Category';
 
 const AdminCategory = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-  const [formData, setFormData] = useState<Partial<Category>>({});
+  const [expanded, setExpanded] = useState<number | null>(null);
+  const [formData, setFormData] = useState<Record<string, any>>({});
 
   useEffect(() => {
     fetchCategories();
@@ -22,21 +21,20 @@ const AdminCategory = () => {
     }
   };
 
-  const handleEditClick = (category: Category) => {
-    setEditingCategory(category);
-    setFormData(category);
+  const toggleExpand = (cat: Category) => {
+    const isExpanding = expanded !== cat._id;
+    setExpanded(isExpanding ? cat._id : null);
+    setFormData(isExpanding ? structuredClone(cat) : {});
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleChange = (key: string, value: any) => {
+    setFormData(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleSave = async () => {
-    if (!editingCategory) return;
+  const handleSave = async (id: number) => {
     try {
-      await api.put(`/categories/${editingCategory._id}`, formData);
-      setEditingCategory(null);
+      await api.put(`/categories/${id}`, formData);
+      setExpanded(null);
       fetchCategories();
     } catch (error) {
       console.error('Erro ao salvar categoria:', error);
@@ -45,55 +43,59 @@ const AdminCategory = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Gerenciar Categorias</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Ícone</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map(cat => (
-            <tr key={cat._id}>
-              <td>{cat.name}</td>
-              <td>{cat.icon}</td>
-              <td>
-                <button onClick={() => handleEditClick(cat)}>Editar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {editingCategory && (
-        <div className={styles.modal}>
-          <h3>Editar Categoria</h3>
-          <label>
-            Nome:
-            <input
-              type="text"
-              name="name"
-              value={formData.name || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Ícone:
-            <input
-              type="text"
-              name="icon"
-              value={formData.icon || ''}
-              onChange={handleInputChange}
-            />
-          </label>
-          <div className={styles.modalActions}>
-            <button onClick={handleSave}>Salvar</button>
-            <button onClick={() => setEditingCategory(null)}>Cancelar</button>
+      <h2>Categorias</h2>
+      {categories.map((cat) => (
+        <div key={cat._id} className={styles.card}>
+          <div className={styles.cardHeader} onClick={() => toggleExpand(cat)}>
+            <strong>{cat.name}</strong>
+            <span className={styles.expandBtn}>{expanded === cat._id ? "▲" : "▼"}</span>
           </div>
+          {expanded === cat._id && (
+            <div className={styles.cardContent}>
+              <div className={styles.field}>
+                <label className={styles.label}>ID</label>
+                <input
+                  type="text"
+                  value={formData._id}
+                  onChange={(e) => handleChange('_id', e.target.value)}
+                />
+              </div>
+              <div className={styles.field}>
+                <label className={styles.label}>Nome</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleChange('name', e.target.value)}
+                />
+              </div>
+              <div className={styles.field}>
+                <label className={styles.label}>Ícone</label>
+                <input
+                  type="text"
+                  value={formData.icon}
+                  onChange={(e) => handleChange('icon', e.target.value)}
+                />
+              </div>
+
+              {formData.icon && formData.icon.startsWith("/") && (
+                <div className={styles.field}>
+                  <label className={styles.label}>Visual do Ícone</label>
+                  <img
+                    src={`http://localhost:5000${formData.icon}`}
+                    alt="Ícone"
+                    className={styles.imagePreview}
+                  />
+                </div>
+              )}
+
+              <div className={styles.modalActions}>
+                <button onClick={() => handleSave(cat._id)}>Salvar alterações</button>
+                <button onClick={() => setExpanded(null)}>Cancelar</button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      ))}
     </div>
   );
 };

@@ -30,9 +30,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/anunciar" element={<Anunciar />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin2" element={<Admin />} />
 
-        <Route path="/admin2" element={<Admin2 />} />
+        <Route path="/admin" element={<Admin2 />} />
 
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 

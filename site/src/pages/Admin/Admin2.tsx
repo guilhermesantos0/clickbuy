@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Admin2.module.scss";
 
 import AdminProduct from "./components/AdminProduct";
@@ -7,6 +7,10 @@ import AdminCategory from "./components/AdminCategory";
 
 const Admin2 = () => {
   const [section, setSection] = useState<"products" | "users" | "categories">("products");
+
+  useEffect(() => {
+    document.title = 'Click Buy - Admin';
+  },[])
 
   return (
     <div className={styles.adminContainer}>
