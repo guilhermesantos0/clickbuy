@@ -1,0 +1,61 @@
+$bg-dark: #0f172a;
+$bg-sidebar: #1e293b;
+$bg-hover: #334155;
+$primary-blue: #3b82f6;
+$text-light: #f1f5f9;
+
+.adminContainer {
+  display: flex;
+  height: 100vh;
+  background-color: $bg-dark;
+  color: $text-light;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: $bg-sidebar;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: $primary-blue;
+    margin-bottom: 40px;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .navItem {
+      background: none;
+      border: none;
+      color: $text-light;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: $bg-hover;
+      }
+
+      &.active {
+        background-color: $primary-blue;
+        color: white;
+      }
+    }
+  }
+}
+
+.mainContent {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}

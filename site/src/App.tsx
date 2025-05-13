@@ -15,6 +15,8 @@ import PrivacyPolicy from './pages/Institucional/pages/PrivacyPolicy';
 import Category from './pages/Category';
 import ProductPage from './pages/Category/Product';
 
+import Admin2 from './pages/Admin/Admin2';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,7 +31,9 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/anunciar" element={<Anunciar />} />
         <Route path="/admin" element={<Admin />} />
-        
+
+        <Route path="/admin2" element={<Admin2 />} />
+
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 
         <Route path="/institucional/sobrenos" element={<AboutUs />} />

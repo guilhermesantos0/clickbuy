@@ -22,7 +22,7 @@ const ProductsList: React.FC<Props> = ({ title, favouriteOption }) => {
                 const response = await fetch('http://localhost:5000/products');
                 const productData = await response.json();
 
-                setProducts(productData.products);
+                setProducts(productData);
             } catch (error) {
                 console.log('Erro ao buscar produtos', error)
             }
