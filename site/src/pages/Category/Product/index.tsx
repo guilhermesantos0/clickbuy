@@ -61,9 +61,7 @@ const ProductPage = () => {
 
         setIsFavourited(isAlreadyFavourited);
     });
-
-
-    
+ 
     const toggleIsFavourited = async () => {
         console.log(isFavourited)
         if(!product || !user) return

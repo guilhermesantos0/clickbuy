@@ -1,0 +1,14 @@
+.Container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Favourites {
+        width: 90%;
+        margin-top: 3vh;
+
+        background: red;
+    }
+}

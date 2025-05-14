@@ -43,6 +43,18 @@ router.get('/:type/:id', async (req, res) => {
             const favourited = await Favourited.find({ productId: id })
 
             res.status(200).json(favourited)
+        } else if(type === "products"){
+            const favourites = await Favourited.find({ userId: id });
+            const favouriteProducts = await Promise.all(
+                favourites.map(async (fav) => {
+                    console.log(fav)
+                    const product = await Product.findOne({ _id: fav.productId })
+        
+                    return product
+                })
+            )
+
+            res.status(200).json(favouriteProducts)
         }
     } else {
         res.status(500).json({ message: 'Preencha todos os campos' })
@@ -50,12 +62,10 @@ router.get('/:type/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+    console.log('aaaaaa')
     try {
 
-        const exists = await Favourited.findOne({ userId, productId });
-        if (exists) {
-            return res.status(409).json({ message: 'Favorito já existe' });
-        }
+        console.log('bbbbb')
 
         const { userId, productId } = req.body
 
@@ -69,8 +79,6 @@ router.post('/', async (req, res) => {
 })
 
 router.delete('/', async(req, res) => {
-    console.log(req.body)
-    console.log(req.body.data)
     try {
         const { userId, productId } = req.body;
 

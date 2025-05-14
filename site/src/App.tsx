@@ -7,6 +7,8 @@ import Anunciar from './pages/Anunciar';
 import Admin from './pages/Admin';
 import EditarPerfil from './pages/EditarPerfil';
 
+import Favoritos from './pages/Favoritos';
+
 import AboutUs from './pages/Institucional/pages/AboutUs';
 import Contact from './pages/Institucional/pages/Contact';
 import TermsOfUse from './pages/Institucional/pages/TermsOfUse';
@@ -36,6 +38,8 @@ function App() {
         <Route path="/admin2" element={<Admin />} />
 
         <Route path="/admin" element={<Admin2 />} />
+
+        <Route path="/favoritos" element={<Favoritos />} />
 
         <Route path="/editar-perfil" element={<EditarPerfil />} />
 
