@@ -9,6 +9,7 @@ import conta from '../styles/Login/conta';
 import HeaderAccount from '@/components/clickbuy/HeaderAccount';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import fourthStep from '../styles/Cadastro/fourthStep';
+import { getUserFavouriteProducts } from '@/services/favoriteService';
 const Login = () => {
   const {user, setUser} = useUser();
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ const Login = () => {
       });
   
       const result = await response.json();
+      console.log(result)
       
 
   
@@ -45,7 +47,12 @@ const Login = () => {
           text1: 'Login realizado com sucesso!',
         });
   
-        setUser(result.user);
+        const favourites = await getUserFavouriteProducts(result.user._id);
+        const favouriteIds = favourites.map((item: { _id: String; }) => item._id);
+        setUser({ ...result.user, favourites: favouriteIds });
+
+
+        
         router.push('/');
       } else {
         Toast.show({
@@ -60,6 +67,12 @@ const Login = () => {
       });
     }
   };
+  const handleLogout = () => {
+        setUser( null )
+        router.push('/');
+        setEmail("")
+        setPassword("")
+    }
 
   
   
@@ -111,7 +124,7 @@ const Login = () => {
                 <Text style={conta.Text}>Sobre nós</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+            <TouchableOpacity style={conta.Button} onPress={handleLogout}>
               <View style={conta.Option}>
                 <IconSymbol size={45} name='arrow.right.square' color='red' />
                 <Text style={conta.TextExit}>Sair</Text>

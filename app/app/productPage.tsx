@@ -9,16 +9,20 @@ import styles from './styles/productPage/styles';
 import fourthStep from './styles/Cadastro/fourthStep';
 import { Ionicons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
-import { addToFavourites, removeFromFavourites } from '@/services/favoriteService';
+import { addToFavourites, getUserFavouriteProducts, removeFromFavourites } from '@/services/favoriteService';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+const genericPhoto = require('@/assets/ClickBuy/iconeGenerico.png');
 
 const productPage = () => {
-  const { id } = useLocalSearchParams();
-  const { user } = useUser();
+    const { id } = useLocalSearchParams();
+    const { user, setUser } = useUser();
     const [product, setProduct] = useState<Product>();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [favourites, setFavourites] = useState<Product[]>();
     const [announcer, setAnnouncer] = useState<User>();
-    const [isFavourited, setIsFavourited] = useState<boolean>(false);
+    const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
+    
     const nextSlide = () => {
         if (!product?.images?.length) return;
         setCurrentSlide((prev) => (prev + 1) % product.images.length);
@@ -33,34 +37,66 @@ const productPage = () => {
         const fetchData = async () => {
             const productResponse = await fetch(`http://${ip}:5000/products/${id}`);
             const productResult = await productResponse.json();
+            
+            if(user && user.favourites){
+                setIsFavourited(user?.favourites?.includes(product?._id))
+                console.log(user?.favourites?.includes(product?._id))
+            }
+
             setProduct(productResult);
-
             setCreatedDate(new Date(productResult.createdAt))
-
+            
             const userResponse = await fetch(`http://${ip}:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
-
+            
             setAnnouncer(userResult)
         }
 
         fetchData();
     },[id])
+
+    useEffect(() => {
+        if (!user || !user?.favourites || !product) return;
+
+        const isAlreadyFavourited = user.favourites.some(
+            (fav) => fav === product._id
+        );
+
+        setIsFavourited(isAlreadyFavourited);
+    });
+ 
     const toggleIsFavourited = async () => {
+        console.log(isFavourited)
+        if(!product || !user) return
+
         try {
             if (isFavourited) {
+                const updatedFavourites = (user?.favourites || []).filter(
+                    (fav) => fav !== product._id
+                );
+                
+                setUser({ ...user!, favourites: updatedFavourites });
                 await removeFromFavourites(user?._id, product?._id);
+                setIsFavourited(false)
             }else {
                 await addToFavourites(user?._id, product?._id);
+                const favourites = [...(user?.favourites || []), product?._id];
+                setUser({ ...user!, favourites});
+                setIsFavourited(true)
             }
-            
-            setIsFavourited(prev => !prev)
         } catch {
             Toast.show({
-                          type: 'error',
-                          text1: 'Erro ao adicionar aos favoritos!',
-                        });
+                              type: 'error',
+                              text1: 'Erro ao adicionar aos favoritos!',
+                            });
         }
     }
+
+    const formatZero = (number: number) => {
+        const res = number > 9 ? number : '0' + number
+        return res
+    }
+    console.log(user)
   return (
     <View style={styles.Container}>
         <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
@@ -108,7 +144,7 @@ const productPage = () => {
                 </View>
                 <View style={styles.InfoRow}>
                     <View style={styles.IconsArea}>
-                            <TouchableOpacity style={styles.filterButton} onPress={() => setIsFavourited(prev => !prev)}>
+                            <TouchableOpacity style={styles.filterButton} onPress={toggleIsFavourited}>
                                 <Ionicons name="heart" size={24} color={isFavourited? "red" : "black"} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.filterButton}>
@@ -117,6 +153,55 @@ const productPage = () => {
                             <TouchableOpacity style={styles.filterButton}>
                                 <Ionicons name="flag" size={24} color="black" />
                             </TouchableOpacity>
+                    </View>
+                    <View style={styles.Date}>
+                       <Text>{`${createdDate ? `${formatZero(createdDate.getDate())}/${formatZero(createdDate.getMonth() + 1)} às ${formatZero(createdDate.getHours())}:${formatZero(createdDate.getMinutes())}` : 'Data não disponível'}`}</Text>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.Announcer}>
+                <TouchableOpacity style={styles.NameIcon}>
+                    <Image
+                        style={styles.AnnouncerIcon}
+                        source={announcer?.profilePic ? { uri: announcer.profilePic } : genericPhoto }
+                        />
+                    <Text style={styles.AnnouncerName}>{announcer?.personalData.name}</Text>
+                </TouchableOpacity>
+                <View style={styles.location}>
+                    <IconSymbol size={15} name='location' color='black' />
+                    <Text>{`${announcer?.personalData.address.city}, ${announcer?.personalData.address.state} - ${announcer?.personalData.address.zip}`}</Text>
+                </View>
+            </View>
+            <View style={styles.ProductDescription}>
+                <Text style={styles.TextTitle}>Descrição do produto</Text>
+                <Text style={styles.Description}>{product?.description}</Text>
+                <Text style={styles.TextTitle}>Detalhes</Text>
+                <View style={styles.Details}>
+                    <Ionicons style={styles.Arrow} name='chevron-forward' size={20} color={'#DDA04B'} />
+                    <View>
+                        <Text style={styles.TitleDetails}>Categoria</Text>
+                        <Text>{product?.category}</Text>
+                    </View>
+                </View>
+                <View style={styles.Details}>
+                    <Ionicons style={styles.Arrow} name='chevron-forward' size={20} color={'#DDA04B'} />
+                    <View>
+                        <Text style={styles.TitleDetails}>Localização</Text>
+                        <Text>{product?.location}</Text>
+                    </View>
+                </View>
+                <View style={styles.Details}>
+                    <Ionicons style={styles.Arrow} name='chevron-forward' size={20} color={'#DDA04B'} />
+                    <View>
+                        <Text style={styles.TitleDetails}>Qualidade</Text>
+                        <Text>{product?.condition.quality}</Text>
+                    </View>
+                </View>
+                <View style={styles.Details}>
+                    <Ionicons style={styles.Arrow} name='chevron-forward' size={20} color={'#DDA04B'} />
+                    <View>
+                        <Text style={styles.TitleDetails}>Usado?</Text>
+                        <Text>{product?.condition.used ? 'Sim' : 'Não'}</Text>
                     </View>
                 </View>
             </View>

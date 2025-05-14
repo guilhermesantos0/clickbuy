@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     },
     ProductInfo:{
         backgroundColor: 'white',
-        marginTop:10
+        marginTop:10,
+        height: 400
     },
     Price:{
         marginHorizontal:10,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         flexDirection: 'row',
         marginTop:30,
-        marginBottom: 400
+        marginBottom:10
     },
     IconsArea:{
         display: 'flex',
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
         marginStart:20,
         height:45,
         justifyContent:'flex-start',
-        width: '50%',
+        width: '40%',
 
 
 
@@ -148,5 +149,73 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginEnd:10,
   },
+  Date:{
+    display: 'flex',
+        flexDirection: 'row',
+        height:45,
+        alignItems: 'center',
+        justifyContent:'flex-end',
+        width: '50%',
+  },
+  Announcer:{
+    display: 'flex',
+    flexDirection: 'column',
+    height:45,
+    marginBottom:60,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: '100%'
+  },
+  NameIcon:{
+    display: 'flex',
+    flexDirection: 'row',
+    width: 'auto',
+    height: '100%',
+    alignItems: 'center',
+    marginTop: 25
+  },
+  AnnouncerIcon:{
+    resizeMode: 'cover',
+        width: 80,
+        height: 80
+  },
+  AnnouncerName:{
+    fontSize: 25
+  },
+  location: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop:20,
+    marginHorizontal:10
+  },
+  TextTitle:{
+        marginHorizontal:10,
+      fontSize: 23,
+      fontWeight: 'bold',
+      marginTop:30,
+    },
+    Description:{
+      fontSize: 15,
+      marginHorizontal:10,
+      marginTop:15
+    },
+    ProductDescription:{
+        marginTop:10,
+        height: 450
+    },
+    Details:{
+      display: 'flex',
+      marginTop: 15,
+      flexDirection: 'row',
+
+    },
+    TitleDetails:{
+      fontSize: 19,
+      fontWeight: 'bold',
+      color: '#DDA04B',
+    },
+    Arrow:{
+      marginTop:3
+    }
   });
   export default styles
