@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import styles from '../Slider/styles'
-const banner1 = require('@/assets/ClickBuy/banner1.jpg');
-const banner2 = require('@/assets/ClickBuy/banner2.jpg');
+const banner1 = require('@/assets/ClickBuy/banner_1.png');
+const banner2 = require('@/assets/ClickBuy/banner_2.png');
 const banner3 = require('@/assets/ClickBuy/banner3.jpg');
 interface Props {
 }

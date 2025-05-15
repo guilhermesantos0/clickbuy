@@ -37,7 +37,6 @@ const Login = () => {
       });
   
       const result = await response.json();
-      console.log(result)
       
 
   
@@ -88,7 +87,7 @@ const Login = () => {
                 <Text style={conta.Text}>Meu Perfil</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/favorites')}>
               <View style={conta.Option}>
                 <IconSymbol size={45} name='heart.fill' color='rgb(101, 101, 101)' />
                 <Text style={conta.Text}>Favoritos</Text>

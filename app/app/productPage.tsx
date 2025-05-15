@@ -40,7 +40,6 @@ const productPage = () => {
             
             if(user && user.favourites){
                 setIsFavourited(user?.favourites?.includes(product?._id))
-                console.log(user?.favourites?.includes(product?._id))
             }
 
             setProduct(productResult);
@@ -66,7 +65,6 @@ const productPage = () => {
     });
  
     const toggleIsFavourited = async () => {
-        console.log(isFavourited)
         if(!product || !user) return
 
         try {
@@ -96,7 +94,6 @@ const productPage = () => {
         const res = number > 9 ? number : '0' + number
         return res
     }
-    console.log(user)
   return (
     <View style={styles.Container}>
         <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>

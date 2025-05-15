@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     },
     SliderImage:{
         width:'100%',
-        height:'100%',
-        objectFit: 'cover'
+        height: '100%',
+        objectFit: 'fill'
     },
     navButton: {
       position: 'absolute',
