@@ -11,10 +11,30 @@ import Product from "components/Product";
 
 import style from './Category.module.scss';
 
+import api from "services/api";
+import { Category as CategoryType } from "@modules/Category";
+
+import { useNavigate } from "react-router-dom";
+
 const Category = () => {
 
+    const navigate = useNavigate();
     const { category } = useParams<{ category: string }>();
     const {user} = useUser();
+
+    useEffect(() => {
+      const checkCategories = async () => {
+        const response = await api.get<CategoryType[]>('/categories');
+        const validCategories = response.data.map(cat => cat.name)
+
+        if(!category || !validCategories.includes(category)) {
+          navigate('/404')
+        }
+      }
+
+      checkCategories()
+    },[])
+    const validCategories = ''
 
     const [products, setProducts] = useState<ProductType[]>([]);
 

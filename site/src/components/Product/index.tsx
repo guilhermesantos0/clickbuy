@@ -31,7 +31,7 @@ const Product: React.FC<Props> = ({ product, favouriteOption }) => {
         );
 
         setIsFavourited(isAlreadyFavourited);
-    }, [user, product._id]);
+    },[]);
 
     const toggleIsFavourited = async () => {
         console.log(isFavourited)

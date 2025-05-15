@@ -42,8 +42,8 @@ const AdminFavourites = () => {
     try {
       await api.delete('/favourites', {
         data: {
-          user: fav.user._id,
-          product: fav.product._id,
+          userId: fav.user._id,
+          productId: fav.product._id,
         },
       });
       setFavourites(prev => prev.filter(f => f._id !== fav._id));

@@ -1,3 +1,5 @@
+@use '../../assets/scss/variables' as *;
+
 .Container {
     width: 100%;
 
@@ -9,6 +11,23 @@
         width: 90%;
         margin-top: 3vh;
 
-        background: red;
+        .TopSection {
+            width: 100%;
+
+            display: flex;
+            justify-content: space-between;
+
+            .Title {
+                color: $primary-color
+            }
+        }
+
+        .ProductsArea {
+            padding: 1.5rem;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
     }
 }

@@ -208,6 +208,7 @@
           color: #333;
           font-weight: 500;
           display: block;
+          z-index: 9999;
           transition: background-color 0.25s, color 0.25s;
 
           &:hover {

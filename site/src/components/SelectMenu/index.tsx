@@ -7,7 +7,7 @@ interface Props {
     value: any,
     onValueChange: any,
     options: any[],
-    type: "category" | "state" | "city" | "condition" | "used",
+    type: "category" | "state" | "city" | "condition" | "used" | "favFilter",
     disabled?: boolean,
     className?: string
 }
@@ -91,6 +91,19 @@ const SelectMenu: React.FC<Props> = ({ value, onValueChange, options, type, disa
                             ))}
                         </Select.Viewport>
                     )}
+                    { type === "favFilter" && (
+                        <Select.Viewport>
+                            {options.map((option, idx) => (
+                                <Select.Item key={idx} value={option.value} className={style.SelectOption}>
+                                    <Select.ItemText>{option.label}</Select.ItemText>
+                                    <Select.ItemIndicator className={style.SelectItemIndicator}>
+                                        <CheckIcon />
+                                    </Select.ItemIndicator>
+                                </Select.Item>
+                            ))}
+                        </Select.Viewport>
+                    )}
+                    
                 </Select.Content>
             </Select.Portal>
         </Select.Root>

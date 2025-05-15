@@ -1,0 +1,43 @@
+$bg-dark: #0f172a;
+$primary-blue: #3b82f6;
+$text-light: #f8fafc;
+$text-muted: #94a3b8;
+
+.container {
+  background-color: $bg-dark;
+  color: $text-light;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  h1 {
+    font-size: 100px;
+    color: $primary-blue;
+    margin: 0;
+  }
+
+  p {
+    font-size: 20px;
+    color: $text-muted;
+    margin: 10px 0 30px;
+  }
+
+  .backButton {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: $primary-blue;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: lighten($primary-blue, 5%);
+    }
+  }
+}
