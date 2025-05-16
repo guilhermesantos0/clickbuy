@@ -10,8 +10,8 @@
     flex-direction: column;
 
     .Form {
-        width: 50vw;
-        height: 55vh;
+        min-height: 55vh;
+        max-width: 50vw;
         
         margin: 10vh auto;
         
@@ -23,20 +23,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        // justify-content: center;
         gap: 5vh;
 
         &.FirstStep {
-            height: 70vh;
+            min-height: 70vh;
         }
 
         .Tabs {
             width: 100%;
-            height: 6vh ;
+            height: 6vh;
+            min-height: 6vh;
+            max-height: 6vh;
             position: relative;
             display: flex;
             justify-content: space-around;
             border-bottom: 2px solid #ddd;
+
             
             .Tab {
                 height: 100%;

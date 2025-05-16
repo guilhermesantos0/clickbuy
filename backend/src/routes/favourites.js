@@ -28,6 +28,11 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/teste', async(req, res) => {
+    const fav = await Favourited.find();
+    res.json(fav)
+})
+
 router.get('/:type/:id', async (req, res) => {
     const { type, id } = req.params
 

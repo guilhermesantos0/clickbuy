@@ -1,1 +1,1 @@
-GET http://localhost:5000/favourites
+GET http://localhost:5000/favourites/teste

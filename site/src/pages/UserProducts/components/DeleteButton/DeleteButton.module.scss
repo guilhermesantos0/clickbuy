@@ -32,19 +32,6 @@
   margin-top: 1.5rem;
 
   .Confirm {
-    background-color: #ccc;
-    color: #333;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #aaa;
-    }
-  }
-
-  .Cancel {
     background-color: $primary-color;
     color: white;
     border: none;
@@ -55,6 +42,19 @@
 
     &:hover {
       background-color: darken($primary-color, 5);
+    }
+  }
+
+  .Cancel {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #aaa;
     }
   }
 }

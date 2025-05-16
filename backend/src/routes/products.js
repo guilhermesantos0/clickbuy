@@ -5,6 +5,7 @@ const upload = require("../middleware/upload");
 const Category = require('../models/Category');
 const path = require('path');
 const fs = require('fs');
+const Favourited = require('../models/Favourited');
 
 router.get('/', async (req, res) => {
     try {
@@ -58,7 +59,7 @@ try {
 });
 
 router.get('/user/:id', async (req, res) => {
-try {
+    try {
         const products = await Product.find({ announcer: req.params.id });
         res.status(200).json(products);
     } catch (error) {
@@ -67,22 +68,24 @@ try {
 })
 
 router.delete('/:id', async (req, res) => {
-try {
-    console.log(req.params.id)
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: 'Produto não encontrado' });
-    
-    product.images.forEach(img => {
-        const imgPath = path.join(__dirname, '..', img); 
-        console.log(imgPath, fs.existsSync(imgPath))
-        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
-    });
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ message: 'Produto não encontrado' });
+        
+        product.images.forEach(img => {
+            const imgPath = path.join(__dirname, '..', img); 
+            console.log(imgPath, fs.existsSync(imgPath))
+            if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+        });
 
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: 'Produto e imagens deletados com sucesso' });
-} catch (err) {
-    res.status(500).json({ message: 'Erro ao excluir produto', error: err.message });
-}
+        const favourited = await Favourited.find({ productId: product });
+        if(favourited.length > 0) Favourited.deleteMany({ productId: product })
+            
+        await Product.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: 'Produto e imagens deletados com sucesso' });
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao excluir produto', error: err.message });
+    }
 });
 
 // router.delete('/', async (req, res) => {
