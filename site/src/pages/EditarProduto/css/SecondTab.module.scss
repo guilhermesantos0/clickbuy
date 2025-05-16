@@ -1,0 +1,17 @@
+.Form {
+    width: 70%;
+    height: 70%;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+
+    .InputContainer {
+        width: 25vw;
+
+        .Input {
+            width: 100%;
+        }
+    }
+}

@@ -25,6 +25,7 @@ import TrocaDevolucao from 'pages/Ajuda/pages/TrocaDevolucao';
 import NotFound from 'pages/404';
 
 import UserProducts from 'pages/UserProducts';
+import EditarProduto from 'pages/EditarProduto';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,6 +55,7 @@ function App() {
 
         <Route path="/:category" element={<Category />} />
         <Route path="/:category/:id" element={<ProductPage />} />
+        <Route path="/:category/:id/editar" element={<EditarProduto />} />
 
         <Route path="/ajuda/garantia" element={<Garantia/>} />
         <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />

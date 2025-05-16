@@ -1,10 +1,48 @@
 @use "../../../../assets/scss/variables" as *;
 
+.Overlay {
+    width: 100%;
+    position: relative;
+
+    .OverlayButtons {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        z-index: 10;
+
+        .Option {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: darken(#ccc, 5%);
+                cursor: pointer;
+            }
+
+            .Icon {
+                width: 20px;
+                height: 20px;
+                color: black;
+            }
+        }
+    }
+}
+
 .Container {
     width: 100%;
     // max-width: 900px;
     margin: 0 auto 2rem;
     padding: 1rem;
+
 
     background-color: #fff;
     border-radius: 10px;
@@ -65,34 +103,15 @@
             }
         }
 
-        .Options {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+        // .Options {
+        //     display: flex;
+        //     gap: 0.5rem;
+        //     margin-top: 0.5rem;
 
-            .Option {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            transition: background-color 0.2s ease;
+        
+        // }
 
-            &:hover {
-                background-color: darken(#ccc, 5%);
-                cursor: pointer;
-            }
-
-            .Icon {
-                width: 20px;
-                height: 20px;
-                color: black;
-            }
-            }
-        }
+        
         }
 
         .BottomSection {

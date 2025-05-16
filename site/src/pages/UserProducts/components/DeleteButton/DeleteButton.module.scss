@@ -1,0 +1,60 @@
+@use '../../../../assets/scss/variables' as *;
+
+.Overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.Dialog {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+  .Alert {
+    font-style: italic;
+  }
+}
+
+.Actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  .Confirm {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #aaa;
+    }
+  }
+
+  .Cancel {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($primary-color, 5);
+    }
+  }
+}

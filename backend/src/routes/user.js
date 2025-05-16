@@ -4,21 +4,21 @@ const User = require('../models/User');
 const upload = require("../middleware/upload");
 
 router.post('/', async (req, res) => {
-  try {
-    const { name, email, password, personalData } = req.body;
+    try {
+        const { name, email, password, personalData } = req.body;
 
-    const exists = await User.findOne({ email });
-    if (exists) {
-      return res.status(409).json({ message: 'Email já cadastrado' });
+        const exists = await User.findOne({ email });
+        if (exists) {
+        return res.status(409).json({ message: 'Email já cadastrado' });
+        }
+
+        const newUser = new User({ name, email, password, personalData });
+        await newUser.save();
+
+        res.status(201).json({ message: 'Usuário criado com sucesso', user: newUser });
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao criar usuário', error: err.message });
     }
-
-    const newUser = new User({ name, email, password, personalData });
-    await newUser.save();
-
-    res.status(201).json({ message: 'Usuário criado com sucesso', user: newUser });
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao criar usuário', error: err.message });
-  }
 });
 
 router.get('/', async(req, res) => {
@@ -27,46 +27,46 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
+    try {
+        const user = await User.findById(req.params.id);
 
-    if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
+        if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
 
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao buscar usuário', error: err.message });
-  }
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao buscar usuário', error: err.message });
+    }
 });
 
 router.delete('/:id', async(req, res) => {
-  try {
-    const { id } = req.params;
-    await User.findByIdAndDelete(id);
-    res.status(200).json({ message: "Usuário deletado com sucesso! "});
-  } catch (err) {
-    res.status(500).json({ message: "Erro ao deletar usuário", error: err.message })
-  }
+    try {
+        const { id } = req.params;
+        await User.findByIdAndDelete(id);
+        res.status(200).json({ message: "Usuário deletado com sucesso! "});
+    } catch (err) {
+        res.status(500).json({ message: "Erro ao deletar usuário", error: err.message })
+    }
 })
 
 router.put('/:id', upload.single('profilePic'), async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const parsedData = JSON.parse(req.body.data);
+    try {
+        const userId = req.params.id;
+        const parsedData = JSON.parse(req.body.data);
 
-    if (req.file) {
-      parsedData.profilePic = `/upload/${req.file.filename}`;
+        if (req.file) {
+        parsedData.profilePic = `/upload/${req.file.filename}`;
+        }
+
+        if (!parsedData.password) {
+        delete parsedData.password;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, parsedData, { new: true });
+        res.status(200).json(updatedUser);
+    } catch (err) {
+        console.error('Erro ao atualizar usuário:', err);
+        res.status(500).json({ error: 'Erro ao atualizar usuário' });
     }
-
-    if (!parsedData.password) {
-      delete parsedData.password;
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(userId, parsedData, { new: true });
-    res.status(200).json(updatedUser);
-  } catch (err) {
-    console.error('Erro ao atualizar usuário:', err);
-    res.status(500).json({ error: 'Erro ao atualizar usuário' });
-  }
 });
 
 module.exports = router;

@@ -26,6 +26,10 @@ const UserProducts = () => {
         fetchData();
     }, [user]);
 
+    const handleDeleteProduct = (productId: string) => {
+        setProducts((prev) => prev?.filter((p) => p._id !== productId))
+    }
+
     return (
         <div className={style.Container}>
             <Header user={user}></Header>
@@ -33,7 +37,7 @@ const UserProducts = () => {
                 <h1>Meus Produtos</h1>
                 {Array.isArray(products) && products.length > 0 ? (
                     products.map((product, idx) => (
-                        <Product key={idx} product={product} />
+                        <Product key={idx} product={product} onDelete={handleDeleteProduct} />
                     ))
                 ) : (
                     <div>Você não tem nenhum produto</div>

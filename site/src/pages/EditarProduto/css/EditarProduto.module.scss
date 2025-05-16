@@ -1,0 +1,161 @@
+@use '../../../assets/scss/variables' as *;
+@use '../../../assets/scss/mixins' as *;
+
+.Container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .Form {
+        width: 50vw;
+        height: 55vh;
+        
+        margin: 10vh auto;
+        
+        padding: 30px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5vh;
+
+        &.FirstStep {
+            height: 70vh;
+        }
+
+        .Tabs {
+            width: 100%;
+            height: 6vh ;
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #ddd;
+            
+            .Tab {
+                height: 100%;
+                width: 16vw;    
+                cursor: pointer;
+                position: relative;
+                transition: color 0.3s;
+                flex: 1;
+                text-align: center;
+            
+                &:hover {
+                    color: #DDA04B;
+                }
+            }
+          
+            .ActiveTab {
+                color: #DDA04B;
+                font-weight: bold;
+            }
+          
+          
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              height: 2px;
+              width: 16vw;
+              background-color: #DDA04B;
+              transition: transform 0.3s ease;
+              transform: translateX(calc(var(--active-tab-index, 0) * 100%));
+            }
+        }
+
+        .Input {
+            height: 7vh;
+            width: 14vw;
+            padding: 0 1vw;
+            border: 1px solid transparent;
+            border-radius: 12px;
+        
+            background-color: #f8f8f8;
+            font-size: 1rem;
+            color: #2c2c2c;
+
+            
+            transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            
+            &:hover {
+                cursor: pointer;
+                background-color: #f2f2f2;
+                border-color: #ddd;
+            }
+        
+            &:focus {
+                background-color: #fff;
+                border-color: #DDA04B;
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(221, 160, 75, 0.2);
+            }
+        
+            &::placeholder {
+                color: #aaa;
+                transition: color 0.3s ease;
+            }
+        
+            &:focus::placeholder {
+                color: #bbb;
+            }
+
+            &.InputTitle {
+                width: 30vw;
+            }
+        }
+    }
+
+    .ButtonsArea {
+        width: 100%;
+        height: 5vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1vw;
+
+        .Save {
+            @include primary-button;
+            width: 8vw;
+            height: 5vh;
+
+            border-radius: 5px
+        }
+        
+        .Cancel {
+            @include secondary-button;
+            width: 8vw;
+            height: 5vh;
+
+            border-radius: 5px
+        }
+    }
+
+    .ImagesForm {
+        width: 50vw;
+        height: 55vh;
+        
+        margin: 10vh auto;
+        
+        padding: 30px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5vh;
+    }
+
+}
+
+
