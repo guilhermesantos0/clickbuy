@@ -1,10 +1,50 @@
 POST http://localhost:5000/products
-Content-Type: application/json
+Content-Type: multipart/form-data
 
-{
-  "name": "Microondas",
-  "image": "https://http2.mlstatic.com/D_NQ_NP_2X_800188-MLB81543657912_012025-T-micro-ondas-midea-27l-220v-mxsa27p-branco-e-preto.webp",
-  "price": 249.90,
-  "location": "Rio de Janeiro, RJ",
-  
-}
+--boundary
+Content-Disposition: form-data; name="name"
+
+Tênis de Corrida
+--boundary
+Content-Disposition: form-data; name="price"
+
+R$ 299.90
+--boundary
+Content-Disposition: form-data; name="location"
+
+São Paulo - SP
+--boundary
+Content-Disposition: form-data; name="categoryId"
+
+1
+--boundary
+Content-Disposition: form-data; name="announcer"
+
+4e543dbb-6d87-43f8-8365-9d233f36622c
+--boundary
+Content-Disposition: form-data; name="used"
+
+true
+--boundary
+Content-Disposition: form-data; name="condition"
+
+Bom
+--boundary
+Content-Disposition: form-data; name="mainImageIndex"
+
+0
+--boundary
+Content-Disposition: form-data; name="description"
+
+Tênis confortável, pouco usado, ideal para esportes.
+--boundary
+Content-Disposition: form-data; name="images"; filename="tenis.jpg"
+Content-Type: image/jpeg
+
+< ./images/tenis.jpg
+--boundary
+Content-Disposition: form-data; name="images"; filename="tenis2.jpg"
+Content-Type: image/jpeg
+
+< ./images/tenis2.jpg
+--boundary--

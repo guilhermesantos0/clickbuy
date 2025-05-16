@@ -26,7 +26,6 @@ const UserProducts = () => {
         fetchData();
     }, [user]);
 
-
     return (
         <div className={style.Container}>
             <Header user={user}></Header>
