@@ -77,7 +77,7 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
                     <div className={style.ProfileContainer} ref={menuRef}>
                         <img 
                             className={style.ProfileImage} 
-                            src={user?.profilePic ? user.profilePic : genericPhoto} 
+                            src={user?.profilePic ? `http://localhost:5000${user.profilePic}` : genericPhoto} 
                             alt=""
                             onClick={toggleMenu}
                         />

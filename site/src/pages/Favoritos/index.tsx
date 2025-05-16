@@ -51,7 +51,7 @@ const Favoritos = () => {
                 <div className={style.ProductsArea}>
                     {Array.isArray(favourites) && favourites.length > 0 ? (
                         favourites.map((fav, idx) => (
-                            <Product key={idx} product={fav} favouriteOption />
+                            <Product key={idx} product={fav} favouriteOption favourited />
                         ))
                     ) : (
                         <div>Você não tem nenhum favorito</div>

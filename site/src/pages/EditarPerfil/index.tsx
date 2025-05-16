@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from 'contexts/UserContext';
 
 import style from './css/EditarPerfil.module.scss';
@@ -10,18 +10,78 @@ import Header from '../../components/Header';
 import ProfilePictureEditor from '../../components/ProfilePictureEditor';
 
 import { formatPhoneNumber, formatCEP, formatCPF } from 'utils/formatters';
+import { User } from 'types/User';
+
+import api from 'services/api';
 
 const EditarPerfil = () => {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
+    const [formData, setFormData] = useState<User | null>(null);
     const [tab, setTab] = useState(2);
 
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
     const [profileImage, setProfileImage] = useState(user?.profilePic ? `http://localhost:5000${user?.profilePic}` : genericPhoto);
+    const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+
+    useEffect(() => {
+        if (user) {
+            setFormData(structuredClone(user));
+        }
+    },[user])
 
     const handleImageChange = (file: File) => {
         const imageUrl = URL.createObjectURL(file);
         setProfileImage(imageUrl);
+        setProfileImageFile(file)
     };
+
+    const updateField = (path: string, value: any) => {
+        if (!formData) return;
+        const keys = path.split('.');
+
+        const updated = structuredClone(formData);
+        let current: any = updated;
+
+        keys.forEach((key, i) => {
+            if (i === keys.length - 1) {
+                current[key] = value;
+            } else {
+                current[key] = { ...current[key] };
+                current = current[key];
+            }
+        });
+
+        setFormData(updated);
+    };
+
+    const handleSave = async () => {
+        if (!formData) return;
+
+        try {
+            const userCopy = structuredClone(formData);
+            delete userCopy.favourites;
+
+            const formDataToSend = new FormData();
+            formDataToSend.append('data', JSON.stringify(userCopy));
+
+            if (profileImageFile) {
+                formDataToSend.append('profilePic', profileImageFile);
+            }
+
+            const res = await api.put(`/user/${userCopy._id}`, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            setUser(res.data);
+            alert('Dados atualizados com sucesso!');
+        } catch (err) {
+            console.error("Erro ao salvar:", err);
+            alert("Erro ao salvar os dados");
+        }
+    };
+
 
     return (
         <div className={style.Container}>
@@ -34,77 +94,142 @@ const EditarPerfil = () => {
                     <div className={`${style.Tab} ${tab === 3 ? style.ActiveTab : ''}`} onClick={() => setTab(3)}>Endereço</div>
                 </div>
 
-                {tab === 1 && (
+                {tab === 1 && formData && (
                     <div className={firstTab.Container}>
                         <div className={style.InputGroup}>
-                            <label>Email</label>
-                            <input className={style.Input} type="email" value={user?.email} />
+                        <label>Email</label>
+                        <input
+                            className={style.Input}
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => updateField("email", e.target.value)}
+                        />
                         </div>
                         <div className={style.InputGroup}>
-                            <label>Senha</label>
-                            <input className={style.Input} type="password" value={user?.password} placeholder="Nova senha" />
+                        <label>Senha</label>
+                        <input
+                            className={style.Input}
+                            type="password"
+                            value={formData.password}
+                            onChange={(e) => updateField("password", e.target.value)}
+                            placeholder="Nova senha"
+                        />
                         </div>
                     </div>
-                )}
-                {tab === 2 && (
+                    )}
+
+                    {tab === 2 && formData && (
                     <div className={secondTab.Container}>
-                        {/* <div className={`${secondTab.InputGroup} ${secondTab.ProfilePic}`}>
-                            <label>Foto de Perfil</label>
-                            <input className={style.Input} type="text" value={user?.profilePic} placeholder="URL da imagem" />
-                        </div> */}
                         <ProfilePictureEditor currentImage={profileImage} onImageChange={handleImageChange} />
                         <div className={`${style.InputGroup} ${secondTab.Name}`}>
-                            <label>Nome</label>
-                            <input className={style.Input} type="text" value={user?.personalData.name} />
+                        <label>Nome</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.name || ''}
+                            onChange={(e) => updateField("personalData.name", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${secondTab.BornDate}`}>
-                            <label>Data de Nascimento</label>
-                            <input className={style.Input} type="text" value={user?.personalData.bornDate} />
+                        <label>Data de Nascimento</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.bornDate || ''}
+                            onChange={(e) => updateField("personalData.bornDate", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${secondTab.Cpf}`}>
-                            <label>CPF</label>
-                            <input className={style.Input} type="text" value={user?.personalData.cpf} />
+                        <label>CPF</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.cpf || ''}
+                            onChange={(e) => updateField("personalData.cpf", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${secondTab.Phone}`}>
-                            <label>Telefone</label>
-                            <input className={style.Input} type="text" value={user?.personalData.phone} />
+                        <label>Telefone</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.phone || ''}
+                            onChange={(e) => updateField("personalData.phone", e.target.value)}
+                        />
                         </div>
                     </div>
-                )}
-                {tab === 3 && (
+                    )}
+
+                    {tab === 3 && formData && (
                     <div className={thirdTab.Container}>
                         <div className={`${style.InputGroup} ${thirdTab.Road}`}>
-                            <label>Rua</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.road} />
+                        <label>Rua</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.road || ''}
+                            onChange={(e) => updateField("personalData.address.road", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${thirdTab.Number}`}>
-                            <label>Número</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.number} />
+                        <label>Número</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.number || ''}
+                            onChange={(e) => updateField("personalData.address.number", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${thirdTab.Neighborhood}`}>
-                            <label>Bairro</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.neighborhood} />
+                        <label>Bairro</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.neighborhood || ''}
+                            onChange={(e) => updateField("personalData.address.neighborhood", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${thirdTab.Complement}`}>
-                            <label>Complemento</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.complement} />
+                        <label>Complemento</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.complement || ''}
+                            onChange={(e) => updateField("personalData.address.complement", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${thirdTab.City}`}>
-                            <label>Cidade</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.city} />
+                        <label>Cidade</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.city || ''}
+                            onChange={(e) => updateField("personalData.address.city", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${thirdTab.State}`}>
-                            <label>Estado</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.state} />
+                        <label>Estado</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.state || ''}
+                            onChange={(e) => updateField("personalData.address.state", e.target.value)}
+                        />
                         </div>
                         <div className={`${style.InputGroup} ${thirdTab.Zip}`}>
-                            <label>CEP</label>
-                            <input className={style.Input} type="text" defaultValue={user?.personalData.address.zip} />
+                        <label>CEP</label>
+                        <input
+                            className={style.Input}
+                            type="text"
+                            value={formData.personalData?.address?.zip || ''}
+                            onChange={(e) => updateField("personalData.address.zip", e.target.value)}
+                        />
                         </div>
                     </div>
                 )}
+
                 <div className={style.ButtonsArea}>
-                    <button className={style.Save}>Salvar</button>
+                    <button className={style.Save} onClick={handleSave}>Salvar</button>
                     <button className={style.Cancel}>Cancelar</button>
                 </div>
             </div>

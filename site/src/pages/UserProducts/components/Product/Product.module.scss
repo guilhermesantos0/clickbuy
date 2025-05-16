@@ -1,0 +1,113 @@
+@use "../../../../assets/scss/variables" as *;
+
+.Container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    padding: 1rem;
+
+    background-color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        cursor: pointer;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+
+    .Image {
+        width: 100%;
+        max-width: 140px;
+        height: 140px;
+        border-radius: 10px;
+        object-fit: cover;
+        flex-shrink: 0;
+
+        @media (max-width: 480px) {
+        max-width: 100px;
+        height: 100px;
+        }
+    }
+
+    .ProductInfo {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+
+        .TopSection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .Title {
+            color: $primary-color;
+            font-weight: 600;
+
+            @media (max-width: 480px) {
+                font-size: 1rem;
+            }
+        }
+
+        .Options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+
+            .Option {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: darken(#ccc, 5%);
+                cursor: pointer;
+            }
+
+            .Icon {
+                width: 20px;
+                height: 20px;
+                color: black;
+            }
+            }
+        }
+        }
+
+        .BottomSection {
+        width: 100%;
+
+        .Description {
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+        }
+        }
+    }
+}

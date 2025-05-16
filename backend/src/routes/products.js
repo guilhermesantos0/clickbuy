@@ -7,7 +7,6 @@ const path = require('path');
 const fs = require('fs');
 
 router.get('/', async (req, res) => {
-
     try {
       if(req.query.category) {
   
@@ -59,16 +58,22 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/user/:id', async (req, res) => {
+  try {
+    const products = await Product.find({ announcer: req.params.id });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar produtos', error })
+  }
+})
+
 router.delete('/:id', async (req, res) => {
   try {
     console.log(req.params.id)
     const product = await Product.findById(req.params.id);
-    // console.log(product)
     if (!product) return res.status(404).json({ message: 'Produto não encontrado' });
-    // console.log(product.images)
     
     product.images.forEach(img => {
-      // console.log(img)
       const imgPath = path.join(__dirname, '..', img); 
       console.log(imgPath, fs.existsSync(imgPath))
       if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);

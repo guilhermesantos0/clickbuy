@@ -16,12 +16,13 @@ import { toast } from 'react-toastify';
 
 interface Props {
     product: ProductModel,
-    favouriteOption?: boolean
+    favouriteOption?: boolean,
+    favourited?: boolean
 }
 
-const Product: React.FC<Props> = ({ product, favouriteOption }) => {
+const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
     const { user, setUser } = useUser();
-    const [isFavourited, setIsFavourited] = useState(false);
+    const [isFavourited, setIsFavourited] = useState(favourited ? true : false);
 
     useEffect(() => {
         if (!user?.favourites) return;
@@ -34,7 +35,6 @@ const Product: React.FC<Props> = ({ product, favouriteOption }) => {
     },[]);
 
     const toggleIsFavourited = async () => {
-        console.log(isFavourited)
 
         try {
             if (isFavourited) {

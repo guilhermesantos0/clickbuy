@@ -1,0 +1,16 @@
+.Container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .PageContent {
+        margin-top: 3vh;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2vh;
+    }
+}

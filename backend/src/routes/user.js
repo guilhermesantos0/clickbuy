@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const upload = require("../middleware/upload");
 
 router.post('/', async (req, res) => {
   try {
@@ -47,13 +48,24 @@ router.delete('/:id', async(req, res) => {
   }
 })
 
-router.put("/:id", async (req, res) => {
+router.put('/:id', upload.single('profilePic'), async (req, res) => {
   try {
-    const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
+    const userId = req.params.id;
+    const parsedData = JSON.parse(req.body.data);
+
+    if (req.file) {
+      parsedData.profilePic = `/upload/${req.file.filename}`;
+    }
+
+    if (!parsedData.password) {
+      delete parsedData.password;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, parsedData, { new: true });
+    res.status(200).json(updatedUser);
   } catch (err) {
-    console.error("Erro ao atualizar usuário:", err);
-    res.status(500).json({ error: "Erro interno no servidor" });
+    console.error('Erro ao atualizar usuário:', err);
+    res.status(500).json({ error: 'Erro ao atualizar usuário' });
   }
 });
 

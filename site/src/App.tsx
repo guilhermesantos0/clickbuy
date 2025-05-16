@@ -24,6 +24,8 @@ import TrocaDevolucao from 'pages/Ajuda/pages/TrocaDevolucao';
 
 import NotFound from 'pages/404';
 
+import UserProducts from 'pages/UserProducts';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -57,6 +59,8 @@ function App() {
         <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />
 
         <Route path="/404" element={<NotFound />} />
+
+        <Route path="/meus-produtos" element={<UserProducts />} />
       </Routes>
 
       <ToastContainer position="bottom-left" style={{ zIndex: 9999 }} theme="dark" />
