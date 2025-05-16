@@ -2,8 +2,9 @@ POST http://localhost:5000/products
 Content-Type: application/json
 
 {
-  "name": "Tênis Adidas Runfalcon",
-  "image": "https://img.olx.com.br/images/42/423750415951728.webp",
+  "name": "Microondas",
+  "image": "https://http2.mlstatic.com/D_NQ_NP_2X_800188-MLB81543657912_012025-T-micro-ondas-midea-27l-220v-mxsa27p-branco-e-preto.webp",
   "price": 249.90,
-  "location": "Rio de Janeiro, RJ"
+  "location": "Rio de Janeiro, RJ",
+  
 }

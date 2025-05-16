@@ -177,7 +177,9 @@ const styles = StyleSheet.create({
   AnnouncerIcon:{
     resizeMode: 'cover',
         width: 80,
-        height: 80
+        height: 80,
+        borderRadius:40,
+        marginHorizontal:10
   },
   AnnouncerName:{
     fontSize: 25

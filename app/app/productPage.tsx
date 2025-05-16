@@ -23,6 +23,7 @@ const productPage = () => {
     const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
     
+    
     const nextSlide = () => {
         if (!product?.images?.length) return;
         setCurrentSlide((prev) => (prev + 1) % product.images.length);
@@ -160,7 +161,7 @@ const productPage = () => {
                 <TouchableOpacity style={styles.NameIcon}>
                     <Image
                         style={styles.AnnouncerIcon}
-                        source={announcer?.profilePic ? { uri: announcer.profilePic } : genericPhoto }
+                        source={announcer?.profilePic ? { uri: `http://${ip}:5000${announcer.profilePic}` } : genericPhoto }
                         />
                     <Text style={styles.AnnouncerName}>{announcer?.personalData.name}</Text>
                 </TouchableOpacity>
