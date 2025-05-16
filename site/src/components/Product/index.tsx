@@ -62,9 +62,9 @@ const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
                 <div onClick={toggleIsFavourited} className={style.FavouriteOption}>
                 { 
                     !isFavourited ? (
-                    <HeartIcon className={style.FavouriteIcon} />
+                        <HeartIcon className={style.FavouriteIcon} />
                     ) : (
-                    <HeartFilledIcon className={style.FavouritedIcon} />
+                        <HeartFilledIcon className={style.FavouritedIcon} />
                     )
                 }
                 </div>

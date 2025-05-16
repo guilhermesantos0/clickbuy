@@ -121,7 +121,7 @@ const ProductPage = () => {
                                             <Link to={`/users/${announcer?._id}`} className={style.AnnonucerMain}>
                                                     <img 
                                                         className={style.ProfileImage} 
-                                                        src={announcer?.profilePic ? announcer.profilePic : genericPhoto} 
+                                                        src={announcer?.profilePic ? `http://localhost:5000${announcer.profilePic}` : genericPhoto} 
                                                         alt=""
                                                     />
                                                     <h4>{announcer?.personalData.name}</h4>

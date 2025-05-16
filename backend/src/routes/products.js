@@ -86,14 +86,14 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.delete('/', async (req, res) => {
-    try {
-        await Product.deleteMany();
-        res.status(200).json({ message: "Produto deletada ocom sucesso! "});
-    } catch (err) {
-        res.status(500).json({ message: "Erro ao deletar produto", error: err.message })
-    }
-})
+// router.delete('/', async (req, res) => {
+//     try {
+//         await Product.deleteMany();
+//         res.status(200).json({ message: "Produto deletada ocom sucesso! "});
+//     } catch (err) {
+//         res.status(500).json({ message: "Erro ao deletar produto", error: err.message })
+//     }
+// })
 
 router.put("/:id", async (req, res) => {
   try {
