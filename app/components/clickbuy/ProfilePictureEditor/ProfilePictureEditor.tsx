@@ -4,13 +4,18 @@ import * as ImagePicker from 'expo-image-picker'
 import styles from '@/components/clickbuy/ProfilePictureEditor/styles'
 import { IconSymbol } from '@/components/ui/IconSymbol'
 import * as FileSystem from 'expo-file-system';
-
+type ImageFile = {
+        uri: string;
+        filename: string;
+        type: string;
+        };
 interface Props {
   currentImage: string;
-  onImageChange: (file: { uri: string; name: string | undefined; type: string; }) => void;
+  onImageChange: (file: ImageFile) => void;
 }
 
 const ProfilePictureEditor: React.FC<Props> = ({ currentImage, onImageChange }) => {
+  const [profileImageFile, setProfileImageFile] = useState<ImageFile | null>(null);
   const [preview, setPreview] = useState<string>(currentImage);
 
   useEffect(() => {
@@ -25,35 +30,32 @@ const ProfilePictureEditor: React.FC<Props> = ({ currentImage, onImageChange }) 
   }, []);
 
   const pickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
+          try {
+              const result = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ImagePicker.MediaTypeOptions.Images,
+              allowsEditing: true,
+              aspect: [1, 1],
+              quality: 1,
+              });
   
-      if (!result.canceled) {
-        const uri = result.assets[0].uri;
-        setPreview(uri);
+              if (!result.canceled) {
+              const uri = result.assets[0].uri;
+              const fileName = uri.split('/').pop() || 'image.jpg';
+              const mimeType = 'image/jpeg';
+              const file = {
+                  uri: uri,
+                  filename: fileName,
+                  type: mimeType,
+              };
   
-        const fileInfo = await FileSystem.getInfoAsync(uri);
-        const fileUri = fileInfo.uri;
-        const fileName = fileUri.split('/').pop();
-        const mimeType = 'image/jpeg';
-  
-        const fileBlob = {
-          uri: fileUri,
-          name: fileName,
-          type: mimeType,
-        };
-  
-        onImageChange(fileBlob);
-      }
-    } catch (error) {
-      console.error('Erro ao escolher imagem:', error);
-    }
-  };
+              setProfileImageFile(file);
+              setPreview(file.uri)
+              onImageChange(file);
+              }
+          } catch (error) {
+              console.error('Erro ao escolher imagem:', error);
+          }
+          };
 
   return (
     <View style={styles.Container}>

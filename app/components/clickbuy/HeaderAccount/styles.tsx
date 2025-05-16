@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     Image:{
         resizeMode: 'cover',
         width: 100,
-        height: 100
+        height: 100,
+        borderRadius: 50
     },
     Name: {
         fontSize: 30,
