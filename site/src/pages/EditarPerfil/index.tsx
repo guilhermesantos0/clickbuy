@@ -13,6 +13,7 @@ import { formatPhoneNumber, formatCEP, formatCPF } from 'utils/formatters';
 import { User } from 'types/User';
 
 import api from 'services/api';
+import { toast } from 'react-toastify';
 
 const EditarPerfil = () => {
     const { user, setUser } = useUser();
@@ -75,10 +76,10 @@ const EditarPerfil = () => {
             });
 
             setUser(res.data);
-            alert('Dados atualizados com sucesso!');
+            toast.success('Alterações realizadas com sucesso!');
         } catch (err) {
             console.error("Erro ao salvar:", err);
-            alert("Erro ao salvar os dados");
+            toast.error('Erro ao salvar os dados!');
         }
     };
 

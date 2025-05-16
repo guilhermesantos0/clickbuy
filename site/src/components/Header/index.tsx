@@ -40,7 +40,8 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
     }, [])
 
     const handleLogout = () => {
-        setUser( null )
+        setUser(null)
+        navigate('/');
     }
 
     return (
