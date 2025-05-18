@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import ImageGallery from "components/ImageGallery";
+import ShareDropdown from './components/ShareDropdown';
 
 import { useUser } from "contexts/UserContext";
 import { useEffect, useState } from "react";
@@ -112,7 +113,7 @@ const ProductPage = () => {
                                         }
                                     </span>
                                     <h2 className={style.Price}>{product?.price}</h2>
-                                    <button className={style.Buy}>COMPRAR</button>
+                                    <Link to={`/${category}/${id}/comprar`} className={style.Buy}>COMPRAR</Link>
                                 </div>
                                 {
                                     announcer && (
@@ -132,7 +133,7 @@ const ProductPage = () => {
                                 }
                                 <div className={style.OptionsArea}>
                                     <div className={style.Option}>{isFavourited ? <HeartFilledIcon onClick={toggleIsFavourited} className={`${style.Icon} ${style.FavouritedIcon}`} /> : <HeartIcon onClick={toggleIsFavourited} className={style.Icon} /> }</div>
-                                    <div className={style.Option}><Share1Icon className={style.Icon} /></div>
+                                    <div className={style.Option}> <ShareDropdown product={product.name} /></div>
                                     <div className={style.Option}><Report className={style.Icon} /></div>
                                 </div>
                             </div>

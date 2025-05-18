@@ -85,6 +85,7 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
                         { menuOpen && (
                             <div className={style.MenuContainer}>
                                 <Link to="/editar-perfil">Editar Perfil</Link>
+                                <Link to='/carrinho'>Carrinho</Link>
                                 <Link to="/meus-produtos">Meus Produtos</Link>
                                 <Link to="/meus-pedidos">Meus Pedidos</Link>
                                 <Link to="/favoritos">Favoritos</Link>

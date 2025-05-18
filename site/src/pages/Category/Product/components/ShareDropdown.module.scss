@@ -1,0 +1,76 @@
+@use '../../../../assets/scss/variables' as *;
+
+.TriggerButton {
+    height: 5vh;
+    width: 5vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    background: #ccc;
+
+    transition: transform .2s ease-in-out;
+
+    .Icon {
+        width: 60%;
+        height: 60%;
+
+        &.FavouritedIcon {
+            color: red;
+        }
+    }
+
+    border: 0;
+    outline: none;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+}
+
+.DropdownContent {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 0.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    min-width: 170px;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.Item {
+    padding: 12px 18px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: block;
+    z-index: 9999;
+    transition: background-color 0.25s, color 0.25s;
+
+    outline: none;
+
+    &:hover {
+        background-color: #f9f9f9;
+        color: $primary-color;
+        cursor: pointer;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+    }
+}
+
+.ShareIcon {
+    width: 20px;
+    height: 20px;
+}
