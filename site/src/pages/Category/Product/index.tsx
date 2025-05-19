@@ -92,6 +92,10 @@ const ProductPage = () => {
         return res
     }
 
+    const handleAddToCart = async () => {
+        
+    }
+
     return (
         <div className={style.Container}>
             <Header user={user} />
@@ -113,7 +117,7 @@ const ProductPage = () => {
                                         }
                                     </span>
                                     <h2 className={style.Price}>{product?.price}</h2>
-                                    <Link to={`/${category}/${id}/comprar`} className={style.Buy}>COMPRAR</Link>
+                                    <button onClick={handleAddToCart} className={style.Buy}>ADICIONAR AO CARRINHO</button>
                                 </div>
                                 {
                                     announcer && (
