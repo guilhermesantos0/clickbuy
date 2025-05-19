@@ -241,7 +241,7 @@ const addProduct = () => {
                     style={[firstStep.Input]}
                     value={title}
                     onChangeText={text => setTitle(text)}
-                    keyboardType="email-address"
+                    keyboardType= "default"
                     autoCapitalize="none"
                     placeholder="Digite o nome do seu produto"
                     />

@@ -23,7 +23,7 @@ const editAccount = () => {
 
 
   const [profileImage, setProfileImage] = useState(
-    user?.profilePic ? `http://${ip}:5000${user?.profilePic}` : genericPhoto
+    user?.profilePic ? user.profilePic : genericPhoto
   );
   useEffect(() => {
       if (user) {
@@ -55,6 +55,7 @@ const editAccount = () => {
 
         setFormData(updated);
     };
+    
     const handleSave = async () => {
         if (!formData) return;
 

@@ -13,7 +13,7 @@ const HeaderAccount: React.FC<Props> = ({user}) => {
       user.profilePic ? `http://${ip}:5000${user?.profilePic}` : genericPhoto
     );
     useEffect(() => {
-    setProfileImage(user.profilePic ? `http://${ip}:5000${user.profilePic}` : genericPhoto)
+    setProfileImage(user.profilePic ? user.profilePic : genericPhoto)
   }, [user.profilePic])
   return (
     <View style={styles.Container}>
