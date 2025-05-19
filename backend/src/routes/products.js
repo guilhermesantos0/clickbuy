@@ -7,6 +7,8 @@ const path = require('path');
 const fs = require('fs');
 const Favourited = require('../models/Favourited');
 
+const cloudUpload = require("../middleware/cloudUpload");
+
 router.get('/', async (req, res) => {
     try {
         if(req.query.category) {
@@ -43,6 +45,7 @@ router.post('/', upload.array('images', 10), async (req, res) => {
         res.status(500).json({ message: 'Erro ao criar o produto' })
     }
 })
+
 
 router.get('/:id', async (req, res) => {
 try {
