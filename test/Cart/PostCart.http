@@ -1,6 +1,0 @@
-POST http://localhost:5000/cart/b6b6828e-69ba-43a7-ad3f-5e997645ecba
-Content-Type: application/json
-
-{
-    "productId": "7dd69416-fa2e-4b4e-a754-b86e298032da"
-}

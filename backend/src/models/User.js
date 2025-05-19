@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  cart: [{
+    type: String,
+    ref: 'Product'
+  }],
   personalData: {
     name: { 
         type: String, 
