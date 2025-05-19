@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Product = require('../models/Product'); // Ajuste o caminho conforme sua estrutura
+const { Product } = require('../models/Product'); // Ajuste o caminho conforme sua estrutura
 
 // Conecte-se ao banco de dados
 mongoose.connect('mongodb+srv://guilhermesantosdev:cewdLg7RWbCMyWRp@cluster0.qfu7qrl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {

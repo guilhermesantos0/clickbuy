@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
+const { productSchema } = require('./Product');
+
 const userSchema = new mongoose.Schema({
   _id: {
     type: String,
@@ -19,10 +21,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  cart: [{
-    type: String,
-    ref: 'Product'
-  }],
+  cart: [productSchema],
   personalData: {
     name: { 
         type: String, 

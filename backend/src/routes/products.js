@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/Product');
-const upload = require("../middleware/cloudUpload");
+const { Product } = require('../models/Product');
+const upload = require("../middleware/upload");
 const Category = require('../models/Category');
 const path = require('path');
 const fs = require('fs');
 const Favourited = require('../models/Favourited');
-const cloudinary = require("../config/cloudinary")
+const cloudinary = require("../config/cloudinary");
 
 router.get('/', async (req, res) => {
     try {

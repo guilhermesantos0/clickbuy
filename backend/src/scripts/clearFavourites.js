@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Favourited = require('../models/Favourited'); // ajuste o path conforme necessário
-const Product = require('../models/Product');     // ajuste o path conforme necessário
+const { Product } = require('../models/Product');     // ajuste o path conforme necessário
 
 const limparFavoritosOrfaos = async () => {
     try {

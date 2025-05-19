@@ -8,6 +8,8 @@ import ShareDropdown from './components/ShareDropdown';
 import { useUser } from "contexts/UserContext";
 import { useEffect, useState } from "react";
 
+import { addToCart } from "services/cartService";
+
 import { Product } from "@modules/Product";
 import { User } from "@modules/User";
 
@@ -17,6 +19,7 @@ import { ReactComponent as Pin } from '../../../assets/Product/pin.svg';
 
 import { HeartIcon, HeartFilledIcon, Share1Icon, TokensIcon } from "@radix-ui/react-icons";
 import { ReactComponent as Report } from 'assets/Product/flag.svg';
+import { ReactComponent as Cart } from 'assets/cart.svg';
 
 import { addToFavourites, removeFromFavourites } from "services/favouriteService";
 import { toast } from "react-toastify";
@@ -45,8 +48,6 @@ const ProductPage = () => {
             
             const userResponse = await fetch(`http://localhost:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
-            
-            console.log(`Product: ${userResult.profilePic}`);
 
             setAnnouncer(userResult)
         }
@@ -95,7 +96,11 @@ const ProductPage = () => {
     }
 
     const handleAddToCart = async () => {
-        
+        try {
+            if(product) await addToCart(user, setUser, product._id);
+        } catch {
+            toast.error("Erro ao adicionar ao carrinho!");
+        }
     }
 
     return (
@@ -119,7 +124,7 @@ const ProductPage = () => {
                                         }
                                     </span>
                                     <h2 className={style.Price}>{product?.price}</h2>
-                                    <button onClick={handleAddToCart} className={style.Buy}>ADICIONAR AO CARRINHO</button>
+                                    <button onClick={handleAddToCart} className={style.Buy}> <Cart className={style.Icon} /> ADICIONAR AO CARRINHO</button>
                                 </div>
                                 {
                                     announcer && (

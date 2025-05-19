@@ -2,27 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User');
-const Product = require('../models/Product');
+const { Product } = require('../models/Product');
 
 router.post('/add', async (req, res) => {
     const { userId, productId } = req.body;
-
     try {
         const user = await User.findById(userId);
-        if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-        const product = await Product.findById(productId);
-        if (!product) return res.status(404).json({ message: 'Produto não encontrado' });
-
         if (!user.cart.includes(productId)) {
             user.cart.push(productId);
             await user.save();
         }
-
-        res.status(200).json({ message: 'Produto adicionado ao carrinho', cart: user.cart });
-    } catch (error) {
-        console.error('Erro ao adicionar ao carrinho:', error);
-        res.status(500).json({ error: 'Erro interno ao adicionar ao carrinho' });
+        res.json(user.cart);
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao adicionar ao carrinho" });
     }
 });
 

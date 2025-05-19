@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+
 const upload = require("../middleware/upload");
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
 
 router.post('/', async (req, res) => {
     try {
@@ -54,11 +57,18 @@ router.put('/:id', upload.single('profilePic'), async (req, res) => {
         const parsedData = JSON.parse(req.body.data);
 
         if (req.file) {
-        parsedData.profilePic = `/upload/${req.file.filename}`;
+
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'profilePics',
+            });
+
+            parsedData.profilePic = result.secure_url;
+
+            fs.unlinkSync(req.file.path);
         }
 
         if (!parsedData.password) {
-        delete parsedData.password;
+            delete parsedData.password;
         }
 
         const updatedUser = await User.findByIdAndUpdate(userId, parsedData, { new: true });

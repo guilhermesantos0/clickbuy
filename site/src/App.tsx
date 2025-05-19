@@ -28,6 +28,8 @@ import UserProducts from 'pages/UserProducts';
 import EditarProduto from 'pages/EditarProduto';
 import CheckoutPage from 'pages/Comprar/index';
 
+import Cart from 'pages/Carrinho';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -48,6 +50,7 @@ function App() {
         <Route path="/favoritos" element={<Favoritos />} />
 
         <Route path="/editar-perfil" element={<EditarPerfil />} />
+        <Route path="/carrinho" element={<Cart />} />
 
         <Route path="/institucional/sobrenos" element={<AboutUs />} />
         <Route path="/institucional/contato" element={<Contact />} />
