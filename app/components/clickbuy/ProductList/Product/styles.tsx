@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
   
   
   ProductInfo: {
-    paddingLeft: 15,
     width: '90%',
   },
   Name: {
@@ -37,11 +36,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     height: 64,
     overflow: 'hidden',
+    fontWeight: 'bold'
   },
   price: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#DDA04B',
   },
   location: {
     flexDirection: 'row',

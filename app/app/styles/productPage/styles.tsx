@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
 
     },
     filterButton: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.45)',
     padding: 10,
     borderRadius: 25,
     elevation: 5,

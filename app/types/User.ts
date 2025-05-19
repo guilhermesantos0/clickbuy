@@ -4,6 +4,7 @@ export interface User {
     password: string;
     profilePic?: string;
     favourites?: any[];
+    cart: [],
     personalData: {
         name: string;
         bornDate: string;

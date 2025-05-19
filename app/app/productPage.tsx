@@ -103,7 +103,7 @@ const productPage = () => {
                 <Text style={styles.arrow}>&#10094;</Text>
             </TouchableOpacity>
             <Image
-                source={{ uri: `http://${ip}:5000${product?.images[currentSlide]}` }}
+                source={{ uri: String(product?.images[currentSlide]) }}
                 style={styles.SliderImage}
                 resizeMode="cover"
             />
@@ -117,13 +117,13 @@ const productPage = () => {
                                 <TouchableOpacity key={index} style={styles.ImageContainer} onPress={() => setCurrentSlide(index)}>
                                     {index === currentSlide ? (
                                         <Image
-                                            source={{ uri: `http://${ip}:5000${product?.images[index]}` }}
+                                            source={{ uri: String(product.images[index]) }}
                                             style={styles.MainImage}
                                             resizeMode="center"
                                         />
                                         ) : (
                                         <Image
-                                            source={{ uri: `http://${ip}:5000${product?.images[index]}` }}
+                                            source={{ uri: String(product.images[index]) }}
                                             style={styles.Image}
                                             resizeMode="cover"
                                         />
@@ -137,7 +137,7 @@ const productPage = () => {
                 <Text style={styles.Price} >{product?.price}</Text>
                 <View style={styles.ButtomArea}>
                     <TouchableOpacity style={styles.Buy} onPress={() => console.log("comprei")}>
-                        <Text style={styles.ButtonText}>Comprar</Text>
+                        <Text style={styles.ButtonText}>Adicionar ao Carrinho</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.InfoRow}>
@@ -161,7 +161,7 @@ const productPage = () => {
                 <TouchableOpacity style={styles.NameIcon}>
                     <Image
                         style={styles.AnnouncerIcon}
-                        source={announcer?.profilePic ? { uri: `http://${ip}:5000${announcer.profilePic}` } : genericPhoto }
+                        source={announcer?.profilePic ? { uri: announcer.profilePic } : genericPhoto }
                         />
                     <Text style={styles.AnnouncerName}>{announcer?.personalData.name}</Text>
                 </TouchableOpacity>

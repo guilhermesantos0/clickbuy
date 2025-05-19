@@ -24,7 +24,7 @@ const Product: React.FC<Props> = ({ product }) => {
     <TouchableOpacity style={styles.Container} onPress={() => router.push(`/productPage?id=${product._id}`)}>
       <View style={styles.ImageContainer}>
         <Image
-          source={{ uri: `http://${ip}:5000${product.mainImage}`}}
+          source={{ uri: product.mainImage}}
           style={styles.Image}
           resizeMode="center"
         />
