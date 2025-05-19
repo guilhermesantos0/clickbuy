@@ -28,7 +28,7 @@ const ProductPage = () => {
     const [announcer, setAnnouncer] = useState<User>();
     const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
-    
+
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
     
     useEffect(() => {
@@ -46,6 +46,8 @@ const ProductPage = () => {
             const userResponse = await fetch(`http://localhost:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
             
+            console.log(`Product: ${userResult.profilePic}`);
+
             setAnnouncer(userResult)
         }
 
@@ -126,7 +128,7 @@ const ProductPage = () => {
                                             <Link to={`/users/${announcer?._id}`} className={style.AnnonucerMain}>
                                                     <img 
                                                         className={style.ProfileImage} 
-                                                        src={announcer?.profilePic ? `http://localhost:5000${announcer.profilePic}` : genericPhoto} 
+                                                        src={announcer?.profilePic ? `${announcer.profilePic}` : genericPhoto} 
                                                         alt=""
                                                     />
                                                     <h4>{announcer?.personalData.name}</h4>

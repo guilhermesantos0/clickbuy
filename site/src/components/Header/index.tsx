@@ -44,6 +44,8 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
         navigate('/');
     }
 
+    console.log(`Header: ${user?.profilePic}`)
+
     return (
         <div className={style.Container}>
             <div className={style.Left}>
@@ -78,7 +80,7 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
                     <div className={style.ProfileContainer} ref={menuRef}>
                         <img 
                             className={style.ProfileImage} 
-                            src={user?.profilePic ? `http://localhost:5000${user.profilePic}` : genericPhoto} 
+                            src={user?.profilePic ? `${user.profilePic}` : genericPhoto} 
                             alt=""
                             onClick={toggleMenu}
                         />

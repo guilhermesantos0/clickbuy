@@ -28,7 +28,7 @@ const Categorias: React.FC = () => {
       {categories.map((cat) => (
         <Link to={`/${cat.name}`} className={styles.categoriaItem} key={cat._id}>
           <img
-            src={`http://localhost:5000${cat.icon}`}
+            src={`${cat.icon}`}
             alt={cat.name}
             className={styles.categoriaIcon}
           />

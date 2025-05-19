@@ -21,7 +21,7 @@ const EditarPerfil = () => {
     const [tab, setTab] = useState(2);
 
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
-    const [profileImage, setProfileImage] = useState(user?.profilePic ? `http://localhost:5000${user?.profilePic}` : genericPhoto);
+    const [profileImage, setProfileImage] = useState(user?.profilePic ? `${user?.profilePic}` : genericPhoto);
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
     useEffect(() => {

@@ -105,7 +105,7 @@ const AdminProduct = () => {
                 <div className={styles.field}>
                   <label className={styles.label}>Imagem Principal</label>
                   <img
-                    src={`http://localhost:5000${formData.mainImage}`}
+                    src={`${formData.mainImage}`}
                     alt="Main"
                     className={styles.imagePreview}
                   />
@@ -119,7 +119,7 @@ const AdminProduct = () => {
                     {formData.images.map((img: string, index: number) => (
                       <img
                         key={index}
-                        src={`http://localhost:5000${img}`}
+                        src={`${img}`}
                         alt={`img-${index}`}
                         className={styles.imagePreview}
                       />

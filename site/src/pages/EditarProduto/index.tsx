@@ -380,7 +380,7 @@ const EditarProduto = () => {
                                             onClick={() => handleMainImage(index)}
                                         >
                                             <img
-                                                src={`http://localhost:5000${img}`}
+                                                src={`${img}`}
                                                 alt={`preview ${index}`}
                                                 className={thirdStep.PreviewImage}
                                             />

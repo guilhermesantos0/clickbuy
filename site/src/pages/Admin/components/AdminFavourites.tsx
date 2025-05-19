@@ -82,7 +82,7 @@ const AdminFavourites = () => {
                 <p><strong>Preço:</strong>{fav.product.price}</p>
                 <img
                   className={styles.imagePreview}
-                  src={`http://localhost:5000${fav.product.mainImage}`}
+                  src={`${fav.product.mainImage}`}
                   alt={fav.product.name}
                 />
               </div>

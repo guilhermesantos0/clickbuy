@@ -18,14 +18,14 @@ const ImageGallery: React.FC<Props> = ({ images, mainImage }) => {
             className={`${styles.Thumb} ${selectedImage === img ? styles.Active : ''}`}
             onClick={() => setSelectedImage(img)}
           >
-            <img src={`http://localhost:5000${img}`} alt={`Miniatura ${index + 1}`} />
+            <img src={`${img}`} alt={`Miniatura ${index + 1}`} />
           </div>
         ))}
       </div>
 
       <div className={styles.MainImageBox}>
         <div className={styles.MainImageContainer}>
-          <img src={`http://localhost:5000${selectedImage}`} alt="Imagem principal" className={styles.MainImage} />
+          <img src={`${selectedImage}`} alt="Imagem principal" className={styles.MainImage} />
         </div>
       </div>
     </div>

@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
-const upload = require("../middleware/upload");
+const upload = require("../middleware/cloudUpload");
 const Category = require('../models/Category');
 const path = require('path');
 const fs = require('fs');
 const Favourited = require('../models/Favourited');
-
-const cloudUpload = require("../middleware/cloudUpload");
+const cloudinary = require("../config/cloudinary")
 
 router.get('/', async (req, res) => {
     try {
@@ -26,39 +25,62 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', upload.array('images', 10), async (req, res) => {
-
     try {
-        const  filePaths = req.files.map(file => `/upload/${file.filename}`);
         const { name, price, location, categoryId, announcer, used, condition, mainImageIndex, description } = req.body;
 
-        const category = await Category.findOne({ _id: Number(categoryId)})
+        const uploadedImageUrls = [];
 
-        const mainImage = filePaths[Number(mainImageIndex)] || filePaths [0];
+        for (const file of req.files) {
+            const result = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload_stream({ folder: 'produtos' }, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                }).end(file.buffer);
+            });
 
-        const newProduct = new Product({ name, price, location, category: category.name, description, announcer, condition: { used: used === "true", quality: condition }, images: filePaths, mainImage });
+            uploadedImageUrls.push(result.secure_url);
+        }
+
+        const category = await Category.findOne({ _id: Number(categoryId) });
+
+        const mainImage = uploadedImageUrls[Number(mainImageIndex)] || uploadedImageUrls[0];
+
+        const newProduct = new Product({
+            name,
+            price,
+            location,
+            category: category.name,
+            description,
+            announcer,
+            condition: {
+                used: used === 'true',
+                quality: condition
+            },
+            images: uploadedImageUrls,
+            mainImage
+        });
+
         await newProduct.save();
-
         res.status(201).json(newProduct);
 
     } catch (err) {
-        console.error('Erro ao criar o produto', err);
-        res.status(500).json({ message: 'Erro ao criar o produto' })
+        console.error('Erro ao criar o produto:', err);
+        res.status(500).json({ message: 'Erro ao criar o produto' });
     }
-})
-
+});
 
 router.get('/:id', async (req, res) => {
-try {
-    const product = await Product.findById(req.params.id);
+    try {
+        const product = await Product.findById(req.params.id);
 
-    if (!product) {
-        return res.status(404).json({ message: 'Produto não encontrado' });
+        if (!product) {
+            return res.status(404).json({ message: 'Produto não encontrado' });
+        }
+
+        res.status(200).json(product);
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao buscar produto', error: err.message });
     }
-
-    res.status(200).json(product);
-} catch (err) {
-    res.status(500).json({ message: 'Erro ao buscar produto', error: err.message });
-}
 });
 
 router.get('/user/:id', async (req, res) => {
@@ -114,17 +136,22 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         let updatedImages = [...existingProduct.images];
 
         if (Array.isArray(parsedData.imagesToRemove)) {
-            parsedData.imagesToRemove.forEach((imgPath) => {
-                const filePath = path.join(__dirname, '..', imgPath);
-                if (fs.existsSync(filePath)) {
-                    fs.unlinkSync(filePath);
-                }
+            for (const imgPath of parsedData.imagesToRemove) {
+                const publicId = imgPath.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`upload/${publicId}`);
+
                 updatedImages = updatedImages.filter((img) => img !== imgPath);
-            });
+            }
         }
 
-        const newImagePaths = files.map(file => `/upload/${file.filename}`);
-        updatedImages.push(...newImagePaths);
+        for (const file of files) {
+            const result = await cloudinary.uploader.upload(file.path, {
+                folder: 'produtos',
+            });
+            updatedImages.push(result.secure_url);
+
+            fs.unlinkSync(file.path);
+        }
 
         const mainImageIndex = parsedData.mainImageIndex ?? 0;
         const mainImage = updatedImages[mainImageIndex] || updatedImages[0];
@@ -134,7 +161,7 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
             {
                 ...parsedData,
                 images: updatedImages,
-                mainImage
+                mainImage,
             },
             { new: true }
         );

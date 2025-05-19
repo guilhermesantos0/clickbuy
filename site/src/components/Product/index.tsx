@@ -72,7 +72,7 @@ const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
 
             <Link to={`/${product.category}/${product._id}`} className={style.LinkArea}>
                 <div className={style.ImageContainer}>
-                    <img className={style.Image} src={`http://localhost:5000${product.mainImage}`} alt="" />
+                    <img className={style.Image} src={`${product.mainImage}`} alt="" />
                 </div>
                 <div className={style.ProductInfo}>
                     <div className={style.Price}>{product.price}</div>

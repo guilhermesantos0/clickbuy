@@ -51,7 +51,7 @@ const CheckoutPage = () => {
                     <h1>Resumo da Compra</h1>
                     { product ? (
                     <div className={style.Product} >
-                        <img src={`http://localhost:5000${product.mainImage}`} alt="" />
+                        <img src={`${product.mainImage}`} alt="" />
                         <div className={style.ProductDescription}>
                             <h2>{product.name}</h2>
                         </div>

@@ -81,7 +81,7 @@ const AdminCategory = () => {
                 <div className={styles.field}>
                   <label className={styles.label}>Visual do Ícone</label>
                   <img
-                    src={`http://localhost:5000${formData.icon}`}
+                    src={`${formData.icon}`}
                     alt="Ícone"
                     className={styles.imagePreview}
                   />

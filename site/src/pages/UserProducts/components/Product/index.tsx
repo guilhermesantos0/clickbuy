@@ -32,7 +32,7 @@ const Product:React.FC<Props> = ({ product, onDelete }) => {
     return(
         <div className={style.Overlay}>
             <Link to={`/${product.category}/${product._id}`} className={style.Container}>
-                <img className={style.Image} src={`http://localhost:5000${product.mainImage}`} />
+                <img className={style.Image} src={`${product.mainImage}`} />
                 <div className={style.ProductInfo}>
                     <div className={style.TopSection}>
                         <h2 className={style.Title}>{product.name}</h2>

@@ -90,7 +90,7 @@ const AdminUser = () => {
                 <div className={styles.field}>
                   <label className={styles.label}>Imagem de Perfil</label>
                   <img
-                    src={`http://localhost:5000${formData.profilePic}`}
+                    src={`${formData.profilePic}`}
                     alt="Perfil"
                     className={styles.imagePreview}
                   />
