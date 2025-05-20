@@ -16,7 +16,7 @@ mongoose.connect('mongodb+srv://guilhermesantosdev:cewdLg7RWbCMyWRp@cluster0.qfu
     useUnifiedTopology: true,
 });
 
-const { Product } = require('../models/Product');
+const Product = require('../models/Product');
 const User = require('../models/User');
 const Category = require('../models/Category');
 

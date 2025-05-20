@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { Product } = require("../models/Product");
+const Product = require("../models/Product");
 
 const upload = require('../middleware/cloudUpload');
 const cloudinary = require('../config/cloudinary');
+const User = require('../models/User');
 
 // router.post('/', (req, res) => {
     // console.log(req)
@@ -24,24 +25,36 @@ const cloudinary = require('../config/cloudinary');
     // // res.status(200).json({ message: 'Upload bem-sucedido!', files: filePaths });
 // });
 
-router.post('/', upload.single('image'), async (req, res) => {
-    try {
-        const result = await new Promise((resolve, reject) => {
-            cloudinary.uploader.upload_stream(
-                { folder: 'testes' },
-                (error, result) => {
-                    if (error) return reject(error);
-                    resolve(result);
-                }
-            ).end(req.file.buffer);
+// router.post('/', upload.single('image'), async (req, res) => {
+    // try {
+    //     const result = await new Promise((resolve, reject) => {
+    //         cloudinary.uploader.upload_stream(
+    //             { folder: 'testes' },
+    //             (error, result) => {
+    //                 if (error) return reject(error);
+    //                 resolve(result);
+    //             }
+    //         ).end(req.file.buffer);
+    //     });
+
+    //     res.json({ url: result.secure_url });
+    // } catch (err) {
+    //     console.error('Erro ao enviar para Cloudinary:', err);
+    //     res.status(500).json({ error: 'Falha no upload' });
+    // }
+// });
+
+router.get('/', async (req, res) => {
+    // b6b6828e-69ba-43a7-ad3f-5e997645ecba
+    const user = await User.findById('b6b6828e-69ba-43a7-ad3f-5e997645ecba')
+        .populate({
+            path: 'cart',
+            populate: {
+                path: 'announcer',
+                model: 'User'
+            }
         });
-
-        res.json({ url: result.secure_url });
-    } catch (err) {
-        console.error('Erro ao enviar para Cloudinary:', err);
-        res.status(500).json({ error: 'Falha no upload' });
-    }
-});
-
+    res.json(user)
+})
 
 module.exports = router;

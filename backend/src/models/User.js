@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
-const { productSchema } = require('./Product');
-
 const userSchema = new mongoose.Schema({
   _id: {
     type: String,
@@ -21,7 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  cart: [productSchema],
+  cart: [{ type: String, ref: 'Product'}],
   personalData: {
     name: { 
         type: String, 
@@ -55,3 +53,5 @@ const userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('User', userSchema);
+
+// module.exports = mongoose.model('User', userSchema);

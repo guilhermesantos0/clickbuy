@@ -97,7 +97,7 @@ const ProductPage = () => {
 
     const handleAddToCart = async () => {
         try {
-            if(product) await addToCart(user, setUser, product._id);
+            if(product) await addToCart(user, setUser, product);
         } catch {
             toast.error("Erro ao adicionar ao carrinho!");
         }
@@ -127,18 +127,18 @@ const ProductPage = () => {
                                     <button onClick={handleAddToCart} className={style.Buy}> <Cart className={style.Icon} /> ADICIONAR AO CARRINHO</button>
                                 </div>
                                 {
-                                    announcer && (
+                                    product.announcer && (
                                         <div className={style.DetailsBottom}>
                                             <h3>Informações do anunciante</h3>
-                                            <Link to={`/users/${announcer?._id}`} className={style.AnnonucerMain}>
+                                            <Link to={`/users/${product.announcer?._id}`} className={style.AnnonucerMain}>
                                                     <img 
                                                         className={style.ProfileImage} 
-                                                        src={announcer?.profilePic ? `${announcer.profilePic}` : genericPhoto} 
+                                                        src={product.announcer?.profilePic ? `${product.announcer.profilePic}` : genericPhoto} 
                                                         alt=""
                                                     />
-                                                    <h4>{announcer?.personalData.name}</h4>
+                                                    <h4>{product.announcer?.personalData.name}</h4>
                                             </Link>
-                                            <div className={style.Location}><Pin className={style.Pin} />{`${announcer?.personalData.address.city}, ${announcer?.personalData.address.state} - ${announcer?.personalData.address.zip}`}</div>
+                                            <div className={style.Location}><Pin className={style.Pin} />{`${product.announcer?.personalData.address.city}, ${product.announcer?.personalData.address.state} - ${product.announcer?.personalData.address.zip}`}</div>
                                         </div>
                                     )
                                 }

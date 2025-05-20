@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Product } = require('../models/Product');
+const Product = require('../models/Product');
 const upload = require("../middleware/upload");
 const Category = require('../models/Category');
 const path = require('path');
@@ -71,7 +71,7 @@ router.post('/', upload.array('images', 10), async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id).populate('announcer');
 
         if (!product) {
             return res.status(404).json({ message: 'Produto não encontrado' });

@@ -1,20 +1,21 @@
+import { Product } from "@modules/Product";
 import api from "./api";
 import { User } from "@modules/User";
 
 export const addToCart = async (
     user: User | null,
     setUser: (user: User) => void,
-    productId: string
+    product: Product
 ) => {
-    if (!user || !productId) return;
+    if (!user || !product) return;
 
     try {
         const res = await api.post('/cart/add', {
             userId: user._id,
-            productId
+            product
         });
 
-        const updatedCart = [...(user.cart || []), productId];
+        const updatedCart = [...(user.cart || []), product];
         setUser({ ...user, cart: updatedCart });
 
         return res.data;
@@ -23,3 +24,11 @@ export const addToCart = async (
         throw err;
     }
 };
+
+
+export async function getPopulatedCart(userId: string): Promise<Product[]> {
+    const response = await fetch(`/user/${userId}/cart`);
+    if (!response.ok) throw new Error('Erro ao buscar carrinho populado');
+    const data = await response.json();
+    return data.cart;
+}

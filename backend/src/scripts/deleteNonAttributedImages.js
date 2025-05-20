@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { Product } = require('../models/Product'); // ajuste o path conforme necessário
+const Product = require('../models/Product'); // ajuste o path conforme necessário
 const mongoose = require('mongoose');
 require('dotenv').config();
 

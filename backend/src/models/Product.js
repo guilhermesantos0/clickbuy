@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema({
     price: { type: String, required: true },
     location: { type: String, required: true },
     category: { type: String, required: true },
-    announcer: { type: String, required: true },
+    announcer: { type: String, required: true, ref: 'User' },
     condition: {
         quality: { type: String, required: true },
         used: { type: Boolean, required: true }
@@ -20,6 +20,6 @@ const productSchema = new mongoose.Schema({
     description: { type: String, required: true }
 }, { timestamps: true });
 
-const Product = mongoose.model('Product', productSchema);
+const Product = 
 
-module.exports = { Product, productSchema}
+module.exports = mongoose.model('Product', productSchema);

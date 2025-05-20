@@ -31,13 +31,34 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id)
 
         if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
 
         res.status(200).json(user);
     } catch (err) {
         res.status(500).json({ message: 'Erro ao buscar usuário', error: err.message });
+    }
+});
+
+router.get('/:id/cart', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+            .populate({
+                path: 'cart',
+                populate: {
+                    path: 'announcer',
+                    model: 'User'
+                }
+            });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.status(200).json(user.cart);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar carrinho', error });
     }
 });
 

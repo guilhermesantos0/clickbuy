@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Favourited = require('../models/Favourited');
 const User = require('../models/User');
-const { Product } = require('../models/Product');
+const Product = require('../models/Product');
 
 router.get('/', async (req, res) => {
     try {

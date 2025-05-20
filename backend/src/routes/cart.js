@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User');
-const { Product } = require('../models/Product');
+const Product = require('../models/Product');
 
 router.post('/add', async (req, res) => {
     const { userId, productId } = req.body;

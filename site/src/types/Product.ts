@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export interface Product {
     _id: string,
     name: string,
@@ -6,7 +8,7 @@ export interface Product {
     images: String[],
     mainImage: string,
     category: string,
-    announcer: string,
+    announcer: User,
     condition: {
         quality: string,
         used: boolean

@@ -44,8 +44,6 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
         navigate('/');
     }
 
-    console.log(`Header: ${user?.profilePic}`)
-
     return (
         <div className={style.Container}>
             <div className={style.Left}>
