@@ -46,9 +46,9 @@ const productPage = () => {
             setProduct(productResult);
             setCreatedDate(new Date(productResult.createdAt))
             
-            const userResponse = await fetch(`http://${ip}:5000/user/${productResult.announcer}`)
+            const userResponse = await fetch(`http://${ip}:5000/user/${productResult.announcer._id}`)
             const userResult = await userResponse.json();
-            
+
             setAnnouncer(userResult)
         }
 
@@ -167,7 +167,7 @@ const productPage = () => {
                 </TouchableOpacity>
                 <View style={styles.location}>
                     <IconSymbol size={15} name='location' color='black' />
-                    <Text>{`${announcer?.personalData.address.city}, ${announcer?.personalData.address.state} - ${announcer?.personalData.address.zip}`}</Text>
+                    <Text>{`${product?.announcer?.personalData.address.city}, ${product?.announcer?.personalData.address.state} - ${product?.announcer?.personalData.address.zip}`}</Text>
                 </View>
             </View>
             <View style={styles.ProductDescription}>

@@ -15,6 +15,7 @@ import * as ImagePicker from 'expo-image-picker'
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 import { router } from 'expo-router';
+import { Picker } from '@react-native-picker/picker';
 interface State {
     id: number,
     sigla: string,
@@ -201,6 +202,7 @@ const addProduct = () => {
                 name: img.filename || 'image.jpg',
             } as any); 
         });
+            console.log(formData)
     
         try {
           const response = await axios.post(`http://${ip}:5000/products`, formData, {
@@ -227,7 +229,6 @@ const addProduct = () => {
     };
 
 
-
   return (
     <View style={styles.Container}>
     <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
@@ -246,84 +247,56 @@ const addProduct = () => {
                     placeholder="Digite o nome do seu produto"
                     />
                     <Text style={firstStep.text}>Categoria</Text>
-                    <SelectDropdown
-                        data={categories}
-                        onSelect={(selectedItem, index) => {
-                            setCategory(selectedItem)
+                    <View style={styles.PickerArea}>
+                        <Picker
+                        style={styles.Picker}
+                        selectedValue={category}
+                        onValueChange={(itemValue, itemIndex) => {
+                            const selected = categories.find(c => c.name === itemValue);
+                            setCategory(selected)
                         }}
-                        renderButton={(selectedItem, isOpened) => {
-                            return (
-                            <View style={styles.dropdownButtonStyle}>
-                                <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem.name) || 'Categoria'}
-                                </Text>
-                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
-                            </View>
-                            );
-                        }}
-                        renderItem={(item, index, isSelected) => {
-                            return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{item.name}</Text>
-                            </View>
-                            );
-                        }}
-                        dropdownStyle={styles.dropdownMenuStyle}
-                        />
+                        >
+                            <Picker.Item label="Selecione a categoria" value={null} />
+                        {categories.map((cat) => (
+                            <Picker.Item key={cat.name} label={cat.name} value={cat.name} />
+                        ))}
+                        </Picker>
+                    </View>
                         
                         <Text style={firstStep.text}>Estado</Text>
-                        <SelectDropdown
-                        defaultValue={state}
-                        data={states}
-                        onSelect={(selectedItem, index) => {
-                            setState(selectedItem);
+                    <View style={styles.PickerArea}>
+                        <Picker
+                        style={styles.Picker}
+                        selectedValue={state}
+                        onValueChange={(itemValue, itemIndex) => {
+                            const selected = states.find(c => c.sigla === itemValue);
+                            setState(selected)
                         }}
-                        renderButton={(selectedItem, isOpened) => {
-                            return (
-                            <View style={styles.dropdownButtonStyle}>
-                                <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem.nome) || 'Estado'}
-                                </Text>
-                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
-                            </View>
-                            );
-                        }}
-                        renderItem={(item, index, isSelected) => {
-                            return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{item.nome}</Text>
-                            </View>
-                            );
-                        }}
-                        dropdownStyle={styles.dropdownMenuStyle}
-                        />
+                        >
+                            <Picker.Item label="Selecione o Estado" value={null} />
+                        {states.map((state) => (
+                            <Picker.Item key={state.sigla} label={state.nome} value={state.sigla} />
+                        ))}
+                        </Picker>
+                    </View>
                         <Text style={firstStep.text}>Cidade</Text>
-                        <SelectDropdown
-                        data={cities}
-
-                        onSelect={(selectedItem, index) => {
-                            setCity(selectedItem)
+                    <View style={styles.PickerArea}>
+                        <Picker
+                        selectedValue={city}
+                        style={styles.Picker}
+                        onValueChange={(itemValue, itemIndex) => {
+                            const selected = cities.find(c => c.nome === itemValue);
+                            if (selected) {
+                                setCity(selected);
+                            }
                         }}
-                        renderButton={(selectedItem, isOpened) => {
-                            return (
-                            <View style={styles.dropdownButtonStyle}>
-                                <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem.nome) || 'Cidade'}
-                                </Text>
-                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
-                            </View>
-                            );
-                        }}
-                        renderItem={(item, index, isSelected) => {
-                            return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{item.nome}</Text>
-                            </View>
-                            );
-                        }}
-                        dropdownStyle={styles.dropdownMenuStyle}
-                        disabled={disableCity}
-                        />
+                        >
+                        <Picker.Item label="Selecione a cidade" value={null} />
+                        {cities.map((city) => (
+                            <Picker.Item key={city.nome} label={city.nome} value={city.nome} />
+                        ))}
+                        </Picker>
+                    </View>
                         <Text style={firstStep.text}>Preço</Text>
                         <TextInput
                         style={[firstStep.Input]}
@@ -357,56 +330,35 @@ const addProduct = () => {
             <View style={styles.Form}>
                 <Text style={styles.Title}>Qualidade do Produto</Text>
                     <Text style={firstStep.text}>Qualidade do Produto</Text>
-                    <SelectDropdown
-                        data={conditionOptions}
-                        onSelect={(selectedItem, index) => {
-                            setCondition(selectedItem)
-                        }}
-                        renderButton={(selectedItem, isOpened) => {
-                            return (
-                            <View style={styles.dropdownButtonStyle}>
-                                <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem) || 'Qualidade'}
-                                </Text>
-                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
+                <View style={styles.PickerArea}>
+                                <Picker
+                                selectedValue={condition}
+                                style={styles.Picker}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setCondition(String(itemValue))
+                                }}
+                                >
+                                <Picker.Item label="Selecione a condição do produto" value={null} />
+                                {conditionOptions.map((condition) => (
+                                    <Picker.Item key={condition} label={condition} value={condition} />
+                                ))}
+                                </Picker>
                             </View>
-                            );
-                        }}
-                        renderItem={(item, index, isSelected) => {
-                            return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
-                            </View>
-                            );
-                        }}
-                        dropdownStyle={styles.dropdownMenuStyle2}
-                        />
-                        
-                        <Text style={firstStep.text}>Condição</Text>
-                        <SelectDropdown
-                        data={usedOptions}
-                        onSelect={(selectedItem, index) => {
-                            setUsed(selectedItem.label);
-                        }}
-                        renderButton={(selectedItem, isOpened) => {
-                            return (
-                            <View style={styles.dropdownButtonStyle}>
-                                <Text style={styles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem.label) || 'Condição'}
-                                </Text>
-                                <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles.dropdownButtonArrowStyle} />
-                            </View>
-                            );
-                        }}
-                        renderItem={(item, index, isSelected) => {
-                            return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{item.label}</Text>
-                            </View>
-                            );
-                        }}
-                        dropdownStyle={styles.dropdownMenuStyle3}
-                        />
+                            <Text style={firstStep.text}>Condição</Text>
+                            <View style={styles.PickerArea}>
+                                <Picker
+                                selectedValue={used}
+                                style={styles.Picker}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setUsed(Boolean(itemValue))
+                                }}
+                                >
+                        <Picker.Item label="Selecione se o produto é usado" value={null} />
+                        {usedOptions.map((condition) => (
+                            <Picker.Item key={condition.label} label={condition.label} value={condition.value} />
+                        ))}
+                        </Picker>
+                    </View>
                         
                         <View style ={styles.ButtonsArea}>
                             <TouchableOpacity

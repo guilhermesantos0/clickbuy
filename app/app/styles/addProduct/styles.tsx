@@ -136,5 +136,12 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#DDA04B',
   },
+  PickerArea:{
+    borderRadius: 10,
+    overflow:'hidden'
+  },
+  Picker:{
+    backgroundColor:'rgb(224, 224, 224)',
+  },
   });
   export default styles

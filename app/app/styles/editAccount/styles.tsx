@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flexDirection: 'column',
     },
+    
     Tabs:{
         width:'100%',
         height: 50,

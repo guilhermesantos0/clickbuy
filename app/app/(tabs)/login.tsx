@@ -17,55 +17,41 @@ const Login = () => {
   const router = useRouter();
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      return Toast.show({
-        type: 'error',
-        text1: 'Preencha todos os campos',
-      });
+        try {
+            const response = await fetch(`http://${ip}:5000/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({
+                    email, 
+                    password
+                })
+            })
+
+            const result = await response.json();
+
+            if(response.ok) {
+                Toast.show({
+                  type: 'success',
+                  text1: 'Login realizado com sucesso!',
+                });
+                setUser( result.user )
+                router.push('/');
+            } else {
+                Toast.show({
+                type: 'error',
+                text1: result.message || 'Falha no login',
+              });
+            }
+        } catch (error) {
+            Toast.show({
+            type: 'error',
+            text1: `Erro de conexão com o servidor$`,
+          });
+          console.log(error)
+        }
     }
-  
-    try {
-      const response = await fetch(`http://${ip}:5000/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      });
-  
-      const result = await response.json();
-      
-
-  
-      if (response.ok) {
-        Toast.show({
-          type: 'success',
-          text1: 'Login realizado com sucesso!',
-        });
-  
-        const favourites = await getUserFavouriteProducts(result.user._id);
-        const favouriteIds = favourites.map((item: { _id: String; }) => item._id);
-        setUser({ ...result.user, favourites: favouriteIds });
-
-
-        
-        router.push('/');
-      } else {
-        Toast.show({
-          type: 'error',
-          text1: result.message || 'Falha no login',
-        });
-      }
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Erro de conexão com o servidor',
-      });
-    }
-  };
   const handleLogout = () => {
         setUser( null )
         router.push('/');
