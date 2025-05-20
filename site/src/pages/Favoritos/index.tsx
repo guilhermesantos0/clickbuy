@@ -12,6 +12,9 @@ import SelectMenu from "components/SelectMenu";
 import { Product as ProductModel } from "@modules/Product";
 
 import style from './Favoritos.module.scss';
+import { Link } from "react-router-dom";
+
+import emptyFavourites from 'assets/empty-favorites.svg'
 
 const Favoritos = () => {
     const { user } = useUser();
@@ -54,7 +57,16 @@ const Favoritos = () => {
                             <Product key={idx} product={fav} favouriteOption favourited />
                         ))
                     ) : (
-                        <div>Você não tem nenhum favorito</div>
+                        <div className={style.EmptyFavorites}>
+                            <img 
+                                src={emptyFavourites}
+                                alt="Nenhum favorito" 
+                                className={style.EmptyImage}
+                            />
+                            <h2>Você ainda não adicionou favoritos</h2>
+                            <p>Comece a explorar e marque seus produtos preferidos para facilitar depois! 💖</p>
+                            <Link to="/" className={style.GoShoppingButton}>Explorar produtos</Link>
+                        </div>
                     )}
                 </div>
             </div>

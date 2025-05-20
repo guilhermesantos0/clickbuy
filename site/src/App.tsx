@@ -26,7 +26,7 @@ import NotFound from 'pages/404';
 
 import UserProducts from 'pages/UserProducts';
 import EditarProduto from 'pages/EditarProduto';
-import CheckoutPage from 'pages/Comprar/index';
+import CheckoutPage from 'pages/Checkout/index';
 
 import Cart from 'pages/Carrinho';
 
@@ -60,7 +60,8 @@ function App() {
         <Route path="/:category" element={<Category />} />
         <Route path="/:category/:id" element={<ProductPage />} />
         <Route path="/:category/:id/editar" element={<EditarProduto />} />
-        <Route path="/:category/:id/comprar" element={<CheckoutPage />} />
+        
+        <Route path="/comprar" element={<CheckoutPage />} />
 
         <Route path="/ajuda/garantia" element={<Garantia/>} />
         <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />

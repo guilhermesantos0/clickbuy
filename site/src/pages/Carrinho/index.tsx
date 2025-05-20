@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 import { Product } from "@modules/Product";
 import api from "services/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { CircleBackslashIcon } from "@radix-ui/react-icons";
 import { ReactComponent as Card } from 'assets/card.svg';
@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 import emptyCart from 'assets/empty-cart.svg';
 
 const Cart = () => {
+
+    const navigate = useNavigate();
 
     const { user, setUser } = useUser();
     const [userCart, setUserCart] = useState<Product[]>();
@@ -60,9 +62,23 @@ const Cart = () => {
         }
     }
 
-    const handleChekout = () => {
-        
-    }
+    const handleCheckout = () => {
+        if (!userCart || selectedProducts.length === 0) {
+            alert("Selecione ao menos um produto para continuar.");
+            return;
+        }
+
+        const productsToBuy = userCart.filter(product =>
+            selectedProducts.includes(product._id)
+        );
+
+        if (productsToBuy.length === 0) {
+            alert("Nenhum produto válido selecionado.");
+            return;
+        }
+
+        navigate('/comprar', { state: { products: productsToBuy } });
+    };
 
     return (
         <div className={style.Container}>
@@ -93,7 +109,7 @@ const Cart = () => {
                     ))}
                     <div className={style.ButtonsArea}>
                         <button className={`${style.Button} ${style.RemoveSelection}`} onClick={handleRemoveSelected} ><CircleBackslashIcon className={style.Icon} />Remover seleção</button>
-                        <button className={`${style.Button} ${style.Checkout}`} onClick={handleChekout}><Card className={`${style.Icon} ${style.Card}`} />Comprar</button>
+                        <button className={`${style.Button} ${style.Checkout}`} onClick={handleCheckout}><Card className={`${style.Icon} ${style.Card}`} />Comprar</button>
                     </div>
                 </div>
             ) : (

@@ -10,6 +10,9 @@ import { Product as ProductType } from "types/Product";
 
 import api from "services/api";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import emptyProducts from 'assets/empty-products.svg';
 
 const UserProducts = () => {
     const { user } = useUser();
@@ -40,7 +43,17 @@ const UserProducts = () => {
                         <Product key={idx} product={product} onDelete={handleDeleteProduct} />
                     ))
                 ) : (
-                    <div>Você não tem nenhum produto</div>
+                    <div className={style.EmptyProducts}>
+                        <img 
+                            src={emptyProducts}
+                            alt="Nenhum produto anunciado" 
+                            className={style.EmptyImage}
+                        />
+                        <h2>Nenhum produto anunciado</h2>
+                        <p>Anuncie um novo produto! 🧺</p>
+                        <Link to="/" className={style.GoShoppingButton}>Voltar para a home</Link>
+                    </div>
+
                 )}
             </div>
             <Footer></Footer>
