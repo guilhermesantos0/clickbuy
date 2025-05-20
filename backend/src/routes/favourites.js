@@ -52,7 +52,6 @@ router.get('/:type/:id', async (req, res) => {
             const favourites = await Favourited.find({ userId: id });
             const favouriteProducts = await Promise.all(
                 favourites.map(async (fav) => {
-                    console.log(fav)
                     const product = await Product.findOne({ _id: fav.productId })
         
                     return product
@@ -67,11 +66,7 @@ router.get('/:type/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    console.log('aaaaaa')
     try {
-
-        console.log('bbbbb')
-
         const { userId, productId } = req.body
 
         const newFavourite = new Favourited({ userId, productId });

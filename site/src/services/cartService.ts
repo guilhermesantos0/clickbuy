@@ -9,16 +9,18 @@ export const addToCart = async (
 ) => {
     if (!user || !product) return;
 
+    console.log(product)
+
     try {
-        const res = await api.post('/cart/add', {
-            userId: user._id,
-            product
-        });
+        // const res = await api.post('/cart/add', {
+        //     userId: user._id,
+        //     product
+        // });
 
         const updatedCart = [...(user.cart || []), product];
         setUser({ ...user, cart: updatedCart });
 
-        return res.data;
+        // return res.data;
     } catch (err) {
         console.error("Erro ao adicionar ao carrinho:", err);
         throw err;

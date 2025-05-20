@@ -79,8 +79,8 @@
         flex-shrink: 0;
 
         @media (max-width: 480px) {
-        max-width: 100px;
-        height: 100px;
+            max-width: 100px;
+            height: 100px;
         }
     }
 
@@ -91,29 +91,19 @@
         gap: 0.8rem;
 
         .TopSection {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
 
-        .Title {
-            color: $primary-color;
-            font-weight: 600;
+            .Title {
+                color: $primary-color;
+                font-weight: 600;
 
-            @media (max-width: 480px) {
-                font-size: 1rem;
+                @media (max-width: 480px) {
+                    font-size: 1rem;
+                }
             }
-        }
-
-        // .Options {
-        //     display: flex;
-        //     gap: 0.5rem;
-        //     margin-top: 0.5rem;
-
-        
-        // }
-
-        
         }
 
         .BottomSection {
