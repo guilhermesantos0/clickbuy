@@ -9,6 +9,10 @@ import Footer from "components/Footer";
 
 import { useUser } from "contexts/UserContext";
 
+import { ReactComponent as CardIcon } from '../../assets/card.svg';
+import { ReactComponent as PixIcon } from '../../assets/pix.svg';
+import api from "services/api";
+
 interface LocationState {
     products?: Product[];
 }
@@ -19,6 +23,8 @@ const CheckoutPage = () => {
     const products = state?.products;
 
     const { user } = useUser();
+
+    const [paymentMethod, setPaymentMethod] = useState<1 | 2>(2);
 
     const [useAccountAddress, setUseAccountAddress] = useState(true);
     const [address, setAddress] = useState({
@@ -36,7 +42,7 @@ const CheckoutPage = () => {
         name: '',
         expireDate: '',
         cvv: ''
-    })
+    });
 
     if (!products || products.length === 0) {
         return <Navigate to="/carrinho" replace />;
@@ -52,34 +58,127 @@ const CheckoutPage = () => {
         currency: 'BRL'
     });
 
+    const [qrCode, setQrCode] = useState<string | null>(null);
+    const [loadingPix, setLoadingPix] = useState(false);
+
+    const handleGeneratePix = async () => {
+        setLoadingPix(true);
+        try {
+            const response = await api.post("/api/pagamento/pix", {
+                amount: total, 
+                checkoutInfo: { description: `Compra ${products.map((prod) => prod.name).join(', ')}`, email: user?.email }
+            });
+
+            setQrCode(response.data.qrCodeImage);
+        } catch (err) {
+            console.error("Erro ao gerar QR Code PIX", err);
+            alert("Erro ao gerar QR Code.");
+        } finally {
+            setLoadingPix(false);
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (paymentMethod === 1) {
+            console.log("Pagamento com cartão:", cardForm);
+        } else {
+            console.log("Gerar QR Code PIX...");
+        }
+    };
+
     return (
         <div className={style.Container}>
             <Header user={user} hideOptions />
             <div className={style.PageContent}>
                 <div className={style.Summary}>
-                    <h2>Resumo da compra</h2>
+                    <h2 className={style.Title}>Resumo da compra</h2>
                     <div className={style.ProductsContainer}>
-                        { products.map((product) => (
-                            <div className={style.Product}>
-                                <h4>{product.name}</h4>
-                                <p>{product.price}</p>
-                            </div>
+                        {products.map((product, idx) => (
+                            <>
+                                <div key={product._id} className={style.Product}>
+                                    <h4 title={product.name} className={style.ProductName}>{product.name}</h4>
+                                    <p>{product.price}</p>
+                                </div>
+                                { idx !== products.length - 1 && (
+                                    <span className={style.Separator}></span>
+                                )}
+                            </>
                         ))}
                     </div>
+                    <h3 className={style.Total}>Total: {totalFormatted}</h3>
                 </div>
-                <form className={style.PaymentForm}>
-                    <input className={`${style.Input} ${style.CardNumber}`} placeholder="Número do Cartão" type="text" value={cardForm.number} onChange={e => setCardForm({ ...cardForm, number: e.target.value })} />
-                    <input className={`${style.Input} ${style.CardName}`} placeholder="Nome no Cartão" type="text" value={cardForm.name} onChange={e => setCardForm({ ...cardForm, name: e.target.value })} />
-                    <input className={`${style.Input} ${style.CardExpire}`} placeholder="Validade" type="text" value={cardForm.expireDate} onChange={e => setCardForm({ ...cardForm, expireDate: e.target.value })} />
-                    <input className={`${style.Input} ${style.CardCVV}`} placeholder="CVV" type="text" value={cardForm.cvv} onChange={e => setCardForm({ ...cardForm, cvv: e.target.value })} />                    
-                    <button type="submit">Realizar Pagamento</button>
-                    <span></span>
-                    
-                </form>
-            </div> 
+
+                <div className={style.PaymentSection}>
+                    <div className={style.Tabs} style={{ "--active-tab-index": paymentMethod - 1.5 } as React.CSSProperties}>
+                        <div
+                            className={`${style.Tab} ${paymentMethod === 1 ? style.ActiveTab : ''}`}
+                            onClick={() => setPaymentMethod(1)}
+                        >
+                            <CardIcon className={style.Icon} /> Cartão de Crédito
+                        </div>
+                        <div
+                            className={`${style.Tab} ${paymentMethod === 2 ? style.ActiveTab : ''}`}
+                            onClick={() => setPaymentMethod(2)}
+                        >
+                            <PixIcon className={style.Icon} /> PIX
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className={style.PaymentForm}>
+                        {paymentMethod === 1 ? (
+                            <>
+                                <div className={style.CardPayment}>
+                                    <input className={`${style.Input} ${style.CardNumber}`} placeholder="Número do Cartão" value={cardForm.number} onChange={e => setCardForm({ ...cardForm, number: e.target.value })} />
+                                    <input className={`${style.Input} ${style.CardName}`} placeholder="Nome no Cartão" value={cardForm.name} onChange={e => setCardForm({ ...cardForm, name: e.target.value })} />
+                                    <input className={`${style.Input} ${style.CardExpire}`} placeholder="Validade" value={cardForm.expireDate} onChange={e => setCardForm({ ...cardForm, expireDate: e.target.value })} />
+                                    <input className={`${style.Input} ${style.CardCVV}`} placeholder="CVV" value={cardForm.cvv} onChange={e => setCardForm({ ...cardForm, cvv: e.target.value })} />
+                                    <label className={style.Checkbox}>
+                                        <input 
+                                        type="checkbox" 
+                                        checked={useAccountAddress} 
+                                        onChange={() => setUseAccountAddress(!useAccountAddress)} />
+                                        Mesmo endereço da conta
+                                    </label>
+                                    <div className={`${style.AddressWrapper} ${useAccountAddress ? style.hidden : style.visible}`}>
+                                        <div className={style.AddressGrid}>
+                                            <input className={`${style.Input} ${style.Road}`} placeholder="Rua" value={address.road} onChange={e => setAddress({ ...address, road: e.target.value })} />
+                                            <input className={`${style.Input} ${style.AddressNumber}`} placeholder="Número" value={address.number} onChange={e => setAddress({ ...address, number: e.target.value })} />
+                                            <input className={`${style.Input} ${style.Complement}`} placeholder="Complemento" value={address.complement} onChange={e => setAddress({ ...address, complement: e.target.value })} />
+                                            <input className={`${style.Input} ${style.Neighborhood}`} placeholder="Bairro" value={address.neighborhood} onChange={e => setAddress({ ...address, neighborhood: e.target.value })} />
+                                            <input className={`${style.Input} ${style.City}`} placeholder="Cidade" value={address.city} onChange={e => setAddress({ ...address, city: e.target.value })} />
+                                            <input className={`${style.Input} ${style.State}`} placeholder="Estado" value={address.state} onChange={e => setAddress({ ...address, state: e.target.value })} />
+                                            <input className={`${style.Input} ${style.CEP}`} placeholder="CEP" value={address.zip} onChange={e => setAddress({ ...address, zip: e.target.value })} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={style.ButtonContainer}>
+                                    <button className={style.SubmitButton} type="submit">Realizar Pagamento</button>
+                                </div>
+                            </>
+                        ) : (
+                            <div className={style.PixInfo}>
+                                {qrCode ? (
+                                    <img src={qrCode} alt="QR Code PIX" className={style.QrCodeImage} />
+                                ) : (
+                                    <span>*aqui vai ficar o qr code, deve ficar escondida até existir o qr code*</span>
+                                )}
+
+                                <button
+                                    className={style.PixButton}
+                                    onClick={handleGeneratePix}
+                                    disabled={loadingPix}
+                                >
+                                    {loadingPix ? "Gerando..." : "Gerar QR Code PIX"}
+                                </button>
+                            </div>
+                        )}
+                    </form>
+                </div>
+            </div>
             <Footer />
         </div>
     );
 };
 
-    export default CheckoutPage;
+export default CheckoutPage;

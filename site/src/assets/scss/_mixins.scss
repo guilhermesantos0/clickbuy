@@ -23,3 +23,18 @@
         border-radius: 5px;
     }
 }
+
+@mixin tertiary-button {
+    background-color: transparent;
+    text-transform: uppercase;
+    color: $primary-color;
+    border: 0;
+    border-radius: 5px;
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        background-color: rgba($primary-color, 0.05);
+        border: 2px solid $primary-color;
+    }
+}

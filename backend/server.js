@@ -29,6 +29,7 @@ app.use('/login', require('./src/routes/login'));
 app.use('/categories', require('./src/routes/categories'));
 app.use('/favourites', require('./src/routes/favourites'));
 app.use('/cart', require('./src/routes/cart'));
+app.use('/payment', require('./src/routes/payment'));
 
 app.use('/test', require('./src/routes/test'));
 

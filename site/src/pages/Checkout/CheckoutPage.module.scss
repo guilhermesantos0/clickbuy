@@ -1,0 +1,292 @@
+@use '../../assets/scss/variables' as *;
+@use '../../assets/scss/mixins' as *;
+
+.Container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    .PageContent {
+        width: 100%;
+        min-height: 47vh;
+        margin-top: 3vh;
+
+        display: flex;
+        justify-content: center;
+        gap: 10rem;
+
+        .Summary {
+            width: 30vw;
+            min-height: 40vh;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            gap: 2vh;
+            
+            padding: 1rem;
+            
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgb(114, 114, 114);
+
+            .Title {
+                color: $primary-color;
+                margin-bottom: 2vh;
+            }
+
+            .ProductsContainer {
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: .5rem;
+                
+                .Product {
+                    width: 100%;
+                    height: 5vh;
+
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .ProductName {
+                        width: 75%;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                    }
+                }
+
+                .Separator {
+                    height: 1px;
+                    width: 70%;
+                    background: #ccc;
+                }
+            }
+
+            .Total {
+                border-top: 1px solid #ccc;
+                // margin-top: 2vh;
+                padding-top: 2vh;
+            }
+        }
+
+        .PaymentSection {
+            width: 30vw;
+            min-height: 40vh;
+            
+            display: flex;
+            flex-direction: column;
+
+            padding: 1rem;
+            
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgb(114, 114, 114);
+
+            .Tabs {
+                width: 100%;
+                height: 5vh;
+                min-height: 5vh;
+                max-height: 5vh;
+                position: relative;
+                display: flex;
+                justify-content: space-around;
+                border-bottom: 2px solid #ddd;
+
+                
+                .Tab {
+                    height: 100%;
+                    width: 14vw;    
+                    cursor: pointer;
+                    position: relative;
+                    transition: color 0.3s;
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                
+                    &:hover {
+                        color: #DDA04B;
+                    }
+
+                    .Icon {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            
+
+                .ActiveTab {
+                    color: #DDA04B;
+                    font-weight: bold;
+
+                    .Icon {
+                        filter: brightness(0) saturate(100%) invert(73%) sepia(45%) saturate(564%) hue-rotate(350deg) brightness(101%) contrast(94%) drop-shadow(0 0 0.5px #DDA04B); ;
+                    }
+                }
+            
+            
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    height: 2px;
+                    width: 14vw;
+                    background-color: #DDA04B;
+                    transition: transform 0.3s ease;
+                    transform: translateX(calc(var(--active-tab-index, 0) * 100%));
+                }
+            }  
+            
+            .CardPayment {
+                margin-top: 2vh;
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas:
+                    "cardnumber cardnumber"
+                    "name name"
+                    "exp cvv"
+                    "check check"
+                    "address address"
+                    "pay pay";
+
+                .Input {
+                    width: 100%;
+                    height: 5vh;
+                    background-color: #bcbcbc;
+                    outline: none;
+                    border: none;
+                    padding: 0 1vw;
+                    border-radius: 10px;
+                    font-size: 1rem;
+                    transition: all 0.3s ease-in-out;
+            
+                    &:focus {
+                        border-radius: 5px;
+                        background-color: #e5e5e5;
+                    }
+                }
+
+                .AddressWrapper {
+                    grid-area: address;
+                    overflow: hidden;
+                    transition:
+                        max-height 0.4s ease-in-out,
+                        opacity 0.4s ease-in-out,
+                        visibility 0.4s ease-in-out,
+                        transform 0.4s ease-in-out;
+
+                    &.hidden {
+                        max-height: 0;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(-10px);
+                    }
+
+                    &.visible {
+                        max-height: 1000px;
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+
+                    .AddressGrid {
+                        display: grid;
+                        gap: 1rem;
+                        grid-template-columns: 1fr 1fr;
+                        grid-template-areas:
+                        "cep neighborhood"
+                        "road road"
+                        "number complement"
+                        "city state";
+                    }
+                }
+                
+            }
+            .ButtonContainer {
+                width: 100%;
+                height: 5vh;
+
+                display: flex;
+                justify-content: center;
+
+                .SubmitButton {
+                    @include primary-button;
+                    border-radius: 10px;
+
+                    transition: all .2s ease-in-out;
+                    padding: 0 1rem;
+                }
+            }
+
+            .PixInfo {
+
+            }
+        }
+    }
+}
+
+.QrCodeImage {
+    margin-top: 1rem;
+    width: 180px;
+    height: 180px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.CardNumber {
+  grid-area: cardnumber;
+}
+
+.CardName {
+  grid-area: name;
+}
+
+.CardExpire {
+  grid-area: exp;
+}
+
+.CardCVV {
+  grid-area: cvv;
+}
+
+.Checkbox {
+  grid-area: check;
+}
+
+.CEP {
+  grid-area: cep;
+}
+
+.Neighborhood {
+  grid-area: neighborhood;
+}
+
+.Road {
+  grid-area: road;
+}
+
+.AddressNumber {
+  grid-area: number;
+}
+
+.Complement {
+  grid-area: complement;
+}
+
+.City {
+  grid-area: city;
+}
+
+.State {
+  grid-area: state;
+}
+
+.SubmitButton {
+    grid-area: pay;
+}

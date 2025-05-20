@@ -141,7 +141,7 @@
         }
 
         .ButtonsArea {
-            width: 40%;
+            width: 55%;
 
             display: flex;
             align-items: center;
@@ -166,6 +166,9 @@
                 }
                 &.Checkout {
                     @include primary-button;
+                }
+                &.AllSelection {
+                    @include tertiary-button;
                 }
             }
 

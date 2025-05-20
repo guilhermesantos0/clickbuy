@@ -10,7 +10,7 @@ import { Product } from "@modules/Product";
 import api from "services/api";
 import { Link, useNavigate } from "react-router-dom";
 
-import { CircleBackslashIcon } from "@radix-ui/react-icons";
+import { CircleBackslashIcon, CheckCircledIcon } from "@radix-ui/react-icons";
 import { ReactComponent as Card } from 'assets/card.svg';
 
 import RemoveButtom from "./components/RemoveButtom";
@@ -46,6 +46,12 @@ const Cart = () => {
             : [...prev, productId]
         );
     };
+
+    const handleSelectAll = () => {
+        if(!userCart) return
+        const allIds = userCart.map((prod) => (prod._id));
+        setSelectedProducts(allIds)
+    }
 
     const handleRemoveSelected = () => {
         setSelectedProducts([])
@@ -108,6 +114,7 @@ const Cart = () => {
                         </div>
                     ))}
                     <div className={style.ButtonsArea}>
+                        <button className={`${style.Button} ${style.AllSelection}`} onClick={handleSelectAll} ><CheckCircledIcon className={style.Icon} />Selecionar Todos</button>
                         <button className={`${style.Button} ${style.RemoveSelection}`} onClick={handleRemoveSelected} ><CircleBackslashIcon className={style.Icon} />Remover seleção</button>
                         <button className={`${style.Button} ${style.Checkout}`} onClick={handleCheckout}><Card className={`${style.Icon} ${style.Card}`} />Comprar</button>
                     </div>
