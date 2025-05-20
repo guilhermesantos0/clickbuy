@@ -8,21 +8,42 @@ export const addToCart = async (
     product: Product
 ) => {
     if (!user || !product) return;
-
-    console.log(product)
-
+    
     try {
-        // const res = await api.post('/cart/add', {
-        //     userId: user._id,
-        //     product
-        // });
+        const res = await api.post('/cart/add', {
+            userId: user._id,
+            productId: product._id
+        });
 
         const updatedCart = [...(user.cart || []), product];
         setUser({ ...user, cart: updatedCart });
 
-        // return res.data;
+        return res.data;
     } catch (err) {
         console.error("Erro ao adicionar ao carrinho:", err);
+        throw err;
+    }
+};
+
+export const removeFromCart = async (
+    user: User | null,
+    setUser: (user: User) => void,
+    product: Product
+) => {
+    if (!user || !product) return;
+
+    try {
+        const res = await api.post('/cart/remove', {
+            userId: user._id,
+            productId: product._id
+        });
+
+        const updatedCart = user.cart.filter(p => p._id !== product._id);
+        setUser({ ...user, cart: updatedCart });
+
+        return res.data;
+    } catch (err) {
+        console.error("Erro ao remover do carrinho:", err);
         throw err;
     }
 };

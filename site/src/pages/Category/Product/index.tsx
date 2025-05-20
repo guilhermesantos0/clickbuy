@@ -97,8 +97,10 @@ const ProductPage = () => {
 
     const handleAddToCart = async () => {
         try {
-            console.log(product)
-            if(product) await addToCart(user, setUser, product);
+            if(product) {
+                await addToCart(user, setUser, product);
+                toast.success(`${product.name} Adicionado ao carrinho!`)
+            }
         } catch {
             toast.error("Erro ao adicionar ao carrinho!");
         }

@@ -15,9 +15,14 @@ import { ReactComponent as Card } from 'assets/card.svg';
 
 import RemoveButtom from "./components/RemoveButtom";
 
+import { removeFromCart } from "services/cartService";
+import { toast } from "react-toastify";
+
+import emptyCart from 'assets/empty-cart.svg';
+
 const Cart = () => {
 
-    const { user } = useUser();
+    const { user, setUser } = useUser();
     const [userCart, setUserCart] = useState<Product[]>();
     const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
@@ -44,8 +49,15 @@ const Cart = () => {
         setSelectedProducts([])
     };
 
-    const handleRemove = () => {
-        // console.log()
+    const handleRemove = async (product: Product) => {
+        try {
+            if(product) {
+                await removeFromCart(user, setUser, product);
+                toast.success(`${product.name} Removido do carrinho!`)
+            }
+        } catch {
+            toast.error("Erro ao adicionar ao carrinho!");
+        }
     }
 
     const handleChekout = () => {
@@ -75,7 +87,7 @@ const Cart = () => {
                                     <Link to={`/${product.category}/${product._id}`} className={style.ProductName}><h2>{product.name}</h2></Link>
                                     <h3>{product.price}</h3>
                                 </div>
-                                <RemoveButtom product={product.name} onConfirm={handleRemove} optionClassName={style.Remove} iconClassName={style.Icon} />
+                                <RemoveButtom product={product.name} onConfirm={() => handleRemove(product)} optionClassName={style.Remove} iconClassName={style.Icon} />
                             </div>
                         </div>
                     ))}
@@ -85,7 +97,16 @@ const Cart = () => {
                     </div>
                 </div>
             ) : (
-                <span>AAAAAAAAAAAA</span>
+                <div className={style.EmptyCart}>
+                    <img 
+                        src={emptyCart}
+                        alt="Carrinho vazio" 
+                        className={style.EmptyImage}
+                    />
+                    <h2>Seu carrinho está vazio</h2>
+                    <p>Que tal explorar os produtos disponíveis e encontrar algo interessante? 😄</p>
+                    <Link to="/" className={style.GoShoppingButton}>Ver produtos</Link>
+                </div>
             )}
             <Footer />
         </div>

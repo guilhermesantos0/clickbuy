@@ -23,7 +23,7 @@ const RemoveButtom: React.FC<Props> = ({ product, onConfirm, optionClassName, ic
             <Dialog.Portal>
                 <Dialog.Overlay className={styles.Overlay} />
                 <Dialog.Content className={styles.Dialog}>
-                <Dialog.Title>Confirmar exclusão</Dialog.Title>
+                <Dialog.Title>Confirmar remoção</Dialog.Title>
                 <Dialog.Description>Tem certeza que deseja remover <strong>{product}</strong>?<br/><span className={styles.Alert}>Esta ação é irreversível</span></Dialog.Description>
 
                 <div className={styles.Actions}>
