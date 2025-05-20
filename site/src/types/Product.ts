@@ -3,7 +3,7 @@ import { User } from "./User";
 export interface Product {
     _id: string,
     name: string,
-    price: number,
+    price: string,
     location: string,
     images: String[],
     mainImage: string,
