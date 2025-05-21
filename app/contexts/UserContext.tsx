@@ -43,7 +43,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const loadUserFavourites = async () => {
         if (!user?._id) return;
-
         try {
             const favourites = await getUserFavourites(user._id);
             setUser({ ...user, favourites });

@@ -7,7 +7,7 @@ import ip from '@/ip';
 import fourthStep from './styles/Cadastro/fourthStep';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '@/app/styles/category/styles'
-import { getUserFavouriteProducts } from '@/services/favoriteService';
+import { getProductFavourites, getUserFavouriteProducts } from '@/services/favoriteService';
 import { useUser } from '@/contexts/UserContext';
 
 
@@ -28,6 +28,7 @@ const Category = () => {
 
         fetchData();
     })
+
 
   const openFilter = () => {
     setFilterVisible(true);
@@ -71,29 +72,28 @@ const Category = () => {
 
 
   useEffect(() => {
-        let updatedProducts = [...(favourites ?? [])];
-        switch (sortOption) {
-          case 'highest':
-            updatedProducts.sort(
-              (a, b) => parseFormattedPrice(b.price) - parseFormattedPrice(a.price)
-            );
+    const validProducts = (favourites ?? []).filter(p => p && p.mainImage && p.price != null);
+    let updatedProducts = [...validProducts];
+
+    switch (sortOption) {
+        case 'highest':
+            updatedProducts.sort((a, b) => parseFormattedPrice(b.price) - parseFormattedPrice(a.price));
             break;
-          case 'lowest':
-            updatedProducts.sort(
-              (a, b) => parseFormattedPrice(a.price) - parseFormattedPrice(b.price)
-            );
+        case 'lowest':
+            updatedProducts.sort((a, b) => parseFormattedPrice(a.price) - parseFormattedPrice(b.price));
             break;
-          case 'recent':
+        case 'recent':
             updatedProducts.sort(
                 (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             );
             break;
-          default:
+        default:
             break;
-        }
-      
-        setFilteredProducts(updatedProducts);
-      }, [sortOption, favourites]);
+    }
+
+    setFilteredProducts(updatedProducts);
+}, [sortOption, favourites]);
+
 
   return (
     <View style={{ flex: 1 }}>

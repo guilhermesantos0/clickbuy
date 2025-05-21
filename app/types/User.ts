@@ -1,10 +1,12 @@
+import { Product } from "./Product";
+
 export interface User {
     _id: string;
     email: string;
     password: string;
     profilePic?: string;
     favourites?: any[];
-    cart: [],
+    cart: Product[],
     personalData: {
         name: string;
         bornDate: string;

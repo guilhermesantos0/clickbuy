@@ -12,10 +12,11 @@ import { useEffect, useState } from 'react';
 import ip from '@/ip';
 
 export default function TelaPrincipal() {
-  const { user } = useUser();
+  const { user,  loadUserFavourites  } = useUser();
   const [products, setProducts] = useState<ProductModel[]>([]);
     useEffect(() => {
         const fetchData = async () => {
+            loadUserFavourites();
             try {
                 const response = await fetch(`http://${ip}:5000/products`);
                 const productData = await response.json();
@@ -28,9 +29,7 @@ export default function TelaPrincipal() {
 
         fetchData();
     }, [])
-
   const router = useRouter();
-
   return (
     <View style={{ flex: 1}}>
       <Header/>
