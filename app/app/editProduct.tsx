@@ -367,7 +367,7 @@ const editProduct = () => {
         </View>
       )}
       {tab === 2 &&(
-        <View style={styles.Form2}>
+        <View style={styles.Form}>
             <Text style={styles.text}>Qualidade do Produto</Text>
           <View style={styles.PickerArea}>
                         <Picker

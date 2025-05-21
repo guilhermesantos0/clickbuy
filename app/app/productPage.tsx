@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
 import { addToFavourites, getUserFavouriteProducts, removeFromFavourites } from '@/services/favoriteService';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { addToCart } from '@/services/cartService';
 const genericPhoto = require('@/assets/ClickBuy/iconeGenerico.png');
 
 const productPage = () => {
@@ -95,6 +96,22 @@ const productPage = () => {
         const res = number > 9 ? number : '0' + number
         return res
     }
+    const handleAddToCart = async () => {
+        try {
+            if(product) {
+                await addToCart(user, setUser, product);
+                Toast.show({
+                              type: 'success',
+                              text1: `${product.name} Adicionado ao carrinho!`,
+                            });
+            }
+        } catch {
+            Toast.show({
+                              type: 'error',
+                              text1: "Erro ao adicionar ao carrinho!",
+                            });
+        }
+    }
   return (
     <View style={styles.Container}>
         <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
@@ -136,7 +153,7 @@ const productPage = () => {
                 <Text style={styles.Text} numberOfLines={2}>{product?.name}</Text>
                 <Text style={styles.Price} >{product?.price}</Text>
                 <View style={styles.ButtomArea}>
-                    <TouchableOpacity style={styles.Buy} onPress={() => console.log("comprei")}>
+                    <TouchableOpacity style={styles.Buy} onPress={handleAddToCart}>
                         <Text style={styles.ButtonText}>Adicionar ao Carrinho</Text>
                     </TouchableOpacity>
                 </View>
