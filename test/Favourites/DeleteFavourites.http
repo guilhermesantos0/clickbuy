@@ -2,6 +2,6 @@ DELETE http://localhost:5000/favourites
 Content-Type: application/json
 
 {
-    "userId": "b6b6828e-69ba-43a7-ad3f-5e997645ecba",
-    "productId": "a1ff3728-31c0-4750-a2f3-a6120f43e50b"
+    "userId": "ca5bc534-5660-4587-8dfe-4bb1ad0f42a0",
+    "productId": "e77d0b66-f8a0-47eb-b461-7d21f8f8f07a"
 }

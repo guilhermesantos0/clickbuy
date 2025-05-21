@@ -31,14 +31,21 @@ router.post('/', upload.array('images', 10), async (req, res) => {
         const uploadedImageUrls = [];
 
         for (const file of req.files) {
-            const result = await new Promise((resolve, reject) => {
-                cloudinary.uploader.upload_stream({ folder: 'produtos' }, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                }).end(file.buffer);
+
+            const result = await cloudinary.uploader.upload(file.path, {
+                folder: 'produtos',
             });
 
+            // const result = await new Promise((resolve, reject) => {
+            //     cloudinary.uploader.upload_stream({ folder: 'produtos' }, (err, result) => {
+            //         if (err) { console.log(err); return reject(err); }
+            //         console.log(result)
+            //         resolve(result);
+            //     }).end(file.buffer);
+            // });
+
             uploadedImageUrls.push(result.secure_url);
+            fs.unlinkSync(file.path);
         }
 
         const category = await Category.findOne({ _id: Number(categoryId) });
