@@ -5,6 +5,8 @@ Content-Type: application/json
     "amount": 2000,
     "checkoutInfo": {
         "description": "Descrição Teste",
-        "email": "email@teste.com"
+        "email": "email@teste.com",
+        "cpf": "11111111111",
+        "name": "Cliente"
     }
 }
