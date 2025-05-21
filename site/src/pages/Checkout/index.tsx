@@ -13,6 +13,8 @@ import { ReactComponent as CardIcon } from '../../assets/card.svg';
 import { ReactComponent as PixIcon } from '../../assets/pix.svg';
 import api from "services/api";
 
+import { toast } from "react-toastify";
+
 interface LocationState {
     products?: Product[];
 }
@@ -25,6 +27,10 @@ const CheckoutPage = () => {
     const { user } = useUser();
 
     const [paymentMethod, setPaymentMethod] = useState<1 | 2>(2);
+
+    const [qrCode, setQrCode] = useState<string | null>(null);
+    const [qrCodeCopy, setQrCodeCopy] = useState<string | null>(null);
+    const [loadingPix, setLoadingPix] = useState(false);
 
     const [useAccountAddress, setUseAccountAddress] = useState(true);
     const [address, setAddress] = useState({
@@ -58,24 +64,34 @@ const CheckoutPage = () => {
         currency: 'BRL'
     });
 
-    const [qrCode, setQrCode] = useState<string | null>(null);
-    const [loadingPix, setLoadingPix] = useState(false);
-
     const handleGeneratePix = async () => {
-        setLoadingPix(true);
-        try {
-            const response = await api.post("/api/pagamento/pix", {
-                amount: total, 
-                checkoutInfo: { description: `Compra ${products.map((prod) => prod.name).join(', ')}`, email: user?.email }
-            });
-
-            setQrCode(response.data.qrCodeImage);
-        } catch (err) {
-            console.error("Erro ao gerar QR Code PIX", err);
-            alert("Erro ao gerar QR Code.");
-        } finally {
-            setLoadingPix(false);
+        if(!qrCodeCopy) {
+            setLoadingPix(true);
+            try {
+                const response = await api.post("/payment/pix", {
+                    amount: Number(total.toFixed(2)), 
+                    checkoutInfo: { description: `Compra ${products.map((prod) => prod.name).join(', ')}`, email: user?.email, name: user?.personalData.name, cpf: user?.personalData.cpf }
+                });
+    
+                setQrCode(response.data.qrCodeBase64);
+                setQrCodeCopy(response.data.qrCodeCode);
+            } catch (err) {
+                console.error("Erro ao gerar QR Code PIX", err);
+                alert("Erro ao gerar QR Code.");
+            } finally {
+                setLoadingPix(false);
+            }
+        } else {
+            navigator.clipboard.writeText(qrCodeCopy)
+            .then(() => {
+                toast.success('QR Code copiado com sucesso!');
+            })
+            .catch((err) => {
+                toast.error('Erro ao copiar QR Code')
+                console.error('Erro ao copiar QR Code', err)
+            })
         }
+
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -159,9 +175,10 @@ const CheckoutPage = () => {
                         ) : (
                             <div className={style.PixInfo}>
                                 {qrCode ? (
-                                    <img src={qrCode} alt="QR Code PIX" className={style.QrCodeImage} />
+                                    <img className={style.QRCode} src={`data:image/png;base64,${qrCode}`} alt='' />
                                 ) : (
-                                    <span>*aqui vai ficar o qr code, deve ficar escondida até existir o qr code*</span>
+                                    // <img className={style.QRCode} src="https://codigosdebarrasbrasil.com.br/wp-content/uploads/2019/09/codigo_qr-300x300.png" alt="" />
+                                    <></>
                                 )}
 
                                 <button
@@ -169,7 +186,7 @@ const CheckoutPage = () => {
                                     onClick={handleGeneratePix}
                                     disabled={loadingPix}
                                 >
-                                    {loadingPix ? "Gerando..." : "Gerar QR Code PIX"}
+                                    {loadingPix ? "Gerando..." : ( qrCodeCopy ? "Copiar" : "Gerar QR Code PIX" )}
                                 </button>
                             </div>
                         )}

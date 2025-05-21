@@ -100,4 +100,14 @@ router.put('/:id', upload.single('profilePic'), async (req, res) => {
     }
 });
 
+router.put("/2/:id", async (req, res) => {
+    try {
+        const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updated);
+    } catch (err) {
+        console.error("Erro ao atualizar usuário:", err);
+        res.status(500).json({ error: "Erro interno no servidor" });
+    }
+});
+
 module.exports = router;

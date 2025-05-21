@@ -24,7 +24,7 @@ router.post('/pix', async (req, res) => {
             }
         }
 
-        const resp = await axios.post(
+        const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             body,
             {
@@ -36,7 +36,10 @@ router.post('/pix', async (req, res) => {
             }
         )
 
-        res.json(resp.data)
+        res.status(200).json({
+            qrCodeCode: response.data.point_of_interaction.transaction_data.qr_code,
+            qrCodeBase64: response.data.point_of_interaction.transaction_data.qr_code_base64 
+        })
 
     } catch (error) {
         console.error('Erro ao gerar QR Code PIX:', error.response ? error.response.data : error.message);

@@ -48,7 +48,7 @@ const AdminUser = () => {
 
   const handleSave = async (id: string) => {
     try {
-      await api.put(`/user/${id}`, formData);
+      await api.put(`/user/2/${id}`, formData);
       setExpanded(null);
       fetchUsers();
       toast.success('Usuário editado com sucesso!')
