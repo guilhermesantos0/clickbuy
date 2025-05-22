@@ -151,8 +151,16 @@ const CheckoutPage = () => {
                 }
             }
 
-            await api.post('/payment/card', apiPayload);
-            
+            const res = await api.post('/payment/card', apiPayload);
+            if(res.status === 200) {
+                await api.post('/products/save',
+                    {
+                        id: res.data.id,
+                        userId: user?._id,
+                        products: [products.map((product) => product._id )]
+                    }
+                )
+            }
 
             toast.success('Pagamento realizado com sucesso!')
         } catch (err) {

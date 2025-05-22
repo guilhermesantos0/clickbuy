@@ -115,7 +115,7 @@ router.post('/card', async (req, res) => {
         )
 
         console.log('💳 Pagamento com cartão enviado:', response.data);
-        res.json(response.data);
+        res.status(200).json({ id: response.data.id });
     } catch (error) {
         console.error('❌ Erro ao pagar com cartão:', error.response?.data || error.message);
         res.status(500).json({
@@ -160,8 +160,22 @@ router.post('/webhook', async (req, res) => {
 
 });
 
-router.get('/status/:id', async (req, res) => {
+router.post('/save', async (req, res) => {
+    const { id, userId, products } = req.body;
 
+    try {
+        const newPayment = new Payment({ _id: id, userId, products });
+        await newPayment.save();
+
+        const populatedPayment = await Payment.findById(newPayment._id)
+            .populate('products').lean();
+
+
+        res.status(200).json({ payment: populatedPayment })
+    } catch(error) {
+        res.status(500).json({ message: 'Houve um erro ao salvar o pagament!', error })
+    }
 })
+
 
 module.exports = router;
