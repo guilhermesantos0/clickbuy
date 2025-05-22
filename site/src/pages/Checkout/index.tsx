@@ -19,6 +19,19 @@ interface LocationState {
     products?: Product[];
 }
 
+declare global {
+    interface Window {
+        MercadoPago: any;
+    }
+}
+
+type MercadoPagoInstance = {
+    createCardToken: (form: any) => Promise<any>;
+    getIdentificationTypes: () => Promise<any>;
+    getPaymentMethod: (a: any) => Promise<any>;
+};
+
+
 const CheckoutPage = () => {
     const location = useLocation();
     const state = location.state as LocationState;
@@ -31,6 +44,8 @@ const CheckoutPage = () => {
     const [qrCode, setQrCode] = useState<string | null>(null);
     const [qrCodeCopy, setQrCodeCopy] = useState<string | null>(null);
     const [loadingPix, setLoadingPix] = useState(false);
+
+    const [mercadoPago, setMercadoPago] = useState<MercadoPagoInstance | null>(null)
 
     const [useAccountAddress, setUseAccountAddress] = useState(true);
     const [address, setAddress] = useState({
@@ -47,8 +62,16 @@ const CheckoutPage = () => {
         number: '',
         name: '',
         expireDate: '',
-        cvv: ''
+        cvv: '',
+        cpf: ''
     });
+
+    useEffect(() => {
+        const mp = new window.MercadoPago(process.env.REACT_APP_MERCADO_PAGO_PUBLIC_KEY, {
+            locale: 'pt-BR'
+        });
+        setMercadoPago(mp);
+    },[])
 
     if (!products || products.length === 0) {
         return <Navigate to="/carrinho" replace />;
@@ -94,12 +117,46 @@ const CheckoutPage = () => {
 
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (paymentMethod === 1) {
-            console.log("Pagamento com cartão:", cardForm);
-        } else {
-            console.log("Gerar QR Code PIX...");
+
+        if(!mercadoPago) return 'Deu ruim'
+
+        const [expMonth, expYear] = cardForm.expireDate.split('/');
+
+        const payload = {
+            cardNumber: cardForm.number.replace(' ', ''),
+            cardholderName: cardForm.name,
+            cardExpirationMonth: expMonth,
+            cardExpirationYear: `20${expYear}`,
+            securityCode: cardForm.cvv,
+            identificationType: "CPF",
+            identificationNumber: cardForm.cpf
+        }
+
+        try {
+            const response = await mercadoPago.createCardToken(payload);
+            const bin = cardForm.number.replace(/\s/g, '').slice(0, 6);
+            const token = response.id;
+            
+            const apiPayload = {
+                amount: Number(total.toFixed(2)),
+                checkoutInfo: {
+                    token: token,
+                    description: "Descrição Teste",
+                    installments: 1,
+                    email: user?.email,
+                    cpf: cardForm.cpf,
+                    bin: bin
+                }
+            }
+
+            await api.post('/payment/card', apiPayload);
+            
+
+            toast.success('Pagamento realizado com sucesso!')
+        } catch (err) {
+            console.error(err)
         }
     };
 
@@ -149,6 +206,7 @@ const CheckoutPage = () => {
                                     <input className={`${style.Input} ${style.CardName}`} placeholder="Nome no Cartão" value={cardForm.name} onChange={e => setCardForm({ ...cardForm, name: e.target.value })} />
                                     <input className={`${style.Input} ${style.CardExpire}`} placeholder="Validade" value={cardForm.expireDate} onChange={e => setCardForm({ ...cardForm, expireDate: e.target.value })} />
                                     <input className={`${style.Input} ${style.CardCVV}`} placeholder="CVV" value={cardForm.cvv} onChange={e => setCardForm({ ...cardForm, cvv: e.target.value })} />
+                                    <input className={`${style.Input} ${style.CardCPF}`} placeholder="CPF" value={cardForm.cpf} onChange={e => setCardForm({ ...cardForm, cpf: e.target.value })} />
                                     <label className={style.Checkbox}>
                                         <input 
                                         type="checkbox" 

@@ -61,17 +61,37 @@ router.post('/pix', async (req, res) => {
     }
 */
 
+const getPaymentMethod = async (bin) => {
+    try {
+        const response = await axios.get(`https://api.mercadopago.com/v1/payment_methods/search?bin=${bin}`, {
+            headers: {
+                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+            }
+        });
+
+        const method = response.data.results.find((m) => m.payment_type_id === 'credit_card');
+        console.log(method)
+        // const method = response.data.results[0];
+        
+        return method.id;
+    } catch (err) {
+        console.error("Erro ao buscar método de pagamento:", err);
+        throw err;
+    }
+}
+
 router.post('/card', async (req, res) => {
     const { amount, checkoutInfo, products } = req.body;
 
-    console.log(req.body)
+    const methodId = await getPaymentMethod(checkoutInfo.bin)
+    console.log(methodId)
 
     const body = {
         token: checkoutInfo.token,
         transaction_amount: Number(amount),
         description: checkoutInfo.description,
         installments: Number(checkoutInfo.installments),
-        payment_method_id: checkoutInfo.method,
+        payment_method_id: methodId,
         payer: {
             email: checkoutInfo.email,
             identification: {

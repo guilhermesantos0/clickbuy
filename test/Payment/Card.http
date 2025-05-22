@@ -1,0 +1,14 @@
+POST http://localhost:5000/payment/card
+Content-Type: application/json
+
+{
+    "amount": 2000,
+    "checkoutInfo": {
+        "token": "b7696765024dc6b309fca1b05e5ad0e8",
+        "decription": "Descrição Teste",
+        "installments": 3,
+        "method": "mastercard",
+        "email": "email@teste.com",
+        "cpf": "12345678909"
+    }
+}

@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CircleBackslashIcon, CheckCircledIcon } from "@radix-ui/react-icons";
 import { ReactComponent as Card } from 'assets/card.svg';
 
-import RemoveButtom from "./components/RemoveButtom";
+import RemoveButtom from "./components/RemoveButton";
 
 import { removeFromCart } from "services/cartService";
 import { toast } from "react-toastify";

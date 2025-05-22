@@ -14,15 +14,17 @@
 
         display: flex;
         justify-content: center;
+        align-items: flex-start;
         gap: 10rem;
 
         .Summary {
             width: 30vw;
-            min-height: 40vh;
+            min-height: 50vh;
 
             display: flex;
             flex-direction: column;
             justify-content: center;
+           
 
             gap: 2vh;
             
@@ -151,6 +153,7 @@
                     "cardnumber cardnumber"
                     "name name"
                     "exp cvv"
+                    "cpf cpf"
                     "check check"
                     "address address"
                     "pay pay";
@@ -272,6 +275,10 @@
 
 .CardCVV {
   grid-area: cvv;
+}
+
+.CardCPF {
+    grid-area: cpf;
 }
 
 .Checkbox {
