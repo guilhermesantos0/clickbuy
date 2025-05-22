@@ -97,13 +97,19 @@ const Login = () => {
                 <Text style={conta.Text}>Meus Produtos</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/termos')}>
+              <View style={conta.Option}>
+                <IconSymbol size={45} name='list.dash' color='rgb(101, 101, 101)' />
+                <Text style={conta.Text}>Termos de Uso</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/ajuda')}>
               <View style={conta.Option}>
                 <IconSymbol size={45} name='questionmark.circle.fill' color='rgb(101, 101, 101)' />
                 <Text style={conta.Text}>Ajuda</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/sobrenos')}>
               <View style={conta.Option}>
                 <IconSymbol size={45} name='info.circle.fill' color='rgb(101, 101, 101)' />
                 <Text style={conta.Text}>Sobre nós</Text>

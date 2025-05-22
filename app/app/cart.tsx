@@ -8,6 +8,7 @@ import Checkbox from 'expo-checkbox';
 import { removeFromCart } from '@/services/cartService';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const emptyCart = require('@/assets/ClickBuy/empty-cart.png');
 
 const Cart = () => {
@@ -74,7 +75,7 @@ const Cart = () => {
     const handleRemoveSelected = () => {
         setSelectedProducts([])
     };
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         if (!userCart || selectedProducts.length === 0) {
             alert("Selecione ao menos um produto para continuar.");
             return;
@@ -88,7 +89,8 @@ const Cart = () => {
             alert("Nenhum produto válido selecionado.");
             return;
         }
-
+        await AsyncStorage.setItem('checkoutProducts', JSON.stringify(productsToBuy));
+        router.push('/checkout');
     };
   return (
     <View style={styles.Container}>
@@ -101,7 +103,7 @@ const Cart = () => {
                         <TouchableOpacity style={styles.Anunciante}>
                             <Text style={styles.Nome}>{product.announcer.personalData.name}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => router.push(`/productPage?id=${product._id}`)} style={styles.ProductCart}>   
+                        <TouchableOpacity onPress={() => toggleProductSelection(product._id)} style={styles.ProductCart}>   
                             <Checkbox
                             style={styles.CheckBox}
                             value={selectedProducts.includes(product._id)}
@@ -113,10 +115,10 @@ const Cart = () => {
                                 style={styles.ProductImage}
                                 resizeMode="center"
                             />
-                            <View style={styles.ProductInfo}>
+                            <TouchableOpacity onPress={() => router.push(`/productPage?id=${product._id}`)} style={styles.ProductInfo}>
                                 <Text style={styles.ProductName} numberOfLines={2}>{product.name}</Text>
                                 <Text style={styles.ProductPrice}>{product.price}</Text>
-                            </View>
+                            </TouchableOpacity>
                             <View style={styles.BotaoArea}>
                                 <TouchableOpacity onPress={() => confirmDeleteProduct(product)} style={styles.Botao}>
                                     <Text style={styles.Remover}>Remover</Text>
