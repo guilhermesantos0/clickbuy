@@ -106,6 +106,38 @@ export default function RootLayout() {
               headerTintColor: '#fff',
             }}
           />
+          <Stack.Screen
+            name="checkout"
+            options={{
+              headerTitle: 'Finalizar Compra',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="sobrenos"
+            options={{
+              headerTitle: 'Sobre Nós',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="ajuda"
+            options={{
+              headerTitle: 'Ajuda',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="termos"
+            options={{
+              headerTitle: 'Termos de Uso',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
