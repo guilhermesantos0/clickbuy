@@ -1,23 +1,23 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Cadastro from './pages/Cadastro';
-import Anunciar from './pages/Anunciar';
-import Admin from './pages/Admin';
-import EditarPerfil from './pages/EditarPerfil';
+import Home from 'pages/Home';
+import Login from 'pages/Login';
+import Cadastro from 'pages/Cadastro';
+import Anunciar from 'pages/Anunciar';
+import Admin from 'pages/Admin';
+import EditarPerfil from 'pages/EditarPerfil';
 
-import Favoritos from './pages/Favoritos';
+import Favoritos from 'pages/Favoritos';
 
-import AboutUs from './pages/Institucional/pages/AboutUs';
-import Contact from './pages/Institucional/pages/Contact';
-import TermsOfUse from './pages/Institucional/pages/TermsOfUse';
-import PrivacyPolicy from './pages/Institucional/pages/PrivacyPolicy';
+import AboutUs from 'pages/Institucional/pages/AboutUs';
+import Contact from 'pages/Institucional/pages/Contact';
+import TermsOfUse from 'pages/Institucional/pages/TermsOfUse';
+import PrivacyPolicy from 'pages/Institucional/pages/PrivacyPolicy';
 
-import Category from './pages/Category';
-import ProductPage from './pages/Category/Product';
+import Category from 'pages/Category';
+import ProductPage from 'pages/Category/Product';
 
-import Admin2 from './pages/Admin/Admin2';
+import Admin2 from 'pages/Admin/Admin2';
 
 import Garantia from 'pages/Ajuda/pages/Garantia';
 import TrocaDevolucao from 'pages/Ajuda/pages/TrocaDevolucao';
@@ -26,7 +26,9 @@ import NotFound from 'pages/404';
 
 import UserProducts from 'pages/UserProducts';
 import EditarProduto from 'pages/EditarProduto';
-import CheckoutPage from 'pages/Checkout/index';
+
+import CheckoutPage from 'pages/Checkout';
+import Confirm from 'pages/Checkout/Confirm';
 
 import Cart from 'pages/Carrinho';
 
@@ -62,6 +64,7 @@ function App() {
         <Route path="/:category/:id/editar" element={<EditarProduto />} />
         
         <Route path="/comprar" element={<CheckoutPage />} />
+        <Route path="/comprar/sucesso" element={<Confirm />} />
 
         <Route path="/ajuda/garantia" element={<Garantia/>} />
         <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />

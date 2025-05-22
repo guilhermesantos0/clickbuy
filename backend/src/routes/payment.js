@@ -3,6 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 
+const Product = require('../models/Product');
 const Payment = require('../models/Payment');
 
 router.post('/pix', async (req, res) => {
@@ -70,7 +71,7 @@ const getPaymentMethod = async (bin) => {
         });
 
         const method = response.data.results.find((m) => m.payment_type_id === 'credit_card');
-        console.log(method)
+        // console.log(method)
         // const method = response.data.results[0];
         
         return method.id;
@@ -84,7 +85,7 @@ router.post('/card', async (req, res) => {
     const { amount, checkoutInfo, products } = req.body;
 
     const methodId = await getPaymentMethod(checkoutInfo.bin)
-    console.log(methodId)
+    // console.log(methodId)
 
     const body = {
         token: checkoutInfo.token,
@@ -114,7 +115,7 @@ router.post('/card', async (req, res) => {
             }
         )
 
-        console.log('💳 Pagamento com cartão enviado:', response.data);
+        // console.log('💳 Pagamento com cartão enviado:', response.data);
         res.status(200).json({ id: response.data.id });
     } catch (error) {
         console.error('❌ Erro ao pagar com cartão:', error.response?.data || error.message);
@@ -167,6 +168,13 @@ router.post('/save', async (req, res) => {
         const newPayment = new Payment({ _id: id, userId, products });
         await newPayment.save();
 
+        products.forEach(async (productId) => {   
+            const product = Product.findById(productId);
+            product.sold = true;
+
+            await product.save();
+        })
+
         const populatedPayment = await Payment.findById(newPayment._id)
             .populate('products').lean();
 
@@ -177,5 +185,13 @@ router.post('/save', async (req, res) => {
     }
 })
 
+router.get('/', async (req, res) => {
+    const payments = await Payment.find();
+    res.status(200).json(payments);
+})
+
+router.delete('/', async(req, res) => {
+    await Payment.deleteMany();
+})
 
 module.exports = router;

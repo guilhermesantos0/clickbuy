@@ -12,11 +12,11 @@ router.get('/', async (req, res) => {
     try {
         if(req.query.category) {
 
-            const products = await Product.find({ category: req.query.category });
+            const products = await Product.find({ category: req.query.category, sold: false });
             res.status(200).json({ products })
 
         }else {
-            const products = await Product.find();
+            const products = await Product.find({ sold: false });
             res.status(200).json(products);
         }
     } catch (err) {
@@ -82,6 +82,9 @@ router.get('/:id', async (req, res) => {
 
         if (!product) {
             return res.status(404).json({ message: 'Produto não encontrado' });
+        }
+        if (product.sold) {
+            return res.status(201).json({ message: 'Produto Vendido' })
         }
 
         res.status(200).json(product);

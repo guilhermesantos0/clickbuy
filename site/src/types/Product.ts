@@ -14,5 +14,6 @@ export interface Product {
         used: boolean
     },
     createdAt: string | Date,
-    description: string
+    description: string,
+    sold?: boolean | false
 }

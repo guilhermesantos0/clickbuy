@@ -1,0 +1,56 @@
+@use '../../../assets/scss/mixins' as *;
+
+.Container {
+    padding: 2rem;
+    width: 100%;
+    min-height: 50vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Icon {
+        width: 15rem;
+        height: 15rem;
+
+        color: #28a745;
+    }
+
+    .Title {
+        color: #28a745;
+    }
+
+    .PaymentId {
+        font-size: 1rem;
+        margin-top: 1rem
+    }
+
+    .InfoTitle {
+        padding-top: 2rem;
+    }
+
+    .Products {
+        list-style: none;
+
+        .Product {
+            background: #f8f9fa;
+            margin: 0.5rem auto;
+            padding: 1rem;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    }
+
+    .Button {
+        @include primary-button;
+
+        margin-top: 2vh;
+
+        padding: .8rem;
+        text-decoration: none;
+        border-radius: 10px;
+
+        transition: all .2s ease-in-out;
+    }
+}

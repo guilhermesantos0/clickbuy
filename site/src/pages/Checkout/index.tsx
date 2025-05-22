@@ -1,4 +1,4 @@
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { Product } from "@modules/Product";
 import { useEffect, useState } from "react";
 
@@ -39,6 +39,8 @@ const CheckoutPage = () => {
 
     const { user } = useUser();
 
+    const navigate = useNavigate();
+
     const [paymentMethod, setPaymentMethod] = useState<1 | 2>(2);
 
     const [qrCode, setQrCode] = useState<string | null>(null);
@@ -59,11 +61,11 @@ const CheckoutPage = () => {
     });
 
     const [cardForm, setCardForm] = useState({
-        number: '',
-        name: '',
-        expireDate: '',
-        cvv: '',
-        cpf: ''
+        number: '5031433215406351',
+        name: 'APRO',
+        expireDate: '11/30',
+        cvv: '123',
+        cpf: '12345678909'
     });
 
     useEffect(() => {
@@ -74,8 +76,11 @@ const CheckoutPage = () => {
     },[])
 
     if (!products || products.length === 0) {
-        return <Navigate to="/carrinho" replace />;
+        toast.error('Você não tem nada selecionado!')
+        navigate('/carrinho')
     }
+
+    if(!products) return (<></>)
 
     const total = products.reduce((sum, p) => {
         const numeric = parseFloat(p.price.replace(/[R$\.,]/g, '').replace(/(\d{2})$/, '.$1'));
@@ -152,17 +157,16 @@ const CheckoutPage = () => {
             }
 
             const res = await api.post('/payment/card', apiPayload);
-            if(res.status === 200) {
-                await api.post('/products/save',
-                    {
-                        id: res.data.id,
-                        userId: user?._id,
-                        products: [products.map((product) => product._id )]
-                    }
-                )
-            }
+            await api.post('/payment/save',
+                {
+                    id: res.data.id,
+                    userId: user?._id,
+                    products: products.map((product) => product._id )
+                }
+            )
+            navigate('/comprar/sucesso', { state: { paymentId: res.data.id, products: products } });
 
-            toast.success('Pagamento realizado com sucesso!')
+
         } catch (err) {
             console.error(err)
         }
