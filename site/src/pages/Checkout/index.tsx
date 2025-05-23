@@ -91,7 +91,6 @@ const CheckoutPage = () => {
         style: 'currency',
         currency: 'BRL'
     });
-
     const handleGeneratePix = async () => {
         if(!qrCodeCopy) {
             setLoadingPix(true);

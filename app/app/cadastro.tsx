@@ -147,9 +147,9 @@ const Cadastro = () => {
   const handleSignUp = async () => {
     if(formData.personalData.address.city === "" || formData.personalData.address.neighborhood === "" ||formData.personalData.address.number === "" || formData.personalData.address.road === "" || formData.personalData.address.state === "" ||formData.personalData.address.zip === ""){
       Toast.show({
-                              type: 'error',
-                              text1: 'Preencha todos os campos',
-                            });
+        type: 'error',
+        text1: 'Preencha todos os campos',
+      });
     }else{
       const userPayload = {
         email: formData.email,
@@ -203,7 +203,7 @@ const Cadastro = () => {
                             });
         console.error("Erro:", error)
     }
-    }
+  }
 }
   return (
     <View style = {styles.Container}>

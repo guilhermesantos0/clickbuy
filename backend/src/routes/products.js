@@ -12,16 +12,21 @@ router.get('/', async (req, res) => {
     try {
         if(req.query.category) {
 
-            const products = await Product.find({ category: req.query.category, sold: false });
+            const products = await Product.find({ category: req.query.category, sold: { $ne: true } });
             res.status(200).json({ products })
 
         }else {
-            const products = await Product.find({ sold: false });
+            const products = await Product.find({ sold: { $ne: true } });
             res.status(200).json(products);
         }
     } catch (err) {
         res.status(500).json({ message: 'Erro ao buscar produtos', err })
     }
+})
+
+router.get('/all', async(req, res) => {
+    const products = await Product.find();
+    res.status(200).json(products);
 })
 
 router.post('/', upload.array('images', 10), async (req, res) => {
