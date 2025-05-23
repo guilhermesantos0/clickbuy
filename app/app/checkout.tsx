@@ -145,7 +145,6 @@ const Checkout = () => {
         );
             const bin = cardForm.number.replace(/\s/g, '').slice(0, 6);
             const token = response.data.id;
-            console.log(token)
             const apiPayload = {
                 amount: Number(total.toFixed(2)),
                 checkoutInfo: {
@@ -166,10 +165,8 @@ const Checkout = () => {
                     products: products.map((product) => product._id )
                 }
             )
-            Toast.show({
-                            type: 'success',
-                            text1: `Pagamento realizado com sucesso!`,
-                          });
+            router.push(`/success?id=${res.data.id}`)
+                
         } catch (err) {
             if (axios.isAxiosError(err)) {
                 if (err.response) {
