@@ -21,6 +21,7 @@ import Admin2 from 'pages/Admin/Admin2';
 
 import Garantia from 'pages/Ajuda/pages/Garantia';
 import TrocaDevolucao from 'pages/Ajuda/pages/TrocaDevolucao';
+import Frete from 'pages/Ajuda/pages/Frete';
 
 import NotFound from 'pages/404';
 
@@ -68,6 +69,7 @@ function App() {
 
         <Route path="/ajuda/garantia" element={<Garantia/>} />
         <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />
+        <Route path="/ajuda/frete" element={<Frete/>} />
 
         <Route path="/404" element={<NotFound />} />
 

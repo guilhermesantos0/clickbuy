@@ -168,12 +168,19 @@ router.post('/save', async (req, res) => {
         const newPayment = new Payment({ _id: id, userId, products });
         await newPayment.save();
 
-        products.forEach(async (productId) => {   
-            const product = Product.findById(productId);
-            product.sold = true;
+        // for (const productId of products) {
+        //     const product = await Product.findById(productId);
 
-            await product.save();
-        })
+        //     if(product) {
+        //         product.sold = true;
+        //         await product.save();
+        //     }
+        // }
+
+        await Product.updateMany(
+            { _id: { $in: products }},
+            { $set: { sold: true }}
+        )
 
         const populatedPayment = await Payment.findById(newPayment._id)
             .populate('products').lean();
