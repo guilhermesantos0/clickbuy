@@ -5,12 +5,12 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import { useUser } from 'contexts/UserContext';
 
-// import EasyReturnIcon from '../../../assets/easy-return.png';
-// import FastProcessIcon from '../../../assets/fast-process.png';
-// import RefundIcon from '../../../assets/refund.png';
-// import NoCostIcon from '../../../assets/no-cost.png';
-// import SupportIcon from '../../../assets/support.png';
-// import ChecklistIcon from '../../../assets/checklist.png';
+import EasyReturnIcon from '../../../assets/return (1).png';
+import FastProcessIcon from '../../../assets/trade.png';
+import RefundIcon from '../../../assets/refund.png';
+import NoCostIcon from '../../../assets/money.png';
+import SupportIcon from '../../../assets/customer-service.png';
+import ChecklistIcon from '../../../assets/rules.png';
 
 const TrocaDevolucao: React.FC = () => {
   const { user } = useUser();
@@ -43,32 +43,32 @@ const TrocaDevolucao: React.FC = () => {
     {
       title: 'Devolução Simplificada',
       text: 'Processo simples e rápido para devoluções, sem complicações.',
-      // icon: EasyReturnIcon,
+      icon: EasyReturnIcon,
     },
     {
       title: 'Troca Ágil',
       text: 'Realize trocas com rapidez e sem burocracia.',
-      // icon: FastProcessIcon,
+      icon: FastProcessIcon,
     },
     {
       title: 'Reembolso Garantido',
       text: 'Valor devolvido integralmente em caso de insatisfação.',
-      // icon: RefundIcon,
+      icon: RefundIcon,
     },
     {
       title: 'Sem Custos Extras',
       text: 'A ClickBuy cobre os custos de envio da troca ou devolução.',
-      // icon: NoCostIcon,
+      icon: NoCostIcon,
     },
     {
       title: 'Atendimento Personalizado',
       text: 'Equipe pronta para te ajudar em todas as etapas.',
-      // icon: SupportIcon,
+      icon: SupportIcon,
     },
     {
       title: 'Regras Claras',
       text: 'Política transparente para que você saiba exatamente seus direitos.',
-      // icon: ChecklistIcon,
+      icon: ChecklistIcon,
     },
   ];
 
@@ -93,7 +93,7 @@ const TrocaDevolucao: React.FC = () => {
               }}
             >
               <div className={styles.iconContainer}>
-                {/* <img src={item.icon} alt={`Ícone ${item.title}`} /> */}
+                <img src={item.icon} alt={`Ícone ${item.title}`} />
               </div>
 
               <div className={styles.textContent}>

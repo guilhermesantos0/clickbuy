@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
         <div className={styles.section}>
           <h4>Ajuda</h4>
           <ul>
-            <li>Frete e Entrega</li>
+            <Link to='/Ajuda/Frete'>Frete e Entregas</Link>
             <Link to='/Ajuda/TrocaDevolucao'>Troca e Devoluções</Link>
             <Link to='/Ajuda/Garantia'>Garantia</Link>
             <Link to='/institucional/contato'>Central de Suporte</Link>
