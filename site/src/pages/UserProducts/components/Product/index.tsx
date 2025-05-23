@@ -44,11 +44,17 @@ const Product:React.FC<Props> = ({ product, onDelete }) => {
                 </div>
             </Link>
 
-            <p className={style.OverlayButtons}>
-                <Link className={style.Option} to={`/${product.category}/${product._id}/editar`}><Pencil1Icon className={style.Icon} /></Link>
-                {/* <button onClick={handleDelete} className={style.Option}><TrashIcon className={style.Icon} /></button> */}
-                <DeleteButton optionClassName={style.Option} iconClassName={style.Icon} onConfirm={handleDelete} product={product.name} />
-            </p>
+            {
+                product.sold ? (
+                    <span className={style.OverlayButtons}>Produto Vendido!</span>
+                ) : (
+                    <p className={style.OverlayButtons}>
+                        <Link className={style.Option} to={`/${product.category}/${product._id}/editar`}><Pencil1Icon className={style.Icon} /></Link>
+                        {/* <button onClick={handleDelete} className={style.Option}><TrashIcon className={style.Icon} /></button> */}
+                        <DeleteButton optionClassName={style.Option} iconClassName={style.Icon} onConfirm={handleDelete} product={product.name} />
+                    </p>
+                )
+            }
         </div>
     )
 }
