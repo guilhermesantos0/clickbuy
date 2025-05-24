@@ -138,6 +138,13 @@ export default function RootLayout() {
               headerTintColor: '#fff',
             }}
           />
+          <Stack.Screen
+            name="success"
+            options={{
+              headerTitle: '',
+              headerShown: false
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />

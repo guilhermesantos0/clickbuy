@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import styles from '@/components/clickbuy/Header/styles'
 import { IconSymbol } from '@/components/ui/IconSymbol'
+import { router } from 'expo-router'
 interface Props {
 }
 const Header: React.FC<Props> = () => {
@@ -21,7 +22,7 @@ const Header: React.FC<Props> = () => {
         </View>
         <TouchableOpacity
           style={styles.Cart}
-          onPress={() => console.log('Carrinho') }>
+          onPress={() => router.push('/cart') }>
           <IconSymbol size={50} name='cart.fill' color='white' />
         </TouchableOpacity>
       </View>

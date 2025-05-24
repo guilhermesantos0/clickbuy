@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import styles from './styles/Checkout/styles';
 import Checkbox from 'expo-checkbox';
-
+import Config from 'react-native-config';
 
 
 
@@ -60,11 +60,11 @@ const Checkout = () => {
     });
 
     const [cardForm, setCardForm] = useState({
-        number: '',
-        name: '',
-        expireDate: '',
-        cvv: '',
-        cpf: ''
+        number: '5031433215406351',
+        name: 'APRO',
+        expireDate: '11/30',
+        cvv: '123',
+        cpf: '12345678909'
     });
 
 
@@ -139,13 +139,12 @@ const Checkout = () => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${process.env.REACT_APP_MERCADO_PAGO_PUBLIC_KEY}` 
+                    Authorization: `Bearer ${process.env.EXPO_PUBLIC_REACT_APP_MERCADO_PAGO_PUBLIC_KEY}` 
                 }
             }
         );
             const bin = cardForm.number.replace(/\s/g, '').slice(0, 6);
             const token = response.data.id;
-            
             const apiPayload = {
                 amount: Number(total.toFixed(2)),
                 checkoutInfo: {
@@ -159,22 +158,32 @@ const Checkout = () => {
             }
 
             const res = await api.post('/payment/card', apiPayload);
-            if(res.status === 200) {
-                await api.post('/products/save',
-                    {
-                        id: res.data.id,
-                        userId: user?._id,
-                        products: [products.map((product) => product._id )]
-                    }
-                )
-            }
-            Toast.show({
-                            type: 'success',
-                            text1: `Pagamento realizado com sucesso!`,
-                          });
+            await api.post('/payment/save',
+                {
+                    id: res.data.id,
+                    userId: user?._id,
+                    products: products.map((product) => product._id )
+                }
+            )
+            router.push(`/success?id=${res.data.id}`)
+                
         } catch (err) {
-            console.error(err)
+            if (axios.isAxiosError(err)) {
+                if (err.response) {
+                    console.error('Erro na resposta da API:', err.response.data);
+                    console.error('Status:', err.response.status);
+                    console.error('Headers:', err.response.headers);
+                } else if (err.request) {
+                    console.error('Requisição feita, mas sem resposta:', err.request);
+                } else {
+                    console.error('Erro ao configurar a requisição:', err.message);
+                }
+                console.error('Config completa do erro:', err.config);
+            } else {
+                console.error('Erro desconhecido:', err);
+            }
         }
+        
     };
   return (
     <ScrollView style={styles.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
