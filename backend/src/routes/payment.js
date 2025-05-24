@@ -168,18 +168,9 @@ router.post('/save', async (req, res) => {
         const newPayment = new Payment({ _id: id, userId, products });
         await newPayment.save();
 
-        // for (const productId of products) {
-        //     const product = await Product.findById(productId);
-
-        //     if(product) {
-        //         product.sold = true;
-        //         await product.save();
-        //     }
-        // }
-
         await Product.updateMany(
             { _id: { $in: products }},
-            { $set: { sold: true }}
+            { $set: { sold: true, buyer: userId }}
         )
 
         const populatedPayment = await Payment.findById(newPayment._id)

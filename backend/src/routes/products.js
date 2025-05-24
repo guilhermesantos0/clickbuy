@@ -88,10 +88,11 @@ router.get('/:id', async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'Produto não encontrado' });
         }
-        if (product.sold) {
-            return res.status(201).json({ message: 'Produto Vendido' })
-        }
 
+        if(product.sold) {
+            await product.populate('buyer');
+        }
+        
         res.status(200).json(product);
     } catch (err) {
         res.status(500).json({ message: 'Erro ao buscar produto', error: err.message });

@@ -11,6 +11,7 @@ import { User } from '@modules/User';
 import { useUser } from 'contexts/UserContext';
 
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+import { toast } from 'react-toastify';
 
 interface Props {
     user: User | null,
@@ -44,6 +45,15 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
         navigate('/');
     }
 
+    const handleAnnounce = () => {
+        if(user) {
+            navigate('/anunciar');
+        } else {
+            navigate('/login');
+            toast.warn('Você precisa estar logado para anunciar!');
+        }
+    }
+
     return (
         <div className={style.Container}>
             <div className={style.Left}>
@@ -69,10 +79,10 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
             }
             <div className={style.Right}>
             {/* <Link className={style.Announce} to='/anunciar'>Anunciar</Link> */}
-            <Link to="/anunciar" className={style.AnnounceButton}>
+            <div onClick={handleAnnounce} className={style.AnnounceButton}>
                 <PlusIcon className={style.PlusIcon} />
                 Anunciar
-            </Link>
+            </div>
                 { 
                     user ? 
                     <div className={style.ProfileContainer} ref={menuRef}>

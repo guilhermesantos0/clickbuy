@@ -3,7 +3,11 @@ import api from './api';
 import { toast } from 'react-toastify';
 
 export const addToFavourites = async (userId: string | undefined, productId: string | undefined) => {
+    if(!userId) {
+        throw 1
+    }
     try {
+
         const res = await api.post('/favourites', { userId, productId });
         toast.success('Adicionado aos Favoritos!')
         return res.data;

@@ -3,9 +3,9 @@
 .Overlay {
     width: 100%;
     position: relative;
-
+    
     transform: translateZ(0);
-
+    
     .OverlayButtons {
         position: absolute;
         top: 1rem;
@@ -13,6 +13,7 @@
         display: flex;
         gap: 0.5rem;
         z-index: 10;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
 
         .Option {
             width: 36px;
@@ -62,6 +63,10 @@
         cursor: pointer;
         transform: translateY(-2px);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        
+        + .OverlayButtons {
+            transform: translateY(-2px);
+        }
     }
 
     @media (min-width: 768px) {

@@ -18,7 +18,8 @@ const productSchema = new mongoose.Schema({
         used: { type: Boolean, required: true }
     },
     description: { type: String, required: true },
-    sold: { type: Boolean, default: false }
+    sold: { type: Boolean, default: false },
+    buyer: { type: String, ref: 'User' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);

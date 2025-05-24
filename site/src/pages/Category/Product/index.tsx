@@ -19,10 +19,11 @@ import { ReactComponent as Pin } from '../../../assets/Product/pin.svg';
 
 import { HeartIcon, HeartFilledIcon, Share1Icon, TokensIcon } from "@radix-ui/react-icons";
 import { ReactComponent as Report } from 'assets/Product/flag.svg';
-import { ReactComponent as Cart } from 'assets/cart.svg';
 
 import { addToFavourites, removeFromFavourites } from "services/favouriteService";
 import { toast } from "react-toastify";
+
+import AddToCartButton from "./components/AddToCartButton";
 
 const ProductPage = () => {
     const { user, setUser } = useUser();
@@ -31,20 +32,27 @@ const ProductPage = () => {
     const [announcer, setAnnouncer] = useState<User>();
     const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
+    const [soldDate, setSoldDate] = useState<Date>();
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
     
     useEffect(() => {
         const fetchData = async () => {
+            
             const productResponse = await fetch(`http://localhost:5000/products/${id}`);
             const productResult = await productResponse.json();
-            
+
             if(user && user.favourites){
                 setIsFavourited(user?.favourites?.includes(product?._id))
             }
 
             setProduct(productResult);
             setCreatedDate(new Date(productResult.createdAt))
+
+            if(productResult.sold) {
+                setSoldDate(new Date(productResult.updatedAt))
+            }
             
             const userResponse = await fetch(`http://localhost:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
@@ -56,7 +64,6 @@ const ProductPage = () => {
     },[id])
 
     useEffect(() => {
-        console.log(user?.favourites, product?._id)
         if (!user || !user?.favourites || !product) return;
 
         const isAlreadyFavourited = user.favourites.some(
@@ -85,8 +92,12 @@ const ProductPage = () => {
                 setUser({ ...user!, favourites});
                 setIsFavourited(true)
             }
-        } catch {
-            toast.error('Erro ao adicionar aos favoritos!')
+        } catch (error) {
+            if(error === 1) {
+                toast.warn('Você precisa estar logado!')
+            }else {
+                toast.error('Erro ao adicionar aos favoritos!')
+            }
         }
     }
 
@@ -127,29 +138,73 @@ const ProductPage = () => {
                                         }
                                     </span>
                                     <h2 className={style.Price}>{product?.price}</h2>
-                                    <button onClick={handleAddToCart} className={style.Buy}> <Cart className={style.Icon} /> ADICIONAR AO CARRINHO</button>
+                                    {/* <button onClick={handleAddToCart} className={style.Buy}> <Cart className={style.Icon} /> ADICIONAR AO CARRINHO</button> */}
+                                    {
+                                        product.sold ? (
+                                            <div className={style.SoldInfo}>Produto Vendido</div>
+                                        ) : (
+                                            <>
+                                                {
+                                                    !user ? (
+                                                        <div className={style.SoldInfo}>Entre para adicionar ao carrinho!</div>
+                                                    ) : (
+                                                        <>
+                                                            {
+                                                                product.announcer._id !== user?._id && (
+                                                                    <AddToCartButton product={product} />
+                                                                )    
+                                                            }
+                                                        </>
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
                                 </div>
                                 {
-                                    product.announcer && (
+                                    product.sold ? (
+                                        <div className={style.DetailsBottom}>
+                                            <h3>Informações do Comprador</h3>
+                                            <div className={style.BuyerTop}>
+                                                <Link to={`/users/${product.buyer?._id}`} className={style.AnnonucerMain}>
+                                                        <img 
+                                                            className={style.ProfileImage} 
+                                                            src={product.buyer?.profilePic ? `${product.buyer.profilePic}` : genericPhoto} 
+                                                            alt=""
+                                                        />
+                                                        <h4>{product.buyer?.personalData.name}</h4>
+                                                        
+                                                </Link>
+                                                { soldDate && (
+                                                    <p className={style.SoldAt}>{formatZero(soldDate?.getDate())}/{formatZero(soldDate?.getMonth())} ás {formatZero(soldDate?.getHours())}:{formatZero(soldDate?.getMinutes())}</p>
+                                                )}
+                                            </div>
+                                            <div className={style.Location}><Pin className={style.Pin} />{`${product.buyer?.personalData.address.city}, ${product.buyer?.personalData.address.state}`}</div>
+                                        </div>
+                                    ) : (
                                         <div className={style.DetailsBottom}>
                                             <h3>Informações do anunciante</h3>
                                             <Link to={`/users/${product.announcer?._id}`} className={style.AnnonucerMain}>
-                                                    <img 
-                                                        className={style.ProfileImage} 
-                                                        src={product.announcer?.profilePic ? `${product.announcer.profilePic}` : genericPhoto} 
-                                                        alt=""
-                                                    />
-                                                    <h4>{product.announcer?.personalData.name}</h4>
+                                                <img 
+                                                    className={style.ProfileImage} 
+                                                    src={product.announcer?.profilePic ? `${product.announcer.profilePic}` : genericPhoto} 
+                                                    alt=""
+                                                />
+                                                <h4>{product.announcer?.personalData.name}</h4>
                                             </Link>
                                             <div className={style.Location}><Pin className={style.Pin} />{`${product.announcer?.personalData.address.city}, ${product.announcer?.personalData.address.state} - ${product.announcer?.personalData.address.zip}`}</div>
                                         </div>
                                     )
                                 }
-                                <div className={style.OptionsArea}>
-                                    <div className={style.Option}>{isFavourited ? <HeartFilledIcon onClick={toggleIsFavourited} className={`${style.Icon} ${style.FavouritedIcon}`} /> : <HeartIcon onClick={toggleIsFavourited} className={style.Icon} /> }</div>
-                                    <div className={style.Option}> <ShareDropdown product={product.name} /></div>
-                                    <div className={style.Option}><Report className={style.Icon} /></div>
-                                </div>
+                                {
+                                    !product.sold && (
+                                        <div className={style.OptionsArea}>
+                                            <div className={style.Option}>{isFavourited ? <HeartFilledIcon onClick={toggleIsFavourited} className={`${style.Icon} ${style.FavouritedIcon}`} /> : <HeartIcon onClick={toggleIsFavourited} className={style.Icon} /> }</div>
+                                            <div className={style.Option}> <ShareDropdown product={product.name} /></div>
+                                            <div className={style.Option}><Report className={style.Icon} /></div>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                         <div className={style.BottomSection}>

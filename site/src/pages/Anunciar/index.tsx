@@ -188,11 +188,17 @@ const Anunciar = () => {
         setMainImageIndex(index);
     };
 
+    if(!user || user === null) {
+        return (
+            <></>
+        )
+    }
+
     return (
         <div className={style.Container}>
             <Header user={user}></Header>
 
-                <div className={`${style.Form} ${step === 1 ? style.FirstStep : ''}`}>
+            <div className={`${style.Form} ${step === 1 ? style.FirstStep : ''}`}>
                 { step === 1 && (
                     <>
                         <h1>Anunciar Produto</h1>

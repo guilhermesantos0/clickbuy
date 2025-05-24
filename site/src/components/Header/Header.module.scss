@@ -130,6 +130,7 @@
         &:hover {
             background: linear-gradient(135deg, darken($primary-color, 2), $primary-color);
             transform: scale(1.05);
+            cursor: pointer;
         }
 
         .PlusIcon {

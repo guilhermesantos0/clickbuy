@@ -92,6 +92,29 @@
                         cursor: pointer;
                     }
                 }
+
+                .SoldInfo {
+                    width: 100%;
+                    padding: 1rem 2rem;
+                    background-color: #DDA04B;
+                    color: white;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 8px;
+                    transition: background-color 0.3s ease, transform 0.2s ease;
+
+                    opacity: .5;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+
+                    &:hover {
+                        cursor: not-allowed;
+                    }
+                }
             }
 
             .DetailsBottom {
@@ -108,7 +131,7 @@
                     text-decoration: none;
 
                     margin-top: 1vh;
-    
+
                     .ProfileImage {
                         width: 40px;
                         height: 40px;
@@ -134,6 +157,16 @@
                         width: 1.2rem;
                         height: 1.2rem;
                         margin-right: 0.5rem;
+                    }
+                }
+
+                .BuyerTop {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .SoldAt {
+                        color: #606060;
                     }
                 }
             }
