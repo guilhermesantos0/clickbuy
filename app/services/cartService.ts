@@ -1,4 +1,3 @@
-
 import { User } from "@/types/User";
 import api from "./api";
 import { Product } from "@/types/Product";
@@ -8,7 +7,8 @@ export const addToCart = async (
     setUser: (user: User) => void,
     product: Product
 ) => {
-    if (!user || !product) return;
+    if( !user) throw 1
+    if (!product) return;
     
     try {
         const res = await api.post('/cart/add', {

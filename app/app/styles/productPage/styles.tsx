@@ -109,6 +109,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
     },
+    Sold: {
+        width: '80%',
+      backgroundColor: 'rgba(221, 160, 75, 0.5)',
+      paddingVertical: 10,
+      borderRadius: 5,
+       display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+    },
     ButtonText: {
       color: 'white',
       fontSize: 25,
@@ -156,6 +166,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'flex-end',
         width: '50%',
+        marginTop: 13
   },
   Announcer:{
     display: 'flex',
@@ -185,6 +196,7 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   location: {
+    width: '40%',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop:20,
@@ -194,7 +206,13 @@ const styles = StyleSheet.create({
         marginHorizontal:10,
       fontSize: 23,
       fontWeight: 'bold',
-      marginTop:30,
+      marginTop:40,
+    },
+    Buyer:{
+        marginHorizontal:10,
+      fontSize: 23,
+      fontWeight: 'bold',
+      marginTop:5,
     },
     Description:{
       fontSize: 15,

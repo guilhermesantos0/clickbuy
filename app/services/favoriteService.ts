@@ -1,10 +1,13 @@
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Toast from 'react-native-toast-message';
 import api from './api';
-import ip from '@/ip';
 
 
 export const addToFavourites = async (userId: string | undefined, productId: string | undefined) => {
+    if(!userId) {
+        throw 1
+    }
     try {
+
         const res = await api.post('/favourites', { userId, productId });
         Toast.show({
                   type: 'success',
@@ -35,22 +38,19 @@ export const removeFromFavourites = async (userId: string | undefined, productId
 
 export const getUserFavourites = async (userId: string | undefined) => {
     try {
-        if (!userId) throw new Error("ID do usuário é indefinido");
+        const userFavourites = [];
+        const res = await api.get(`/favourites/user/${userId}`);
 
-        const res = await fetch(`http://${ip}:5000/favourites/user/${userId}`);
-        if (!res.ok) {
-            throw new Error(`Erro na resposta: ${res.status}`);
-        }
+        res.data.forEach((r: any) => {
+            userFavourites.push(r)
+        })
 
-        const data = await res.json();
-
-        return data;
+        return res.data;
     } catch (err) {
-        console.error("Erro ao buscar favoritos do usuário:", err);
+        console.error("Erro ao buscar favoritos do usuário: " ,err);
         throw err;
     }
-};
-
+}
 
 export const getProductFavourites = async (productId: string) => {
     try {
