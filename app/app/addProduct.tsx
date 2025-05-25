@@ -228,7 +228,11 @@ const addProduct = () => {
         }
     };
 
-
+if(!user || user === null) {
+        return (
+            <View></View>
+        )
+    }
   return (
     <View style={styles.Container}>
     <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>

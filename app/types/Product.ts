@@ -3,7 +3,7 @@ import { User } from "./User";
 export interface Product {
     _id: string,
     name: string,
-    price: number,
+    price: string,
     location: string,
     images: String[],
     mainImage: string,
@@ -14,5 +14,8 @@ export interface Product {
         used: boolean
     },
     createdAt: string | Date,
-    description: string
+    updatedAt: string | Date,
+    description: string,
+    sold?: boolean | false,
+    buyer?: User
 }

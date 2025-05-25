@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useUser } from '@/contexts/UserContext';
 import { Product } from '@/types/Product';
 import { User } from '@/types/User';
@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message';
 import { addToFavourites, getUserFavouriteProducts, removeFromFavourites } from '@/services/favoriteService';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { addToCart } from '@/services/cartService';
+import modal from './styles/productPage/modal';
 const genericPhoto = require('@/assets/ClickBuy/iconeGenerico.png');
 
 const productPage = () => {
@@ -23,6 +24,9 @@ const productPage = () => {
     const [announcer, setAnnouncer] = useState<User>();
     const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
+    const [soldDate, setSoldDate] = useState<Date>();
+    const [modalVisible, setModalVisible] = useState(false);
+
     
     
     const nextSlide = () => {
@@ -37,17 +41,22 @@ const productPage = () => {
   };
   useEffect(() => {
         const fetchData = async () => {
+            
             const productResponse = await fetch(`http://${ip}:5000/products/${id}`);
             const productResult = await productResponse.json();
-            
+
             if(user && user.favourites){
                 setIsFavourited(user?.favourites?.includes(product?._id))
             }
 
             setProduct(productResult);
             setCreatedDate(new Date(productResult.createdAt))
+
+            if(productResult.sold) {
+                setSoldDate(new Date(productResult.updatedAt))
+            }
             
-            const userResponse = await fetch(`http://${ip}:5000/user/${productResult.announcer._id}`)
+            const userResponse = await fetch(`http://${ip}:5000/user/${productResult.announcer}`)
             const userResult = await userResponse.json();
 
             setAnnouncer(userResult)
@@ -55,7 +64,6 @@ const productPage = () => {
 
         fetchData();
     },[id])
-
     useEffect(() => {
         if (!user || !user?.favourites || !product) return;
 
@@ -67,6 +75,7 @@ const productPage = () => {
     });
  
     const toggleIsFavourited = async () => {
+        console.log(isFavourited)
         if(!product || !user) return
 
         try {
@@ -84,11 +93,18 @@ const productPage = () => {
                 setUser({ ...user!, favourites});
                 setIsFavourited(true)
             }
-        } catch {
-            Toast.show({
+        } catch (error) {
+            if(error === 1) {
+                 Toast.show({
+                              type: 'warn',
+                              text1: 'Você precisa estar logado!',
+                            });
+            }else {
+                Toast.show({
                               type: 'error',
                               text1: 'Erro ao adicionar aos favoritos!',
                             });
+            }
         }
     }
 
@@ -100,10 +116,7 @@ const productPage = () => {
         try {
             if(product) {
                 await addToCart(user, setUser, product);
-                Toast.show({
-                              type: 'success',
-                              text1: `${product.name} Adicionado ao carrinho!`,
-                            });
+                setModalVisible(true);
             }
         } catch {
             Toast.show({
@@ -114,6 +127,44 @@ const productPage = () => {
     }
   return (
     <View style={styles.Container}>
+        <Modal
+            transparent={true}
+            animationType="fade"
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}
+        >
+            <View style={modal.Container}>
+                <View style={modal.Modal}>
+                    <Text style={modal.Title}>
+                        Produto adicionado ao carrinho!
+                    </Text>
+                    <Text style={modal.Text}>
+                        O que você deseja fazer agora?
+                    </Text>
+                    <View style={modal.ButtonArea}>
+                        <TouchableOpacity
+                            style={modal.CartButton}
+                            onPress={() => {
+                                setModalVisible(false);
+                                router.push('/cart')
+                            }}
+                        >
+                            <Text style={modal.Text2}>Ir para o carrinho</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={modal.ContinueButton}
+                            onPress={() => {
+                                setModalVisible(false);
+                                router.push('/(tabs)')
+                            }}
+                        >
+                            <Text>Continuar comprando</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
+
         <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.SliderContainer}>
             <TouchableOpacity style={[styles.navButton, styles.Prev]} onPress={prevSlide}>
@@ -152,41 +203,81 @@ const productPage = () => {
             <View style={styles.ProductInfo}>
                 <Text style={styles.Text} numberOfLines={2}>{product?.name}</Text>
                 <Text style={styles.Price} >{product?.price}</Text>
-                <View style={styles.ButtomArea}>
-                    <TouchableOpacity style={styles.Buy} onPress={handleAddToCart}>
-                        <Text style={styles.ButtonText}>Adicionar ao Carrinho</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.InfoRow}>
-                    <View style={styles.IconsArea}>
-                            <TouchableOpacity style={styles.filterButton} onPress={toggleIsFavourited}>
-                                <Ionicons name="heart" size={24} color={isFavourited? "red" : "black"} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.filterButton}>
-                                <Ionicons name="share-social" size={24} color="black" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.filterButton}>
-                                <Ionicons name="flag" size={24} color="black" />
-                            </TouchableOpacity>
+                {product?.sold ? (
+                    <View style={styles.ButtomArea}>
+                        <View style={styles.Sold}>
+                            <Text style={styles.ButtonText}>Produto Vendido</Text>
+                        </View>
                     </View>
-                    <View style={styles.Date}>
-                       <Text>{`${createdDate ? `${formatZero(createdDate.getDate())}/${formatZero(createdDate.getMonth() + 1)} às ${formatZero(createdDate.getHours())}:${formatZero(createdDate.getMinutes())}` : 'Data não disponível'}`}</Text>
+                ) : (
+                    <View style={styles.ButtomArea}>
+                        <TouchableOpacity style={styles.Buy} onPress={handleAddToCart}>
+                            <Text style={styles.ButtonText}>Adicionar ao Carrinho</Text>
+                        </TouchableOpacity>
                     </View>
-                </View>
+                )}
+                {product?.sold ? (
+                    <View style={styles.InfoRow}>
+                        <View style={styles.IconsArea}>
+                        </View>
+                        <View style={styles.Date}>
+                        <Text>{`${createdDate ? `${formatZero(createdDate.getDate())}/${formatZero(createdDate.getMonth() + 1)} às ${formatZero(createdDate.getHours())}:${formatZero(createdDate.getMinutes())}` : 'Data não disponível'}`}</Text>
+                        </View>
+                    </View>
+                ) : (
+                    <View style={styles.InfoRow}>
+                        <View style={styles.IconsArea}>
+                                <TouchableOpacity style={styles.filterButton} onPress={toggleIsFavourited}>
+                                    <Ionicons name="heart" size={24} color={isFavourited? "red" : "black"} />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.filterButton}>
+                                    <Ionicons name="share-social" size={24} color="black" />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.filterButton}>
+                                    <Ionicons name="flag" size={24} color="black" />
+                                </TouchableOpacity>
+                        </View>
+                        <View style={styles.Date}>
+                        <Text>{`${createdDate ? `${formatZero(createdDate.getDate())}/${formatZero(createdDate.getMonth() + 1)} às ${formatZero(createdDate.getHours())}:${formatZero(createdDate.getMinutes())}` : 'Data não disponível'}`}</Text>
+                        </View>
+                    </View>
+                )}
             </View>
-            <View style={styles.Announcer}>
+            {product?.sold ? (
+                <View style={styles.Announcer}>
+                    <Text style={styles.Buyer}>Comprado por:</Text>
                 <TouchableOpacity style={styles.NameIcon}>
                     <Image
                         style={styles.AnnouncerIcon}
-                        source={announcer?.profilePic ? { uri: announcer.profilePic } : genericPhoto }
+                        source={product?.buyer?.profilePic ? { uri: product?.buyer.profilePic } : genericPhoto }
                         />
-                    <Text style={styles.AnnouncerName}>{announcer?.personalData.name}</Text>
+                    <Text style={styles.AnnouncerName}>{product?.buyer?.personalData.name}</Text>
+                </TouchableOpacity>
+                <View style={{flexDirection: 'row', marginBottom:40}}>
+                    <View style={styles.location}>
+                        <IconSymbol size={15} name='location' color='black' />
+                        <Text>{`${product?.buyer?.personalData.address.city}, ${product?.buyer?.personalData.address.state} - ${product?.buyer?.personalData.address.zip}`}</Text>
+                    </View>
+                    <View style={styles.Date}>
+                            <Text>{`${soldDate ? `${formatZero(soldDate.getDate())}/${formatZero(soldDate.getMonth() + 1)} às ${formatZero(soldDate.getHours())}:${formatZero(soldDate.getMinutes())}` : 'Data não disponível'}`}</Text>
+                    </View>
+                </View>
+                </View>
+            ): (
+                <View style={styles.Announcer}>
+                <TouchableOpacity style={styles.NameIcon}>
+                    <Image
+                        style={styles.AnnouncerIcon}
+                        source={product?.announcer.profilePic ? { uri: product?.announcer.profilePic } : genericPhoto }
+                        />
+                    <Text style={styles.AnnouncerName}>{product?.announcer.personalData.name}</Text>
                 </TouchableOpacity>
                 <View style={styles.location}>
                     <IconSymbol size={15} name='location' color='black' />
                     <Text>{`${product?.announcer?.personalData.address.city}, ${product?.announcer?.personalData.address.state} - ${product?.announcer?.personalData.address.zip}`}</Text>
                 </View>
             </View>
+            )}
             <View style={styles.ProductDescription}>
                 <Text style={styles.TextTitle}>Descrição do produto</Text>
                 <Text style={styles.Description}>{product?.description}</Text>

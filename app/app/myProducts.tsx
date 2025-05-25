@@ -75,19 +75,29 @@ const MyProducts = () => {
                 style={styles.ProductImage}
                 resizeMode="center"
               />
-              <View style={styles.ProductInfo}>
-                <Text style={styles.ProductName}>{product.name}</Text>
-                <Text style={styles.ProductPrice}>{product.price}</Text>
-                <Text numberOfLines={2}>{product.description}</Text>
-              </View>
-              <View style={styles.Icons}>
-                <TouchableOpacity onPress={() => router.push(`/editProduct?id=${product._id}`)} style={styles.Icon}>
-                  <Ionicons name="pencil" size={24} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.Icon} onPress={() => confirmDeleteProduct(product._id, product.name)}>
-                  <Ionicons name="trash" size={24} color="red" />
-                </TouchableOpacity>
-              </View>
+              {product.sold ? (
+                <View style={styles.ProductInfo}>
+                  <Text style={styles.ProductName}>{product.name}</Text>
+                  <Text style={styles.ProductPrice}>Produto Vendido!</Text>
+                  <Text numberOfLines={2}>{product.description}</Text>
+                </View>
+              ):(
+                <View style={styles.ProductInfo}>
+                  <Text style={styles.ProductName}>{product.name}</Text>
+                  <Text style={styles.ProductPrice}>{product.price}</Text>
+                  <Text numberOfLines={2}>{product.description}</Text>
+                </View>
+              )}
+              {!product.sold && (
+                <View style={styles.Icons}>
+                  <TouchableOpacity onPress={() => router.push(`/editProduct?id=${product._id}`)} style={styles.Icon}>
+                    <Ionicons name="pencil" size={24} color="black" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.Icon} onPress={() => confirmDeleteProduct(product._id, product.name)}>
+                    <Ionicons name="trash" size={24} color="red" />
+                  </TouchableOpacity>
+                </View>
+              )}
             </TouchableOpacity>
           ))
         ) : (
