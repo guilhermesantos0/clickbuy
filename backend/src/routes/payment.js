@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const Product = require('../models/Product');
 const Payment = require('../models/Payment');
+const User = require('../models/User');
 
 router.post('/pix', async (req, res) => {
     const { amount, checkoutInfo, products } = req.body;
@@ -173,13 +174,18 @@ router.post('/save', async (req, res) => {
             { $set: { sold: true, buyer: userId }}
         )
 
+        await User.updateMany(
+            { cart: { $in: products } },
+            { $pull: { cart: { $in: products } } }
+        )
+
         const populatedPayment = await Payment.findById(newPayment._id)
             .populate('products').lean();
 
 
         res.status(200).json({ payment: populatedPayment })
     } catch(error) {
-        res.status(500).json({ message: 'Houve um erro ao salvar o pagament!', error })
+        res.status(500).json({ message: 'Houve um erro ao salvar o pagamento!', error })
     }
 })
 

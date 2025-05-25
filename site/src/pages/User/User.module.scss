@@ -1,0 +1,113 @@
+.Container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .PageContent {
+        margin-top: 3vh;
+        display: flex;
+        gap: 3rem;
+
+        .UserDetails {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+
+            width: 30vw;
+            height: 45vh;
+
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgb(138, 138, 138);
+
+            padding: 1rem;
+
+            .UserTop {
+
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .Image {
+                    width: 100px;
+                    height: 100px;
+
+                    border-radius: 50%;
+                }
+            }
+
+            .Separator {
+                width: 100%;
+                height: 1px;
+                background: linear-gradient(90deg, transparent 0%, #ccc 10%, #ccc 90%, transparent);
+            }
+
+            .UserBottom {
+                width: 100%;
+
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+
+                .DataContainer {
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: .4rem;
+
+                }
+            }
+        }
+
+        .Announces {
+            display: flex;
+            flex-direction: column;
+            gap: 3vh;
+
+            width: 50vw;
+            // height: 80vh;
+
+            .AnnounceHistory {
+
+                width: 20vw;
+                height: 12vh;
+
+                display: flex;
+                flex-direction: column;
+
+                padding: .5rem;
+
+                border-radius: 10px;
+                box-shadow: 0 1px 2px rgb(138, 138, 138);
+
+                .Title {
+
+                    margin-bottom: .3rem;
+
+                    .Icon {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            .FilterContainer {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                padding-right: .8rem;
+
+            }
+
+            .ProductsContainer {
+                margin-top: 3vh;
+                display: flex;
+                flex-wrap: wrap;
+                gap: .8rem;
+            }
+        }
+    }
+}

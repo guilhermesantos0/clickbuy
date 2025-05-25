@@ -32,6 +32,7 @@ import CheckoutPage from 'pages/Checkout';
 import Confirm from 'pages/Checkout/Confirm';
 
 import Cart from 'pages/Carrinho';
+import UserPage from 'pages/User';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,6 +55,7 @@ function App() {
 
         <Route path="/editar-perfil" element={<EditarPerfil />} />
         <Route path="/carrinho" element={<Cart />} />
+        <Route path="/users/:id" element={<UserPage />} />
 
         <Route path="/institucional/sobrenos" element={<AboutUs />} />
         <Route path="/institucional/contato" element={<Contact />} />

@@ -35,4 +35,20 @@ router.post('/remove', async (req, res) => {
     }
 });
 
+router.post('/remove/product', async (req, res) => {
+    const { productId } = req.body; 
+
+    try {
+        await User.updateMany(
+            { cart: productId },
+            { $pull: { cart: productId } }
+        )
+
+        res.status(200).json({ message: 'Produto Removido do carrinho de todos os usuários.' });
+    } catch (error) {
+        console.error('Erro ao remover produto do carrinho: ', error);
+        res.status(500).json({ message: 'Erro interno do servidor ' })
+    }
+})
+
 module.exports = router;

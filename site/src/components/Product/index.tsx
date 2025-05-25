@@ -62,6 +62,7 @@ const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
     }
 
     return (
+        
         <div className={style.Container}>
             { product.sold ? (
                 <div className={style.SoldProductArea}>
@@ -86,7 +87,7 @@ const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
                         </div>
                     </div>
                 </div>
-            ): (
+            ) : (
                 <>
                     {favouriteOption && (
                     <div onClick={toggleIsFavourited} className={style.FavouriteOption}>

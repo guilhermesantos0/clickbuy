@@ -106,17 +106,6 @@ const ProductPage = () => {
         return res
     }
 
-    const handleAddToCart = async () => {
-        try {
-            if(product) {
-                await addToCart(user, setUser, product);
-                toast.success(`${product.name} Adicionado ao carrinho!`)
-            }
-        } catch {
-            toast.error("Erro ao adicionar ao carrinho!");
-        }
-    }
-
     return (
         <div className={style.Container}>
             <Header user={user} />

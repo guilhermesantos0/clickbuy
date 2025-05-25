@@ -5,6 +5,7 @@ const User = require('../models/User');
 const upload = require("../middleware/upload");
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs');
+const Product = require('../models/Product');
 
 router.post('/', async (req, res) => {
     try {
@@ -61,6 +62,16 @@ router.get('/:id/cart', async (req, res) => {
         res.status(500).json({ message: 'Erro ao buscar carrinho', error });
     }
 });
+
+router.get('/:id/products', async (req, res) => {
+    try {
+        const userProducts = await Product.find({ announcer: req.params.id });
+        res.status(200).json(userProducts);
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ messaget: 'Erro ao buscar produtos do usuário', error });
+    }
+})
 
 router.delete('/:id', async(req, res) => {
     try {
