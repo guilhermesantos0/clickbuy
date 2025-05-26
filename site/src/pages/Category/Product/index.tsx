@@ -25,6 +25,8 @@ import { toast } from "react-toastify";
 
 import AddToCartButton from "./components/AddToCartButton";
 
+import { formatCEP } from "utils/formatters";
+
 const ProductPage = () => {
     const { user, setUser } = useUser();
     const { category, id } = useParams<{ category: string, id: string }>();
@@ -174,7 +176,7 @@ const ProductPage = () => {
                                                 />
                                                 <h4>{product.announcer?.personalData.name}</h4>
                                             </Link>
-                                            <div className={style.Location}><Pin className={style.Pin} />{`${product.announcer?.personalData.address.city}, ${product.announcer?.personalData.address.state} - ${product.announcer?.personalData.address.zip}`}</div>
+                                            <div className={style.Location}><Pin className={style.Pin} />{`${product.announcer?.personalData.address.city}, ${product.announcer?.personalData.address.state} - ${formatCEP(product.announcer?.personalData.address.zip)}`}</div>
                                         </div>
                                     )
                                 }

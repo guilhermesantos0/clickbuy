@@ -5,7 +5,6 @@ const upload = require("../middleware/upload");
 const Category = require('../models/Category');
 const path = require('path');
 const fs = require('fs');
-const Favourited = require('../models/Favourited');
 const cloudinary = require("../config/cloudinary");
 
 router.get('/', async (req, res) => {
@@ -119,8 +118,13 @@ router.delete('/:id', async (req, res) => {
             if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
         });
 
-        const favourited = await Favourited.find({ productId: product });
-        if(favourited.length > 0) Favourited.deleteMany({ productId: product })
+        await User.updateMany(
+            { favourites: { $in: req.params.id } },
+            { $pull: { favourites: { $in: req.params.id } } }
+        )        
+
+        // const favourited = await Favourited.find({ productId: product });
+        // if(favourited.length > 0) Favourited.deleteMany({ productId: product })
             
         await Product.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Produto e imagens deletados com sucesso' });

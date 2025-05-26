@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Favourited = require('../models/Favourited');
 const User = require('../models/User');
-const Product = require('../models/Product');
 
 router.post('/', async (req, res) => {
     const { userId, productId } = req.body;
@@ -32,30 +30,6 @@ router.delete('/', async (req, res) => {
     } catch (error) {
         console.error('Erro ao remover dos favoritos:', error);
         res.status(500).json({ error: 'Erro interno ao remover dos favoritos' });
-    }
-});
-
-router.get('/', async (req, res) => {
-    try {
-        const favourites = await Favourited.find();
-
-        const enrichedFavourites = await Promise.all(
-            favourites.map(async (fav) => {
-                const user = await User.findOne({ _id: fav.userId });
-                const product = await Product.findOne({ _id: fav.productId });
-
-                return {
-                    _id: fav._id,
-                    user: user,
-                    product: product
-                };
-            })
-        );
-
-        res.json(enrichedFavourites);
-    } catch (err) {
-        console.error('Erro ao buscar favoritos:', err);
-        res.status(500).json({ error: 'Erro ao carregar favoritos' });
     }
 });
 

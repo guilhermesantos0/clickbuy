@@ -5,8 +5,8 @@ export interface User {
     email: string;
     password: string;
     profilePic?: string;
+    cart: Product[];
     favourites: Product[];
-    cart: Product[],
     personalData: {
         name: string;
         bornDate: string;

@@ -36,12 +36,6 @@ const Admin2 = () => {
           >
             Categorias
           </button>
-          <button 
-            className={`${styles.navItem} ${section === "favourites" ? styles.active : ""}`}
-            onClick={() => setSection("favourites")}
-          >
-            Favoritos
-          </button>
         </nav>
       </aside>
 

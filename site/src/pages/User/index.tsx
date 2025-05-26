@@ -17,6 +17,8 @@ import { Category } from "@modules/Category";
 
 import style from './User.module.scss';
 
+import { formatPhoneNumber } from "utils/formatters";
+
 const UserPage = () => {
     const { user } = useUser();
     const { id } = useParams<{ id: string }>();
@@ -85,7 +87,7 @@ const UserPage = () => {
                         <div className={style.UserBottom}>
                             <h2>Informações de Contato</h2>
                             <div className={style.DataContainer}>
-                                <span className={style.Data}><h3>Telefone: </h3>{userProfile.personalData.phone}</span>
+                                <span className={style.Data}><h3>Telefone: </h3>+55 {formatPhoneNumber(userProfile.personalData.phone)}</span>
                                 <span className={style.Data}><h3>Email: </h3>{userProfile.email}</span>
                             </div>
                         </div>

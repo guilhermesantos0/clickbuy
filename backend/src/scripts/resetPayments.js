@@ -13,6 +13,7 @@ const resetPayments = async () => {
 
     for (const product of products) {
         product.sold = false;
+        product.buyer = undefined
         await product.save();
 
         console.log(`✅ ${product.name} Atualizado!`)
