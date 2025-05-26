@@ -22,12 +22,14 @@ const Category = () => {
     const [filteredProducts, setFilteredProducts] = useState(favourites);
     useEffect(() => {
         const fetchData = async () => {
-            const userFavourites = await getUserFavouriteProducts(user?._id);
-            setFavourites(userFavourites)
+            if(user) {
+                const userFavourites = await getUserFavouriteProducts(user?._id);
+                setFavourites(userFavourites)
+            }
         }
 
         fetchData();
-    })
+    },[user])
 
 
   const openFilter = () => {

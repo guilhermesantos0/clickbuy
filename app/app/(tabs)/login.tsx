@@ -47,7 +47,7 @@ const Login = () => {
         } catch (error) {
             Toast.show({
             type: 'error',
-            text1: `Erro de conexão com o servidor$`,
+            text1: `Erro de conexão com o servidor`,
           });
           console.log(error)
         }

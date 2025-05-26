@@ -106,7 +106,7 @@ const Cadastro = () => {
               },
           }
       }));
-      setDisabledInput(!disabledInput)
+      setDisabledInput(false)
   }
   const handleCepSearch = async (value: string) => {
     const cep = value.replace(/\D/g, "");
@@ -117,6 +117,7 @@ const Cadastro = () => {
 
     try {
         const res = await fetch(`https://viacep.com.br/ws/${cep}/json`);
+        console.log(`https://viacep.com.br/ws/${cep}/json`)
         const data = await res.json();
 
         if(data.erro) {
@@ -138,7 +139,6 @@ const Cadastro = () => {
                 },
             }
         }));
-
         setDisabledInput(true)
     } catch (error) {
         console.error("Erro ao buscar o CEP:", error);
