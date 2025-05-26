@@ -34,6 +34,8 @@ import Confirm from 'pages/Checkout/Confirm';
 import Cart from 'pages/Carrinho';
 import UserPage from 'pages/User';
 
+import MeusPedidos from 'pages/MeusPedidos';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -72,6 +74,8 @@ function App() {
         <Route path="/ajuda/garantia" element={<Garantia/>} />
         <Route path="/ajuda/trocadevolucao" element={<TrocaDevolucao/>} />
         <Route path="/ajuda/frete" element={<Frete/>} />
+
+        <Route path="/meus-pedidos" element={<MeusPedidos />} />
 
         <Route path="/404" element={<NotFound />} />
 

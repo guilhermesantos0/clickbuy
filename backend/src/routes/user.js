@@ -87,6 +87,16 @@ router.get('/:id/favourites', async (req, res) => {
     }
 })
 
+router.get('/:id/purchased', async (req, res) => {
+    try {
+        const products = await Product.find({ buyer: req.params.id }).populate('announcer');
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar meus pedidos', error });
+    }
+})
+
 router.delete('/:id', async(req, res) => {
     try {
         const { id } = req.params;

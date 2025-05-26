@@ -1,0 +1,49 @@
+.Container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9fafb; // cor de fundo bem suave
+    min-height: 100vh;
+
+    .PageContent {
+        margin-top: 3vh;
+        padding: 2rem 1rem;
+        width: 100%;
+        max-width: 1200px;
+        min-height: 47vh;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 1.5rem;
+        }
+
+        > div:last-child {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+
+            @media (min-width: 640px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media (min-width: 1024px) {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    }
+}
