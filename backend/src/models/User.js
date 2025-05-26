@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  cart: [{ type: String, ref: 'Product'}],
+  cart: [{ type: String, ref: 'Product' }],
+  favourites: [{ type: String, ref: 'Product' }],
   personalData: {
     name: { 
         type: String, 

@@ -23,33 +23,16 @@ interface Props {
 
 const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
     const { user, setUser } = useUser();
-    const [isFavourited, setIsFavourited] = useState(favourited ? true : false);
-
-    useEffect(() => {
-        if (!user?.favourites) return;
-
-        const isAlreadyFavourited = user.favourites.some(
-            (fav) => fav === product._id
-        );
-
-        setIsFavourited(isAlreadyFavourited);
-    },[]);
+    const [isFavourited, setIsFavourited] = useState(favourited);
 
     const toggleIsFavourited = async () => {
 
         try {
             if (isFavourited) {
-                const updatedFavourites = (user?.favourites || []).filter(
-                    (fav) => fav !== product._id
-                );
-                
-                setUser({ ...user!, favourites: updatedFavourites });
-                await removeFromFavourites(user?._id, product?._id);
+                await removeFromFavourites(user, setUser, product);
                 setIsFavourited(false)
             }else {
-                await addToFavourites(user?._id, product?._id);
-                const favourites = [...(user?.favourites || []), product?._id];
-                setUser({ ...user!, favourites});
+                await addToFavourites(user, setUser, product);
                 setIsFavourited(true)
             }
         } catch (error) {

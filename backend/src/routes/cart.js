@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Product = require('../models/Product');
 
-router.post('/add', async (req, res) => {
+router.post('/', async (req, res) => {
     const { userId, productId } = req.body;
     try {
         const user = await User.findById(userId);
@@ -18,7 +18,7 @@ router.post('/add', async (req, res) => {
     }
 });
 
-router.post('/remove', async (req, res) => {
+router.delete('/', async (req, res) => {
     const { userId, productId } = req.body;
 
     try {

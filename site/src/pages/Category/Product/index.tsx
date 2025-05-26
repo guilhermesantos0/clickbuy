@@ -43,8 +43,8 @@ const ProductPage = () => {
             const productResponse = await fetch(`http://localhost:5000/products/${id}`);
             const productResult = await productResponse.json();
 
-            if(user && user.favourites){
-                setIsFavourited(user?.favourites?.includes(product?._id))
+            if(user && user.favourites && product){
+                setIsFavourited(user?.favourites?.includes(product))
             }
 
             setProduct(productResult);
@@ -67,7 +67,7 @@ const ProductPage = () => {
         if (!user || !user?.favourites || !product) return;
 
         const isAlreadyFavourited = user.favourites.some(
-            (fav) => fav === product._id
+            (fav) => fav._id === product._id
         );
 
         setIsFavourited(isAlreadyFavourited);
@@ -79,18 +79,11 @@ const ProductPage = () => {
 
         try {
             if (isFavourited) {
-                const updatedFavourites = (user?.favourites || []).filter(
-                    (fav) => fav !== product._id
-                );
-                
-                setUser({ ...user!, favourites: updatedFavourites });
-                await removeFromFavourites(user?._id, product?._id);
-                setIsFavourited(false)
+                await removeFromFavourites(user, setUser, product);
+                setIsFavourited(false);
             }else {
-                await addToFavourites(user?._id, product?._id);
-                const favourites = [...(user?.favourites || []), product?._id];
-                setUser({ ...user!, favourites});
-                setIsFavourited(true)
+                await addToFavourites(user, setUser, product);
+                setIsFavourited(true);
             }
         } catch (error) {
             if(error === 1) {

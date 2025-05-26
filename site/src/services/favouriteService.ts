@@ -1,15 +1,26 @@
-import api from './api';
+import { Product } from "@modules/Product";
+import { User } from "@modules/User";
+import api from "./api";
+import { toast } from "react-toastify";
 
-import { toast } from 'react-toastify';
+export const addToFavourites = async (
+    user: User | null,
+    setUser: (user: User) => void,
+    product: Product
+) => {
+    if (!user) throw new Error("Usuário não encontrado");
+    if (!product) return;
 
-export const addToFavourites = async (userId: string | undefined, productId: string | undefined) => {
-    if(!userId) {
-        throw 1
-    }
     try {
+        const res = await api.post('/favourites', {
+            userId: user._id,
+            productId: product._id
+        });
 
-        const res = await api.post('/favourites', { userId, productId });
-        toast.success('Adicionado aos Favoritos!')
+        const updatedFavourites = [...(user.favourites || []), product];
+        setUser({ ...user, favourites: updatedFavourites });
+
+        toast.success('Adicionado aos Favoritos!');
         return res.data;
     } catch (error) {
         console.error("Erro ao adicionar favorito:", error);
@@ -17,12 +28,25 @@ export const addToFavourites = async (userId: string | undefined, productId: str
     }
 };
 
-export const removeFromFavourites = async (userId: string | undefined, productId: string | undefined) => {
+export const removeFromFavourites = async (
+    user: User | null,
+    setUser: (user: User) => void,
+    product: Product
+) => {
+    if (!user || !product) return;
+
     try {
         const res = await api.delete('/favourites', {
-            data: { userId, productId },
+            data: {
+                userId: user._id,
+                productId: product._id
+            }
         });
-        toast.warning('Removido dos Favoritos!')
+
+        const updatedFavourites = user.favourites.filter(p => p._id !== product._id);
+        setUser({ ...user, favourites: updatedFavourites });
+
+        toast.warning('Removido dos Favoritos!');
         return res.data;
     } catch (error) {
         console.error("Erro ao remover favorito:", error);
@@ -30,38 +54,22 @@ export const removeFromFavourites = async (userId: string | undefined, productId
     }
 };
 
-export const getUserFavourites = async (userId: string | undefined) => {
+export async function getUserFavouriteProducts(userId: string): Promise<Product[]> {
     try {
-        const userFavourites = [];
-        const res = await api.get(`/favourites/user/${userId}`);
-
-        res.data.forEach((r: any) => {
-            userFavourites.push(r)
-        })
-
-        return res.data;
-    } catch (err) {
-        console.error("Erro ao buscar favoritos do usuário: " ,err);
-        throw err;
-    }
-}
-
-export const getProductFavourites = async (productId: string) => {
-    try {
-        const res = await api.get(`/favourites/product/${productId}`);
-        return res.data;
-    } catch (err) {
-        console.error("Erro ao buscar favoritados do produto:", err);
-        throw err;
-    }
-}
-
-export const getUserFavouriteProducts = async (userId: string | undefined) => {
-    try {
-        const res = await api.get(`/favourites/products/${userId}`);
-        return res.data;
+        const response = await api.get(`/user/${userId}/favourites`);
+        return response.data;
     } catch (error) {
-        console.error("Erro ao buscar produtos favoritos ", error)
-        throw error
+        console.error("Erro ao buscar produtos favoritos:", error);
+        throw error;
+    }
+}
+
+export async function getProductFavourites(productId: string): Promise<User[]> {
+    try {
+        const response = await api.get(`/products/${productId}/favourites`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar favoritados do produto:", error);
+        throw error;
     }
 }

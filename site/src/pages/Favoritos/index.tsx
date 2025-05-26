@@ -35,12 +35,14 @@ const Favoritos = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const userFavourites = await getUserFavouriteProducts(user?._id);
-            setFavourites(userFavourites)
+            if(user) {
+                const userFavourites = await getUserFavouriteProducts(user?._id);
+                setFavourites(userFavourites)
+            }
         }
 
         fetchData();
-    })
+    },[user])
 
     return (
         <div className={style.Container}>

@@ -11,7 +11,7 @@ export const addToCart = async (
     if (!product) return;
     
     try {
-        const res = await api.post('/cart/add', {
+        const res = await api.post('/cart', {
             userId: user._id,
             productId: product._id
         });
@@ -34,9 +34,11 @@ export const removeFromCart = async (
     if (!user || !product) return;
 
     try {
-        const res = await api.post('/cart/remove', {
-            userId: user._id,
-            productId: product._id
+        const res = await api.delete('/cart', {
+            data: {
+                userId: user._id,
+                productId: product._id
+            }
         });
 
         const updatedCart = user.cart.filter(p => p._id !== product._id);

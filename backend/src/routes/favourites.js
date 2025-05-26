@@ -4,6 +4,37 @@ const Favourited = require('../models/Favourited');
 const User = require('../models/User');
 const Product = require('../models/Product');
 
+router.post('/', async (req, res) => {
+    const { userId, productId } = req.body;
+    try {
+        const user = await User.findById(userId);
+        if (!user.favourites.includes(productId)) {
+            user.favourites.push(productId);
+            await user.save();
+        }
+        res.json(user.favourites);
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao adicionar aos favoritos" });
+    }
+});
+
+router.delete('/', async (req, res) => {
+    const { userId, productId } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+        user.favourites = user.favourites.filter(id => id !== productId);
+        await user.save();
+
+        res.status(200).json({ message: 'Produto removido dos favoritos', favourites: user.favourites });
+    } catch (error) {
+        console.error('Erro ao remover dos favoritos:', error);
+        res.status(500).json({ error: 'Erro interno ao remover dos favoritos' });
+    }
+});
+
 router.get('/', async (req, res) => {
     try {
         const favourites = await Favourited.find();
@@ -27,66 +58,5 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Erro ao carregar favoritos' });
     }
 });
-
-router.get('/teste', async(req, res) => {
-    const fav = await Favourited.find();
-    res.json(fav)
-})
-
-router.get('/:type/:id', async (req, res) => {
-    const { type, id } = req.params
-
-    if(type && id) {
-        if(type === "user") {
-            const favourites = []
-            const rawFavourites = await Favourited.find({ userId: id });
-            rawFavourites.forEach(fav => favourites.push(fav.productId))
-
-
-            res.status(200).json(favourites)
-        } else if(type == "product") {
-            const favourited = await Favourited.find({ productId: id })
-
-            res.status(200).json(favourited)
-        } else if(type === "products"){
-            const favourites = await Favourited.find({ userId: id });
-            const favouriteProducts = await Promise.all(
-                favourites.map(async (fav) => {
-                    const product = await Product.findOne({ _id: fav.productId })
-        
-                    return product
-                })
-            )
-
-            res.status(200).json(favouriteProducts)
-        }
-    } else {
-        res.status(500).json({ message: 'Preencha todos os campos' })
-    }
-})
-
-router.post('/', async (req, res) => {
-    try {
-        const { userId, productId } = req.body
-
-        const newFavourite = new Favourited({ userId, productId });
-        await newFavourite.save();
-
-        res.status(200).json(newFavourite)
-    } catch (err) {
-        res.status(500).json({ message: 'Ocorreu um erro', err })
-    }
-})
-
-router.delete('/', async(req, res) => {
-    try {
-        const { userId, productId } = req.body;
-
-        await Favourited.findOneAndDelete({ userId, productId });
-        res.status(200)
-    } catch (err) {
-        res.status(500).json({ message: 'Ocorreu um erro', err })
-    }
-})
 
 module.exports = router;

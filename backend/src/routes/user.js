@@ -73,6 +73,20 @@ router.get('/:id/products', async (req, res) => {
     }
 })
 
+router.get('/:id/favourites', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).populate('favourites');
+
+        if(!user) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.status(200).json(user.favourites);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar favoritos', error });
+    }
+})
+
 router.delete('/:id', async(req, res) => {
     try {
         const { id } = req.params;
