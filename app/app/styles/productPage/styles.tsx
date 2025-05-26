@@ -220,8 +220,7 @@ const styles = StyleSheet.create({
       marginTop:15
     },
     ProductDescription:{
-        marginTop:10,
-        height: 450
+        marginVertical:20,
     },
     Details:{
       display: 'flex',
@@ -236,6 +235,7 @@ const styles = StyleSheet.create({
     },
     Arrow:{
       marginTop:3
-    }
+    },
+    
   });
   export default styles
