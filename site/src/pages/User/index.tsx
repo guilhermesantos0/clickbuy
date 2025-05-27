@@ -29,7 +29,18 @@ const UserPage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [categoryFilter, setCategoryFilter] = useState();
-    const [filter, setFilter] = useState();
+    const [filter, setFilter] = useState<'recent' | 'price'>();
+    const [filteredProducts, setFilteredProducts] = useState(userProducts);
+
+    const parseFormattedPrice = (formattedPrice: any) => {
+        return Number(
+          formattedPrice
+            .replace('R$', '')
+            .replace(/\./g, '')
+            .replace(',', '.')
+            .trim()
+        );
+    };
 
     const filterOptions = [
         {
@@ -64,6 +75,7 @@ const UserPage = () => {
                 const productsResponse = await api.get(`/user/${id}/products`);
                 const products: ProductType[] = productsResponse.data;
                 setUserProducts(products)
+                setFilteredProducts(products)
 
                 const soldProductsArr = products?.filter((product) => product.sold === true);
                 setSoldProducts(soldProductsArr?.length)
@@ -72,6 +84,40 @@ const UserPage = () => {
 
         fetchData();
     },[id, user])
+
+    const getCategoryName= (id: number) => {
+        const category = categories.filter(cat => cat._id == id);
+        return category[0].name
+    }
+
+    useEffect(() => {
+        if(userProducts) {
+            let updatedProducts = [...userProducts];
+          
+            if(categoryFilter && categoryFilter !== "-1") {
+                const categoryName = getCategoryName(categoryFilter);
+                updatedProducts = updatedProducts.filter(product => product.category === categoryName);
+                console.log(updatedProducts)
+            }
+
+            switch (filter) {
+                case 'price':
+                    updatedProducts.sort(
+                        (a, b) => parseFormattedPrice(a.price) - parseFormattedPrice(b.price)
+                    );
+                    break;
+                case 'recent':
+                    updatedProducts.sort(
+                        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    break;
+                default:
+                    break;
+            }
+          
+            setFilteredProducts(updatedProducts);
+        }
+      }, [filter, categoryFilter]);
 
     return (
         <div className={style.Container}>
@@ -107,7 +153,7 @@ const UserPage = () => {
                                     value={categoryFilter} 
                                     onValueChange={setCategoryFilter} 
                                     options={categories} 
-                                    type="category" />
+                                    type="catFilter" />
                                 </div>
                                 <div>
                                     <label htmlFor="">Ordenar por</label>
@@ -119,7 +165,7 @@ const UserPage = () => {
                                 </div>
                             </div>
                             <div className={style.ProductsContainer}>
-                                { userProducts?.map((product) => (
+                                { filteredProducts?.map((product) => (
                                     <>
                                         {
                                             user?._id == userProfile._id ? (

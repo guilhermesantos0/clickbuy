@@ -48,7 +48,7 @@ const AdminProduct = () => {
 
   const handleSave = async (id: string) => {
     try {
-      await api.put(`/products/${id}`, formData);
+      await api.put(`/products/2/${id}`, formData);
       setExpanded(null);
       fetchProducts();
       toast.success('Produto editado com sucesso!')

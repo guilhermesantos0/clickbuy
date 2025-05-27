@@ -7,6 +7,8 @@ const cloudinary = require('../config/cloudinary');
 const fs = require('fs');
 const Product = require('../models/Product');
 
+const { v4: uuidv4 } = require('uuid');
+
 router.post('/', async (req, res) => {
     try {
         const { name, email, password, personalData } = req.body;
@@ -24,6 +26,25 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Erro ao criar usuário', error: err.message });
     }
 });
+
+router.post('/recovery', async (req, res) => {
+    try {
+        const user = await User.find({ email: req.body.email })
+
+        if(user) {
+            const token = uuidv4();
+            console.log(`http://localhost:3000/redefinir-senha?token=${token}`);
+
+            res.status(200).json({ message: 'Email enviado com sucesso' });
+        } else {
+            res.status(404).json({ message: 'Usuário não encontrado' })
+        }
+        
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao enviar email', error })
+    }
+
+})
 
 router.get('/', async(req, res) => {
     const users = await User.find();

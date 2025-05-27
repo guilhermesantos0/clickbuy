@@ -7,7 +7,7 @@ interface Props {
     value: any,
     onValueChange: any,
     options: any[],
-    type: "category" | "state" | "city" | "condition" | "used" | "favFilter",
+    type: "category" | "state" | "city" | "condition" | "used" | "favFilter" | "catFilter",
     disabled?: boolean,
     className?: string
 }
@@ -96,6 +96,24 @@ const SelectMenu: React.FC<Props> = ({ value, onValueChange, options, type, disa
                             {options.map((option, idx) => (
                                 <Select.Item key={idx} value={option.value} className={style.SelectOption}>
                                     <Select.ItemText>{option.label}</Select.ItemText>
+                                    <Select.ItemIndicator className={style.SelectItemIndicator}>
+                                        <CheckIcon />
+                                    </Select.ItemIndicator>
+                                </Select.Item>
+                            ))}
+                        </Select.Viewport>
+                    )}
+                    { type === 'catFilter' && (
+                        <Select.Viewport>
+                            <Select.Item value="-1" className={style.SelectOption}>
+                                <Select.ItemText>Todos</Select.ItemText>
+                                <Select.ItemIndicator className={style.SelectItemIndicator}>
+                                    <CheckIcon />
+                                </Select.ItemIndicator>
+                            </Select.Item>
+                            {options.map((option) => (
+                                <Select.Item key={option._id} value={option._id.toString()} className={style.SelectOption}>
+                                    <Select.ItemText>{option.name}</Select.ItemText>
                                     <Select.ItemIndicator className={style.SelectItemIndicator}>
                                         <CheckIcon />
                                     </Select.ItemIndicator>

@@ -57,7 +57,7 @@ const Login = () => {
                     <label htmlFor="password">Senha</label>
                     <input type="password" name="password" className={style.Input} value={password} onChange={e => setPassword(e.target.value)} />
                 </div>
-                <Link to='/recovery' className={style.Recovery}>Esqueci minha senha</Link>
+                <Link to='/recuperar-senha' className={style.Recovery}>Esqueci minha senha</Link>
                 <div className={style.ButtonsArea}>
                     <button className={style.Login} onClick={(e) => { e.preventDefault(); handleLogin() }}>ENTRAR</button>
                     <Link to='/cadastro' className={style.SignUp}>CADASTRE-SE</Link>

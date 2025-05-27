@@ -193,4 +193,14 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
     }
 });
 
+router.put("/2/:id", async (req, res) => {
+    try {
+        const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updated);
+    } catch (err) {
+        console.error("Erro ao atualizar produto:", err);
+        res.status(500).json({ error: "Erro interno no produto" });
+    }
+});
+
 module.exports = router;

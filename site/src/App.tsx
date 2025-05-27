@@ -1,8 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Home from 'pages/Home';
+
 import Login from 'pages/Login';
+import RecuperarSenha from 'pages/Login/RecuperarSenha';
+import RedefinirSenha from 'pages/Login/RedefinirSenha';
 import Cadastro from 'pages/Cadastro';
+
 import Anunciar from 'pages/Anunciar';
 import Admin from 'pages/Admin';
 import EditarPerfil from 'pages/EditarPerfil';
@@ -46,8 +50,12 @@ function App() {
     <UserProvider>
       <Routes>
         <Route path='/' element={<Home />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+        <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+
         <Route path="/anunciar" element={<Anunciar />} />
         <Route path="/admin2" element={<Admin />} />
 
