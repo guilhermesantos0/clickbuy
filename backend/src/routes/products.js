@@ -14,9 +14,25 @@ router.get('/', async (req, res) => {
             const products = await Product.find({ category: req.query.category, sold: { $ne: true } });
             res.status(200).json({ products })
 
-        }else {
+        } else if(req.query.name) {
+
+            const regex = new RegExp(req.query.name, "i");
+
+            const products = await Product.find({
+                $or: [
+                    { name: { $regex: regex } },
+                    { description: { $regex: regex } },
+                    { category: { $regex: regex } }
+                ]
+            });
+
+            res.status(200).json(products);
+
+        } else {
+
             const products = await Product.find({ sold: { $ne: true } });
             res.status(200).json(products);
+
         }
     } catch (err) {
         res.status(500).json({ message: 'Erro ao buscar produtos', err })

@@ -40,6 +40,8 @@ import UserPage from 'pages/User';
 
 import MeusPedidos from 'pages/MeusPedidos';
 
+import SearchPage from 'pages/Pesquisa';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -66,6 +68,7 @@ function App() {
         <Route path="/editar-perfil" element={<EditarPerfil />} />
         <Route path="/carrinho" element={<Cart />} />
         <Route path="/users/:id" element={<UserPage />} />
+        <Route path="/pesquisa" element={<SearchPage />} />
 
         <Route path="/institucional/sobrenos" element={<AboutUs />} />
         <Route path="/institucional/contato" element={<Contact />} />

@@ -13,6 +13,9 @@ import { useUser } from 'contexts/UserContext';
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { toast } from 'react-toastify';
 
+import { Product } from 'types/Product';
+import api from 'services/api';
+
 interface Props {
     user: User | null,
     hideOptions?: boolean
@@ -30,6 +33,8 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
 
     const { setUser } = useUser();
 
+    const [search, setSearch] = useState<string>();
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if(menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -38,7 +43,7 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
         }
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [])
+    }, []);
 
     const handleLogout = () => {
         setUser(null)
@@ -54,6 +59,13 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
         }
     }
 
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (search && search?.trim() !== "") {
+            navigate("/pesquisa", { state: { search: search } })
+        }
+    }
+
     return (
         <div className={style.Container}>
             <div className={style.Left}>
@@ -62,18 +74,16 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
             {
                 !hideOptions && (
                     <div className={style.Center}>
-                         <div className={style.SearchBar}>
+                        <form onSubmit={handleSearch} className={style.SearchBar}>
                             <MagnifyingGlassIcon className={style.SearchIcon} />
                             <input
                                 type="text"
                                 placeholder="Pesquisar produtos, categorias..."
                                 className={style.SearchInput}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
                             />
-                        </div>
-                        {/* <div className={style.Center}>
-                            <input className={style.Input} type="text" />
-                            <Lupa className={style.SearchImage} />
-                        </div> */}
+                        </form>
                     </div>
                 )
             }

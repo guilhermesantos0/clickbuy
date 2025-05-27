@@ -21,7 +21,9 @@ const Favoritos = () => {
 
     const [favourites, setFavourites] = useState<ProductModel[]>();
     const [filter, setFilter] = useState('recent');
+    const [filteredProducts, setFilteredProducts] = useState<ProductModel[]>();
 
+    
     const filterOptions = [
         {
             label: 'Mais Recentes',
@@ -32,17 +34,51 @@ const Favoritos = () => {
             value: 'price'
         }
     ]
+    
+    const parseFormattedPrice = (formattedPrice: any) => {
+        return Number(
+          formattedPrice
+            .replace('R$', '')
+            .replace(/\./g, '')
+            .replace(',', '.')
+            .trim()
+        );
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             if(user) {
                 const userFavourites = await getUserFavouriteProducts(user?._id);
                 setFavourites(userFavourites)
+                setFilteredProducts(userFavourites)
             }
         }
 
         fetchData();
     },[user])
+
+    useEffect(() => {
+        if(favourites) {
+            let updatedProducts = [...favourites];
+
+            switch (filter) {
+                case 'price':
+                    updatedProducts.sort(
+                        (a, b) => parseFormattedPrice(a.price) - parseFormattedPrice(b.price)
+                    );
+                    break;
+                case 'recent':
+                    updatedProducts.sort(
+                        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    break;
+                default:
+                    break;
+            }
+          
+            setFilteredProducts(updatedProducts);
+        }
+    }, [filter]);
 
     return (
         <div className={style.Container}>
@@ -54,8 +90,8 @@ const Favoritos = () => {
                     
                 </div>
                 <div className={style.ProductsArea}>
-                    {Array.isArray(favourites) && favourites.length > 0 ? (
-                        favourites.map((fav, idx) => (
+                    {Array.isArray(filteredProducts) && filteredProducts.length > 0 ? (
+                        filteredProducts.map((fav, idx) => (
                             <Product key={idx} product={fav} favouriteOption favourited />
                         ))
                     ) : (

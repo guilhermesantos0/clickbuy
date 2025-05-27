@@ -40,7 +40,7 @@ const MeusPedidos = () => {
                 <div>
                     <h3>Seus Pedidos: {products.length}</h3>
                 </div>
-                <div>
+                <div className={style.ProductsList}>
                     {
                         products.map((product) => (
                             <Product product={product} />

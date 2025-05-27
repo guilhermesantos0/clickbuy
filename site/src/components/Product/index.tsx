@@ -65,9 +65,7 @@ const Product: React.FC<Props> = ({ product, favouriteOption, favourited }) => {
                     <div className={style.ProductInfo}>
                         <div className={style.Price}>{product.price}</div>
                         <div className={style.Name}>{product.name}</div>
-                        <div className={style.Location}>
-                            <span className={style.Pin} /> {product.location}
-                        </div>
+                        <div className={style.Location}><Pin className={style.Pin} />{product.location}</div>
                     </div>
                 </div>
             ) : (
