@@ -153,6 +153,14 @@ export default function RootLayout() {
               headerTintColor: '#fff',
             }}
           />
+          <Stack.Screen
+            name="myOrders"
+            options={{
+              headerTitle: 'Meus Pedidos',
+              headerStyle: { backgroundColor: '#DDA04B' },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />

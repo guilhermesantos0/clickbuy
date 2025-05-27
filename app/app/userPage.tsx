@@ -23,7 +23,8 @@ const userPage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [categoryFilter, setCategoryFilter] = useState();
-    const [filter, setFilter] = useState();
+    const [filter, setFilter] = useState<'recent' | 'price'>();
+    const [filteredProducts, setFilteredProducts] = useState(userProducts);
     const slideAnim = useRef(new Animated.Value(screenWidth)).current;
     const [filterVisible, setFilterVisible] = useState(false);
     const openFilter = () => {
@@ -43,6 +44,15 @@ const userPage = () => {
         }).start(() => {
         setFilterVisible(false);
         });
+    };
+    const parseFormattedPrice = (formattedPrice: any) => {
+        return Number(
+          formattedPrice
+            .replace('R$', '')
+            .replace(/\./g, '')
+            .replace(',', '.')
+            .trim()
+        );
     };
     const filterOptions = [
         {
@@ -75,6 +85,7 @@ const userPage = () => {
                 const productsResponse = await api.get(`/user/${id}/products`);
                 const products: Product[] = productsResponse.data;
                 setUserProducts(products)
+                setFilteredProducts(products)
 
                 const soldProductsArr = products?.filter((product) => product.sold === true);
                 setSoldProducts(soldProductsArr?.length)
@@ -83,6 +94,37 @@ const userPage = () => {
 
         fetchData();
     },[id, user])
+    const getCategoryName= (id: number) => {
+        const category = categories.filter(cat => cat._id == id);
+        return category[0].name
+    }
+    useEffect(() => {
+        if(userProducts) {
+            let updatedProducts = [...userProducts];
+          
+            if(categoryFilter && categoryFilter !== "-1") {
+                const categoryName = getCategoryName(categoryFilter);
+                updatedProducts = updatedProducts.filter(product => product.category === categoryName);
+            }
+
+            switch (filter) {
+                case 'price':
+                    updatedProducts.sort(
+                        (a, b) => parseFormattedPrice(a.price) - parseFormattedPrice(b.price)
+                    );
+                    break;
+                case 'recent':
+                    updatedProducts.sort(
+                        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    break;
+                default:
+                    break;
+            }
+          
+            setFilteredProducts(updatedProducts);
+        }
+      }, [filter, categoryFilter]);
   return (
         <View style={styles.Container}>
             <TouchableOpacity style={styles.filterButton} onPress={openFilter}>
@@ -117,8 +159,11 @@ const userPage = () => {
                     <Text>{soldProducts} Vendidos</Text>
                 </View>
             </View>
-            <ProductsList title={"Produtos:"} products={userProducts?  userProducts: []} />
-            {filterVisible && (
+            <ProductsList title={"Produtos:"} products={filteredProducts?  filteredProducts: []} />
+
+            </View>
+    </ScrollView>
+    {filterVisible && (
             <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={closeFilter} />
         )}
 
@@ -132,10 +177,10 @@ const userPage = () => {
                 ]}
                 >
                 <Text style={styles.filterTitle}>Filtrar por:</Text>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={() => setFilter('price')}>
                     <Text style={styles.filterOption}>Menor Preço</Text>
                 </TouchableOpacity>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={() => setFilter('recent')} >
                     <Text style={styles.filterOption}>Mais Recentes</Text>
                 </TouchableOpacity>
                 <View style={styles.PickerArea}>
@@ -143,12 +188,12 @@ const userPage = () => {
                         style={styles.Picker}
                         selectedValue={categoryFilter}
                         onValueChange={(itemValue, itemIndex) => {
-                            setCategoryFilter
+                            setCategoryFilter(itemValue)
                         }}
                         >
-                            <Picker.Item label="Categoria" value={null} />
+                            <Picker.Item label="Todas" value={null} />
                         {categories.map((cat) => (
-                            <Picker.Item key={cat._id} label={cat.name} value={cat.name} />
+                            <Picker.Item key={cat._id} label={cat.name} value={cat._id} />
                         ))}
                         </Picker>
                 </View>
@@ -156,8 +201,6 @@ const userPage = () => {
                 </Animated.View>
 
         )}
-            </View>
-    </ScrollView>
             </View>
   )
 }

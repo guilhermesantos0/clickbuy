@@ -79,7 +79,7 @@ const Login = () => {
                 <Text style={conta.Text}>Favoritos</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={conta.Button} onPress={() => console.log('oi')}>
+            <TouchableOpacity style={conta.Button} onPress={() => router.push('/myOrders')}>
               <View style={conta.Option}>
                 <IconSymbol size={45} name='basket.fill' color='rgb(101, 101, 101)' />
                 <Text style={conta.Text}>Meus Pedidos</Text>

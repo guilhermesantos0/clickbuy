@@ -16,7 +16,6 @@ export default function TelaPrincipal() {
   const [products, setProducts] = useState<ProductModel[]>([]);
     useEffect(() => {
         const fetchData = async () => {
-            loadUserFavourites();
             try {
                 const response = await fetch(`http://${ip}:5000/products`);
                 const productData = await response.json();
