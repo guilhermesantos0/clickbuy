@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
     },
     myOrdersContainer:{
+      marginVertical: 40,
       width: '90%',
       borderRadius: 10,
       backgroundColor: 'white',

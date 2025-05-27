@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     },
     Text:{
         fontSize: 32,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
     Product:{
         width:'95%',
@@ -137,7 +138,8 @@ const styles = StyleSheet.create({
     },
     Text5:{
         fontSize:18,
-        marginVertical:20
+        marginVertical:20,
+        textAlign: 'center'
     },
     CarrinhoVazio:{
         flexDirection: 'column',

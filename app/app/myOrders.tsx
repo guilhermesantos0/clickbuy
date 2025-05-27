@@ -15,7 +15,6 @@ const myOrders = () => {
             if(user) {
                 try {
                     const res = await api.get(`/user/${user?._id}/purchased`);
-                    console.log(res)
                     setProducts(res.data);
                 } catch (err) {
                     console.error("Erro ao buscar produtos comprados", err);

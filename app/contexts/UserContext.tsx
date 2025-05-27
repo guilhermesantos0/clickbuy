@@ -1,4 +1,4 @@
-import { getUserFavourites } from "@/services/favoriteService";
+import { getUserFavouriteProducts, } from "@/services/favoriteService";
 import { User } from "@/types/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState, useContext, ReactNode, useEffect } from "react";
@@ -44,7 +44,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const loadUserFavourites = async () => {
         if (!user?._id) return;
         try {
-            const favourites = await getUserFavourites(user._id);
+            const favourites = await getUserFavouriteProducts(user._id);
             setUser({ ...user, favourites });
         } catch (err) {
             console.error("Erro ao carregar favoritos:", err);

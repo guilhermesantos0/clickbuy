@@ -53,6 +53,34 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 5,
   },
+  Overlay: {
+  ...StyleSheet.absoluteFillObject,
+  backgroundColor: 'rgba(0,0,0,0.9)',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 10,
+  zIndex: 1,
+},
+
+RemoveButton: {
+  marginTop: 10,
+  paddingHorizontal: 12,
+  paddingVertical: 6,
+  backgroundColor: '#DDA04B',
+  borderRadius: 6,
+},
+
+RemoveButtonText: {
+  color: '#fff',
+  fontWeight: 'bold',
+},
+TextSold:{
+  fontSize: 20,
+  color: 'white',
+  fontWeight: 'bold',
+  marginTop:10
+}
+
 });
 
 export default styles;

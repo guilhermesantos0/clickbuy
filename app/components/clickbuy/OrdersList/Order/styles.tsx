@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { State } from 'react-native-gesture-handler';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -36,6 +37,11 @@ const styles = StyleSheet.create({
     height: 50,
     overflow: 'hidden',
     fontWeight: 'bold'
+  },
+  State: {
+    fontSize: 18,
+    height: 30,
+    overflow: 'hidden',
   },
   price: {
     fontSize: 24,
