@@ -153,7 +153,7 @@ const Login = () => {
             />
           </View>
 
-          <TouchableOpacity onPress={() => router.push('/(tabs)/login')}>
+          <TouchableOpacity onPress={() => router.push('/recoverPassword')}>
             <Text style={styles.Recovery}>Esqueci minha senha</Text>
           </TouchableOpacity>
 

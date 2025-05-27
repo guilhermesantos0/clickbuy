@@ -77,23 +77,25 @@ const userPage = () => {
         fetchData();
     }, [])
     useEffect(() => {
-        const fetchData = async() => {
-            if(id && user) {
-                const userResponse = await api.get(`/user/${id}`);
-                setUserProfile(userResponse.data);
+    const fetchData = async () => {
+        if (id && user) {
+            const userResponse = await api.get(`/user/${id}`);
+            setUserProfile(userResponse.data);
 
-                const productsResponse = await api.get(`/user/${id}/products`);
-                const products: Product[] = productsResponse.data;
-                setUserProducts(products)
-                setFilteredProducts(products)
+            const productsResponse = await api.get(`/user/${id}/products`);
+            const products: Product[] = productsResponse.data;
+            setUserProducts(products);
+            const notSoldProducts = products.filter((product) => product.sold === false);
+            setFilteredProducts(notSoldProducts);
 
-                const soldProductsArr = products?.filter((product) => product.sold === true);
-                setSoldProducts(soldProductsArr?.length)
-            }
+            const soldProductsArr = products.filter((product) => product.sold === true);
+            setSoldProducts(soldProductsArr.length);
         }
+    };
 
-        fetchData();
-    },[id, user])
+    fetchData();
+}, [id, user]);
+
     const getCategoryName= (id: number) => {
         const category = categories.filter(cat => cat._id == id);
         return category[0].name

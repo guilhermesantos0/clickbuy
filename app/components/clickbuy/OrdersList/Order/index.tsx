@@ -33,6 +33,7 @@ const Order: React.FC<Props> = ({ product }) => {
       <View style={styles.ProductInfo}>
         <Text style={styles.price}>{product.price}</Text>
         <Text style={styles.Name} numberOfLines={2}>{product.name}</Text>
+        <Text style={styles.State}>{"(Preparando)"}</Text>
         <View style={styles.location}>
           <IconSymbol size={15} name='location' color='black' />
           <Text>{product.location}</Text>

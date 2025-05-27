@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, Animated, Dimensions, StyleSheet, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Animated, Dimensions, Image } from 'react-native';
 import ProductsList from '@/components/clickbuy/ProductList';
 import { useEffect, useState, useRef } from 'react';
 import { Product as ProductModel } from '@/types/Product';
@@ -7,8 +7,11 @@ import ip from '@/ip';
 import fourthStep from './styles/Cadastro/fourthStep';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '@/app/styles/category/styles'
+import styles1 from '@/app/styles/Cart/styles'
 import { getProductFavourites, getUserFavouriteProducts } from '@/services/favoriteService';
 import { useUser } from '@/contexts/UserContext';
+import { router } from 'expo-router';
+const emptyBasket = require('@/assets/ClickBuy/basket.png');
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -104,9 +107,25 @@ const Category = () => {
       </TouchableOpacity>
 
       <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
-        <ProductsList title={'Favoritos'} products={filteredProducts ?? []} />
+        {filteredProducts?.length === 0 ? (
+          <View style={styles1.CarrinhoVazio}>
+            <Image
+                                source={emptyBasket}
+                                style={styles1.Cart}
+                                resizeMode="center"
+                            />
+            <Text style={styles1.Text}>Você ainda não adicionou favoritos</Text>
+            <Text style={styles1.Text5}>Comece a explorar e marque seus produtos preferidos para facilitar depois! 💖</Text>
+            <TouchableOpacity onPress={() => router.push('/(tabs)')} style={styles1.Botao4}>
+                        <Text style={styles1.Text6}>Explorar produtos</Text>
+                    </TouchableOpacity>
+        </View>
+          
+        ): (
+          <ProductsList title={'Favoritos'} products={filteredProducts ?? []} />
+        )}
       </ScrollView>
-
+      
       {filterVisible && (
         <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={closeFilter} />
       )}
@@ -139,3 +158,5 @@ const Category = () => {
 
 
 export default Category;
+
+
