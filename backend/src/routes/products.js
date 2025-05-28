@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const User = require('../models/User');
 const upload = require("../middleware/upload");
 const Category = require('../models/Category');
 const path = require('path');
@@ -130,13 +131,12 @@ router.delete('/:id', async (req, res) => {
         
         product.images.forEach(img => {
             const imgPath = path.join(__dirname, '..', img); 
-            console.log(imgPath, fs.existsSync(imgPath))
             if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
         });
 
         await User.updateMany(
-            { favourites: { $in: req.params.id } },
-            { $pull: { favourites: { $in: req.params.id } } }
+            { favourites: { $in: [req.params.id] } },
+            { $pull: { favourites: { $in: [req.params.id] } } }
         )        
 
         // const favourited = await Favourited.find({ productId: product });
@@ -145,6 +145,7 @@ router.delete('/:id', async (req, res) => {
         await Product.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Produto e imagens deletados com sucesso' });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Erro ao excluir produto', error: err.message });
     }
 });
