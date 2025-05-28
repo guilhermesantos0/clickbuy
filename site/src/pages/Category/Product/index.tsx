@@ -26,24 +26,23 @@ import { toast } from "react-toastify";
 import AddToCartButton from "./components/AddToCartButton";
 
 import { formatCEP } from "utils/formatters";
+import api from "services/api";
 
 const ProductPage = () => {
     const { user, setUser } = useUser();
     const { category, id } = useParams<{ category: string, id: string }>();
     const [product, setProduct] = useState<Product>();
-    const [announcer, setAnnouncer] = useState<User>();
     const [isFavourited, setIsFavourited] = useState<boolean>();
     const [createdDate, setCreatedDate] = useState<Date>();
     const [soldDate, setSoldDate] = useState<Date>();
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
     
     useEffect(() => {
         const fetchData = async () => {
             
-            const productResponse = await fetch(`http://localhost:5000/products/${id}`);
-            const productResult = await productResponse.json();
+            const productResponse = await api.get(`/products/${id}`);
+            const productResult = await productResponse.data;
 
             if(user && user.favourites && product){
                 setIsFavourited(user?.favourites?.includes(product))
@@ -55,11 +54,6 @@ const ProductPage = () => {
             if(productResult.sold) {
                 setSoldDate(new Date(productResult.updatedAt))
             }
-            
-            const userResponse = await fetch(`http://localhost:5000/user/${productResult.announcer}`)
-            const userResult = await userResponse.json();
-
-            setAnnouncer(userResult)
         }
 
         fetchData();
@@ -109,12 +103,12 @@ const ProductPage = () => {
                     <>
                         <div className={style.TopSection}>
                             
-                            <ImageGallery images={product?.images} mainImage={product?.mainImage} />
+                            <ImageGallery images={product.images} mainImage={product.mainImage} />
 
                             <div className={style.ProductDetails}>
                                 <div className={style.DetailsTop}>
                                     <span className={style.TopInfos}>
-                                        <h1 className={style.Title}>{product?.name}</h1> 
+                                        <h1 className={style.Title} title={product.name}>{product.name}</h1> 
                                         { 
                                             createdDate && (
                                                 <p className={style.CreatedAt}>{formatZero(createdDate?.getDate())}/{formatZero(createdDate?.getMonth())} ás {formatZero(createdDate?.getHours())}:{formatZero(createdDate?.getMinutes())}</p>
@@ -122,7 +116,6 @@ const ProductPage = () => {
                                         }
                                     </span>
                                     <h2 className={style.Price}>{product?.price}</h2>
-                                    {/* <button onClick={handleAddToCart} className={style.Buy}> <Cart className={style.Icon} /> ADICIONAR AO CARRINHO</button> */}
                                     {
                                         product.sold ? (
                                             <div className={style.SoldInfo}>Produto Vendido</div>

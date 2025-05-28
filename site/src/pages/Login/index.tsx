@@ -7,6 +7,7 @@ import { useUser } from '../../contexts/UserContext';
 import { toast } from 'react-toastify';
 
 import Header from '../../components/Header';
+import api from 'services/api';
 
 const Login = () => {
     const { setUser } = useUser();
@@ -18,26 +19,22 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch("http://localhost:5000/login", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify({
-                    email, 
-                    password
-                })
-            })
 
-            const result = await response.json();
+            const userPayload = {
+                email, password
+            }
 
-            if(response.ok) {
+            const response = await api.post('/login', userPayload);
+            const result = response.data;
+
+            if(response.status == 200) {
                 toast.success('Login realizado com sucesso!');
 
                 setUser( result.user )
                 navigate('/');
             } else {
-                toast.error(result.message)
+                toast.error("Usuário ou senha incorretos!");
+                console.log(result.message);
             }
         } catch (error) {
             toast.error("Erro de conexão com o servidor")

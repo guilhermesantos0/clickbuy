@@ -22,6 +22,7 @@ import axios from "axios";
 import { TrashIcon } from '@radix-ui/react-icons';
 
 import Product from "components/Product";
+import api from "services/api";
 
 interface State {
     id: number,
@@ -68,9 +69,8 @@ const Anunciar = () => {
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:5000/categories');
-
-            const categoriesData = await response.json();
+            const response = await api.get('/categories');
+            const categoriesData = response.data;
 
             setCategories(categoriesData);
         } catch (error) {

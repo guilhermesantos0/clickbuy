@@ -3,6 +3,7 @@ import styles from "./Categorias.module.scss";
 
 import { Category } from "@modules/Category";
 import { Link } from "react-router-dom";
+import api from "services/api";
 
 const Categorias: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -10,9 +11,8 @@ const Categorias: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/categories');
-
-        const categoriesData = await response.json();
+        const response = await api.get('/categories');
+        const categoriesData = await response.data;
 
         setCategories(categoriesData);
       } catch (error) {

@@ -6,6 +6,7 @@ import Product from '../Product';
 import { Product as ProductModel } from '@modules/Product';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import api from 'services/api';
 
 interface Props {
     title: string,
@@ -19,17 +20,25 @@ const ProductsList: React.FC<Props> = ({ title, favouriteOption }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/products');
-                const productData = await response.json();
+                if(title === "Recomendados para você:") {
+                    const response = await api.get('/products');
+                    const productData = response.data;
+    
+                    setProducts(productData);
+                } else {
+                    const category = title.split(' ')[title.split(' ').length - 1].replace(':', '');
+                    const response = await api.get(`/products?category=${category}`);
+                    const result = await response.data;
 
-                setProducts(productData);
+                    setProducts(result.products)
+                }
             } catch (error) {
                 console.log('Erro ao buscar produtos', error)
             }
         }
 
         fetchData();
-    }, [])
+    }, [title])
 
     const productsRef = useRef<HTMLDivElement>(null);
 

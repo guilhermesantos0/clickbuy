@@ -10,10 +10,15 @@ import thirdStep from './css/ThirdStep.module.scss';
 import fourthStep from './css/FourthStep.module.scss';
 
 import { formatPhoneNumber, formatCPF, formatCEP, formatDate } from 'utils/formatters';
+import api from 'services/api';
+
+import { useUser } from 'contexts/UserContext';
+import { toast } from 'react-toastify';
 
 function Cadastro() {
 
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     const [disabledInput, setDisabledInput] = useState(false);
     const [step, setStep] = useState(1)
@@ -89,11 +94,15 @@ function Cadastro() {
 
     const handleCheckEmail = async () => {
         
-        const response = await fetch(`http://localhost:5000/checkEmail?email=${formData.email}`);
+        try {
+            const response = await api.get(`/checkEmail?email=${formData.email}`);
 
-        if(response.ok) {
-            nextStep();
-        }else {
+            if(response.status == 200) {
+                nextStep();
+            } else {
+                setError([true, "Email já cadastrado"])
+            }
+        } catch (error) {
             setError([true, "Email já cadastrado"])
         }
     }
@@ -192,23 +201,20 @@ function Cadastro() {
         };
 
         try {
-            const response = await fetch("http://localhost:5000/user", {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify(userPayload)
-            })
 
-            const result = await response.json();
+            const response = await api.post('/user', userPayload)            
 
-            if(response.ok) {
-                console.log('Usuário:', result.user)
+            const result = await response.data;
+
+            if(response.status == 200) {
+                toast.success('Usuário criado com sucesso!');
+                setUser(result.user);
                 navigate('/');
             }else {
-                alert(`Erro: ${result.message}`);
+                toast.error('Houve um erro ao criar usuário!')
                 console.error(result)
             }
+
         }catch (error) {
             alert("Erro ao conectar com o servidor.");
             console.error("Erro:", error)

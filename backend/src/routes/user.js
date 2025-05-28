@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
         const newUser = new User({ name, email, password, personalData });
         await newUser.save();
 
-        res.status(201).json({ message: 'Usuário criado com sucesso', user: newUser });
+        res.status(200).json({ message: 'Usuário criado com sucesso', user: newUser });
     } catch (err) {
         res.status(500).json({ message: 'Erro ao criar usuário', error: err.message });
     }
