@@ -9,8 +9,11 @@ import { useRouter } from 'expo-router'
 import { formatPhoneNumber, formatCPF, formatCEP, formatDate } from '@/utils/formatters';
 import ip from '@/ip'
 import Toast from 'react-native-toast-message'
+import api from '@/services/api'
+import { useUser } from '@/contexts/UserContext'
 
 const Cadastro = () => {
+  const {user, setUser} = useUser();
   const router = useRouter();
   const [disabledInput, setDisabledInput] = useState(false);
     const [step, setStep] = useState(1)
@@ -37,20 +40,19 @@ const Cadastro = () => {
   const [validPassword, setValidPassword] = useState(true)
   const [confirmPassword, setConfirmPassword] = useState("");
   const handleCheckEmail = async () => {
-    if (formData.email === ""){
-        Toast.show({
-                              type: 'error',
-                              text1: 'Preencha todos os campos',
-                            });
-    }else{
-      const response = await fetch(`http://${ip}:5000/checkEmail?email=${formData.email}`);
-    if(response.ok) {
-        nextStep();
-    }else {
-        setError([true, "Email já cadastrado"])
+        
+        try {
+            const response = await api.get(`/checkEmail?email=${formData.email}`);
+
+            if(response.status == 200) {
+                nextStep();
+            } else {
+                setError([true, "Email já cadastrado"])
+            }
+        } catch (error) {
+            setError([true, "Email já cadastrado"])
+        }
     }
-    }
-  }
   const handleCheckPassword = (value: string) => {
     if(formData.password === value ) {
         setValidPassword(true)
@@ -145,66 +147,53 @@ const Cadastro = () => {
     }
   }
   const handleSignUp = async () => {
-    if(formData.personalData.address.city === "" || formData.personalData.address.neighborhood === "" ||formData.personalData.address.number === "" || formData.personalData.address.road === "" || formData.personalData.address.state === "" ||formData.personalData.address.zip === ""){
-      Toast.show({
-        type: 'error',
-        text1: 'Preencha todos os campos',
-      });
-    }else{
-      const userPayload = {
-        email: formData.email,
-        password: formData.password,
-        personalData: {
-          name: formData.personalData.name,
-          bornDate: formData.personalData.bornDate,
-          cpf: formData.personalData.cpf,
-          phone: formData.personalData.phone,
-          address: {
-            road: formData.personalData.address.road,
-            number: formData.personalData.address.number,
-            city: formData.personalData.address.city,
-            state: formData.personalData.address.state,
-            zip: formData.personalData.address.zip,
-            complement: formData.personalData.address.complement || "",
-            neighborhood: formData.personalData.address.neighborhood
-          }
-        }
-    };
+        const userPayload = {
+            email: formData.email,
+            password: formData.password,
+            personalData: {
+              name: formData.personalData.name,
+              bornDate: formData.personalData.bornDate,
+              cpf: formData.personalData.cpf,
+              phone: formData.personalData.phone,
+              address: {
+                road: formData.personalData.address.road,
+                number: formData.personalData.address.number,
+                city: formData.personalData.address.city,
+                state: formData.personalData.address.state,
+                zip: formData.personalData.address.zip,
+                complement: formData.personalData.address.complement || "",
+                neighborhood: formData.personalData.address.neighborhood
+              }
+            }
+        };
 
-    try {
-        const response = await fetch(`http://${ip}:5000/user`, {
-            method: "POST",
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify(userPayload)
-        })
+        try {
 
-        const result = await response.json();
+            const response = await api.post('/user', userPayload)            
 
-        if(response.ok) {
-            Toast.show({
+            const result = await response.data;
+
+            if(response.status == 200) {
+                Toast.show({
                                 type: 'success',
-                                text1: 'Cadastro realizado com sucesso',
+                                text1: 'Usuário criado com sucesso!',
                               });
-            console.log('Usuário:', result.user)
-            router.push('/')
-        }else {
-          Toast.show({
-                              type: 'error',
-                              text1: `Erro: ${result.message}`,
-                            });
-            console.error(result)
+                setUser(result.user);
+                router.push('/(tabs)')
+                
+            }else {
+                Toast.show({
+                                type: 'error',
+                                text1: 'Houve um erro ao criar usuário!',
+                              });
+                console.error(result)
+            }
+
+        }catch (error) {
+            alert("Erro ao conectar com o servidor.");
+            console.error("Erro:", error)
         }
-    }catch (error) {
-       Toast.show({
-                              type: 'error',
-                              text1: 'Erro ao conectar com o servidor',
-                            });
-        console.error("Erro:", error)
     }
-  }
-}
   return (
     <View style = {styles.Container}>
       <View style = {styles.Form}>

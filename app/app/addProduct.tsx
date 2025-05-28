@@ -16,6 +16,7 @@ import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 import { router } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
+import api from '@/services/api';
 interface State {
     id: number,
     sigla: string,
@@ -63,9 +64,8 @@ const addProduct = () => {
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const response = await fetch(`http://${ip}:5000/categories`);
-
-            const categoriesData = await response.json();
+            const response = await api.get('/categories');
+            const categoriesData = await response.data;
 
             setCategories(categoriesData);
         } catch (error) {

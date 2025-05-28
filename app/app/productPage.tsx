@@ -13,6 +13,7 @@ import { addToFavourites, getUserFavouriteProducts, removeFromFavourites } from 
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { addToCart } from '@/services/cartService';
 import modal from './styles/productPage/modal';
+import api from '@/services/api';
 const genericPhoto = require('@/assets/ClickBuy/iconeGenerico.png');
 
 const productPage = () => {
@@ -42,8 +43,8 @@ const productPage = () => {
   useEffect(() => {
         const fetchData = async () => {
             
-            const productResponse = await fetch(`http://${ip}:5000/products/${id}`);
-            const productResult = await productResponse.json();
+            const productResponse = await api.get(`/products/${id}`);
+            const productResult = await productResponse.data;
 
             if(user && user.favourites && product){
                 setIsFavourited(user?.favourites?.includes(product))

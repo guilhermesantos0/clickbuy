@@ -75,6 +75,13 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="searchPage"
+            options={{
+              headerTitle: '',
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
             name="productPage"
             options={{
               headerTitle: '',

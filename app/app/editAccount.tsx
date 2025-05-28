@@ -16,10 +16,12 @@ const editAccount = () => {
         filename: string;
         type: string;
         };
+  const [message, setMessage] = useState("");
   const {user, setUser} = useUser();
   const [tab, setTab] = useState(2);
   const [formData, setFormData] = useState<User | null>(null);
   const [profileImageFile, setProfileImageFile] = useState<ImageFile | null>(null);
+  const [messageStatus, setMessageStatus] = useState("");
 
 
   const [profileImage, setProfileImage] = useState(
@@ -92,6 +94,26 @@ const editAccount = () => {
                   });
         }
     };
+    const handleSubmit = async () => {
+            setMessage("");
+            const email = user?.email
+            try {
+                const res = await api.post('/user/recovery', {email});
+                console.log(res)
+                setTimeout(() => {
+                    if(res.status === 200) {
+                        setMessage("📧 Um link de recuperação foi enviado para seu e-mail!");
+                        setMessageStatus('approved');
+                    } else {
+                        setMessage("❌ Ocorreu um erro. Verifique o e-mail digitado!");
+                        setMessageStatus('denied');
+                    }
+                }, 1500);
+            } catch (error) {
+                console.error(error);
+                setMessage("❌ Ocorreu um erro. Verifique o e-mail digitado.");
+            }
+    };
   return (
     <View style={styles.Container}>
       <View style={styles.Tabs}>
@@ -126,14 +148,22 @@ const editAccount = () => {
                       autoCapitalize="none"
                       placeholder="Digite sua senha"
                       secureTextEntry
+                      editable= {false}
+                      
                     />
-          <View style={styles.ButtomArea}>
+          <View style={styles.ButtomArea2}>
+            <TouchableOpacity
+                                style={styles.Redefinir}
+                                onPress={handleSubmit}>
+                                <Text style ={styles.buttomText}>Redefinir Senha</Text>
+                            </TouchableOpacity>
             <TouchableOpacity
                                 style={styles.Save}
                                 onPress={handleSave}>
                                 <Text style ={styles.buttomText}>Salvar</Text>
                             </TouchableOpacity>
           </View>
+          <Text style={messageStatus === "approved" ? styles.Success : styles.Error}>{message}</Text>
         </View>
       )}
       {tab === 2 &&(
@@ -250,6 +280,7 @@ const editAccount = () => {
                                 <Text style ={styles.buttomText}>Salvar</Text>
                             </TouchableOpacity>
           </View>
+          
         </View>
       )}
       </ScrollView>

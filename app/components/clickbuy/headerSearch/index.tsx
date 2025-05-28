@@ -1,12 +1,13 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import styles from '@/components/clickbuy/Header/styles'
+import styles from '@/components/clickbuy/headerSearch/styles'
 import { IconSymbol } from '@/components/ui/IconSymbol'
 import { router } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
 
 interface Props {}
 
-const Header: React.FC<Props> = () => {
+const HeaderSearch: React.FC<Props> = () => {
   const [search, setSearch] = useState("")
 
   const handleSearch = () => {
@@ -18,6 +19,11 @@ const Header: React.FC<Props> = () => {
   return (
     <View style={styles.Container}>
       <View style={styles.InputContainer}>
+        <TouchableOpacity
+          style={styles.Cart}
+          onPress={() => router.back()}>
+          <Ionicons name='arrow-back' size={30} color='white'/>
+        </TouchableOpacity>
         <View style={styles.InputWithIcon}>
           <IconSymbol size={20} name='magnifyingglass' color='gray' />
           <TextInput
@@ -30,14 +36,9 @@ const Header: React.FC<Props> = () => {
             onSubmitEditing={handleSearch}
           />
         </View>
-        <TouchableOpacity
-          style={styles.Cart}
-          onPress={() => router.push('/cart')}>
-          <IconSymbol size={50} name='cart.fill' color='white' />
-        </TouchableOpacity>
       </View>
     </View>
   )
 }
 
-export default Header
+export default HeaderSearch

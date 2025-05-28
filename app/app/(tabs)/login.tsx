@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity,Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,Image, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router';
 import { useUser } from '@/contexts/UserContext';
@@ -10,6 +10,7 @@ import HeaderAccount from '@/components/clickbuy/HeaderAccount';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import fourthStep from '../styles/Cadastro/fourthStep';
 import { getUserFavouriteProducts } from '@/services/favoriteService';
+import api from '@/services/api';
 const Login = () => {
   const {user, setUser} = useUser();
   const [email, setEmail] = useState("");
@@ -18,20 +19,14 @@ const Login = () => {
 
   const handleLogin = async () => {
         try {
-            const response = await fetch(`http://${ip}:5000/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify({
-                    email, 
-                    password
-                })
-            })
+            const userPayload = {
+                email, password
+            }
 
-            const result = await response.json();
+            const response = await api.post('/login', userPayload);
+            const result = response.data;
 
-            if(response.ok) {
+            if(response.status == 200) {
                 Toast.show({
                   type: 'success',
                   text1: 'Login realizado com sucesso!',
@@ -53,10 +48,27 @@ const Login = () => {
         }
     }
   const handleLogout = () => {
-        setUser( null )
-        router.push('/');
-        setEmail("")
-        setPassword("")
+    Alert.alert(
+            'Sair',
+            `Tem certeza sair?`,
+            [
+              {
+                text: 'Cancelar',
+                style: 'cancel',
+              },
+              {
+                text: 'Sair',
+                style: 'destructive',
+                onPress: () => {
+                  setUser( null )
+                  router.push('/');
+                  setEmail("")
+                  setPassword("")
+                },
+              },
+            ]
+          );
+        
     }
 
   

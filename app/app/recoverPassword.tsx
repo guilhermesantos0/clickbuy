@@ -22,6 +22,7 @@ const recoverPassword = () => {
 
             try {
                 const res = await api.post('/user/recovery', { email });
+                console.log(res)
                 setTimeout(() => {
                     setLoading(false);
                     if(res.status === 200) {

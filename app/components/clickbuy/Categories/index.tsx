@@ -4,6 +4,7 @@ import styles from '../Categories/styles'
 import { router } from 'expo-router';
 import { Category } from '@/types/Category';
 import ip from '@/ip';
+import api from '@/services/api';
 
 const eletronics = require('@/assets/ClickBuy/eletronicosImg.png');
 const beauty = require('@/assets/ClickBuy/belezaImg.png');
@@ -31,9 +32,8 @@ const Categories: React.FC<Props> = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://${ip}:5000/categories`);
-
-        const categoriesData = await response.json();
+        const response = await api.get('/categories');
+        const categoriesData = await response.data;
 
         setCategories(categoriesData);
       } catch (error) {

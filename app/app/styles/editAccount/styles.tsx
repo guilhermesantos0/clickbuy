@@ -58,8 +58,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'flex-end'
     },
+    ButtomArea2:{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'flex-start',
+        flexDirection: 'row'
+    },
     Save: {
-      width: '49%',
+      width: '47%',
       marginHorizontal: 5,
       alignItems: 'center',
       paddingHorizontal: 2,
@@ -71,12 +77,37 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       marginBottom: 40
     },
+    Redefinir: {
+      width: '47%',
+      marginHorizontal: 5,
+      alignItems: 'center',
+      paddingHorizontal: 2,
+      marginTop: 30,
+      justifyContent: 'space-evenly',
+      flexDirection: 'row',
+      backgroundColor: 'grey',
+      borderRadius: 5,
+      paddingVertical: 10,
+      marginBottom: 40
+    },
     buttomText: {
       color: 'white',
       fontSize: 15,
     },
     Scroll:{
     width: '80%',
-  }
+  },
+  Success:{
+      fontSize: 15,
+      marginTop:10,
+      textAlign: 'center',
+      color: 'green'
+    },
+    Error:{
+        fontSize: 15,
+      marginTop:10,
+      textAlign: 'center',
+      color: 'red'
+    },
   });
   export default styles

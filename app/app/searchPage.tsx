@@ -2,33 +2,38 @@ import { View, Text, ScrollView, TouchableOpacity, Animated, Dimensions, StyleSh
 import { useLocalSearchParams } from 'expo-router';
 import ProductsList from '@/components/clickbuy/ProductList';
 import { useEffect, useState, useRef } from 'react';
-import { Product as ProductModel } from '@/types/Product';
+import { Product, Product as ProductModel } from '@/types/Product';
 import ip from '@/ip';
 import fourthStep from './styles/Cadastro/fourthStep';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '@/app/styles/category/styles'
+import { useUser } from '@/contexts/UserContext';
 import api from '@/services/api';
+import HeaderSearch from '@/components/clickbuy/headerSearch';
 
 const screenWidth = Dimensions.get('window').width;
 
-const Category = () => {
-  const { categoria } = useLocalSearchParams();
-  const [products, setProducts] = useState<ProductModel[]>([]);
+const SearchPage = () => {
+    const {user} = useUser();
+    const { query } = useLocalSearchParams();
+    
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await api.get(`/products?name=${query}`)
+            setProducts(res.data);
+        }
+
+        fetchData();
+    },[query])
   const [filterVisible, setFilterVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(screenWidth)).current;
-  const [minPrice, setMinPrice] = useState('');
+   const [products, setProducts] = useState<Product[]>([]);
+
+    const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [sortOption, setSortOption] = useState('relevance');
     const [filteredProducts, setFilteredProducts] = useState(products);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(`/products?category=${categoria}`);
-            const result = await response.data;
-      setProducts(result.products.slice(0, 10));
-    };
-    fetchData();
-  }, [categoria]);
 
   const openFilter = () => {
     setFilterVisible(true);
@@ -48,30 +53,17 @@ const Category = () => {
       setFilterVisible(false);
     });
   };
-  const parseFormattedPrice = (formattedPrice: any): number => {
-  if (typeof formattedPrice === 'number') {
-    return formattedPrice;
-  }
+  const parseFormattedPrice = (formattedPrice: any) => {
+        return Number(
+          formattedPrice
+            .replace('R$', '')
+            .replace(/\./g, '')
+            .replace(',', '.')
+            .trim()
+        );
+    };
 
-  if (typeof formattedPrice === 'string') {
-    if (formattedPrice.includes('R$') || formattedPrice.includes(',')) {
-      return Number(
-        formattedPrice
-          .replace('R$', '')
-          .replace(/\./g, '')
-          .replace(',', '.')
-          .trim()
-      );
-    } else {
-      return Number(formattedPrice);
-    }
-  }
-
-  return 0;
-};
-
-
-  useEffect(() => {
+    useEffect(() => {
         let updatedProducts = [...products];
       
         if (minPrice) {
@@ -111,12 +103,17 @@ const Category = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <TouchableOpacity style={styles.filterButton} onPress={openFilter}>
+      <HeaderSearch/>
+      <TouchableOpacity style={[styles.filterButton, { top: 150 }]} onPress={openFilter}>
         <Ionicons name="funnel" size={24} color="white" />
       </TouchableOpacity>
 
       <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
-        <ProductsList title={`${categoria}`} products={filteredProducts} />
+        {filteredProducts.length === 0 ? (
+          <ProductsList title={`Não foi encontrado nenhum resultado para: ${query}`} products={filteredProducts} />
+        ):(
+          <ProductsList title={`Resultados para: "${query}"`} products={filteredProducts} />
+        )}
       </ScrollView>
 
       {filterVisible && (
@@ -132,7 +129,7 @@ const Category = () => {
                 },
             ]}
             >
-            <Text style={styles.filterTitle}>Filtrar por:</Text>
+            <Text style={[styles.filterTitle, {marginTop: 120}]}>Filtrar por:</Text>
 
 
             <TouchableOpacity onPress={() => setSortOption('relevance')}>
@@ -172,4 +169,4 @@ const Category = () => {
 };
 
 
-export default Category;
+export default SearchPage;
