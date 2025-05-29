@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, Modal } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView, Modal, Share } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { router, useLocalSearchParams } from 'expo-router';
 import { useUser } from '@/contexts/UserContext';
@@ -119,6 +119,32 @@ const productPage = () => {
                             });
         }
     }
+    const handleShare = async () => {
+  try {
+    const result = await Share.share({
+      message: `http://${ip}:3000/${product?.category}/${product?._id}!`,
+      url: `http://${ip}:3000/${product?.category}/${product?._id}`,
+      title: product?.name
+    });
+
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        console.log('Compartilhado via:', result.activityType);
+      } else {
+        console.log('Compartilhado!');
+      }
+    } else if (result.action === Share.dismissedAction) {
+      console.log('Compartilhamento cancelado');
+    }
+  } catch (error) {
+    console.error('Erro ao compartilhar:', error);
+    Toast.show({
+      type: 'error',
+      text1: 'Erro ao compartilhar o produto!',
+    });
+  }
+};
+
   return (
     <View style={styles.Container}>
         <Modal
@@ -224,7 +250,7 @@ const productPage = () => {
                                 <TouchableOpacity style={styles.filterButton} onPress={toggleIsFavourited}>
                                     <Ionicons name="heart" size={24} color={isFavourited? "red" : "black"} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.filterButton}>
+                                <TouchableOpacity style={styles.filterButton} onPress={handleShare}>
                                     <Ionicons name="share-social" size={24} color="black" />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.filterButton}>
