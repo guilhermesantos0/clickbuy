@@ -69,7 +69,7 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
     return (
         <div className={style.Container}>
             <div className={style.Left}>
-                <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Click Buy" className={style.LeftImage} onClick={() => navigate('/')} />
+                <img src={process.env.PUBLIC_URL + '/ClickBuyLogo.png'} alt="Click Buy" className={style.LeftImage} onClick={() => navigate('/')} />
             </div>
             {
                 !hideOptions && (
