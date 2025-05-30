@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from '../Slider/styles'
 const banner1 = require('@/assets/ClickBuy/banner_1.png');
 const banner2 = require('@/assets/ClickBuy/banner_2.png');
-const banner3 = require('@/assets/ClickBuy/banner3.jpg');
+const banner3 = require('@/assets/ClickBuy/banner2.png');
 interface Props {
 }
 const Slider: React.FC<Props> = () => {

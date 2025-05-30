@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Slider.module.scss";
 
-import banner1 from "../../assets/banner1.png";
-import banner2 from "../../assets/banner2.png";
-import banner3 from "../../assets/banner_3.jpg";
+import banner1 from "../../assets/banner2.png";
+import banner2 from "../../assets/banner_2.png";
+import banner3 from "../../assets/banner_1.png";
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
