@@ -229,13 +229,23 @@ const productPage = () => {
                             <Text style={styles.ButtonText}>Produto Vendido</Text>
                         </View>
                     </View>
+                ) : user ? (
+                    user._id !== product?.announcer._id ? (
+                        <View style={styles.ButtomArea}>
+                            <TouchableOpacity onPress={handleAddToCart} style={styles.Buy}>
+                                <Text style={styles.ButtonText}>Adicionar ao Carrinho</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : null
                 ) : (
                     <View style={styles.ButtomArea}>
-                        <TouchableOpacity style={styles.Buy} onPress={handleAddToCart}>
-                            <Text style={styles.ButtonText}>Adicionar ao Carrinho</Text>
+                        <TouchableOpacity onPress={() => router.push(`/login`)} style={styles.Buy}>
+                            <Text style={styles.ButtonText}>Faça Login para comprar</Text>
                         </TouchableOpacity>
                     </View>
                 )}
+
+
                 {product?.sold ? (
                     <View style={styles.InfoRow}>
                         <View style={styles.IconsArea}>
