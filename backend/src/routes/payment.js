@@ -88,22 +88,23 @@ router.post('/card', async (req, res) => {
     const methodId = await getPaymentMethod(checkoutInfo.bin)
     // console.log(methodId)
 
-    const body = {
-        token: checkoutInfo.token,
-        transaction_amount: Number(amount),
-        description: checkoutInfo.description,
-        installments: Number(checkoutInfo.installments),
-        payment_method_id: methodId,
-        payer: {
-            email: checkoutInfo.email,
-            identification: {
-                type: 'CPF',
-                number: checkoutInfo.cpf
+    
+    try {
+        const body = {
+            token: checkoutInfo.token,
+            transaction_amount: Number(amount),
+            description: checkoutInfo.description,
+            installments: Number(checkoutInfo.installments),
+            payment_method_id: methodId,
+            payer: {
+                email: checkoutInfo.email,
+                identification: {
+                    type: 'CPF',
+                    number: checkoutInfo.cpf
+                }
             }
         }
-    }
-
-    try {
+        
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             body,

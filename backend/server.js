@@ -10,6 +10,15 @@ app.use(cors());
 app.use(express.json());
 app.use('/upload', express.static('src/upload'));
 
+console.log('MONGO_URI', process.env.MONGO_URI)
+console.log('PORT', process.env.PORT)
+console.log('CLOUD_NAME', process.env.CLOUD_NAME)
+console.log('API_KEY', process.env.API_KEY)
+console.log('API_SECRET', process.env.API_SECRET)
+console.log('API_ENV_VAR', process.env.API_ENV_VAR)
+console.log('PUBLIC_KEY', process.env.PUBLIC_KEY)
+console.log('ACCESS_TOKEN', process.env.ACCESS_TOKEN)
+
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
