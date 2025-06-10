@@ -76,8 +76,13 @@ const productPage = () => {
     });
  
     const toggleIsFavourited = async () => {
-        console.log(isFavourited)
-        if(!product || !user) return
+        if(!product || !user){
+            Toast.show({
+                              type: 'error',
+                              text1: 'Faça login para adicionar aos favoritos!',
+                            });
+            return
+        }
 
         try {
             if (isFavourited) {
@@ -122,8 +127,8 @@ const productPage = () => {
     const handleShare = async () => {
   try {
     const result = await Share.share({
-      message: `http://${ip}:3000/${product?.category}/${product?._id}!`,
-      url: `http://${ip}:3000/${product?.category}/${product?._id}`,
+      message: `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/${product?.category}/${product?._id}!`,
+      url: `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/${product?.category}/${product?._id}`,
       title: product?.name
     });
 

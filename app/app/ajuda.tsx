@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 import ip from '@/ip';
 
 const Ajuda = () => {
-  const url = `http://${ip}:3000/institucional/contato`;
+  const url = `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/institucional/contato`;
 
   return (
     <View style={styles.container}>

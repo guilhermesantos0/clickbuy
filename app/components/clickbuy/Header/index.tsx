@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import styles from '@/components/clickbuy/Header/styles'
 import { IconSymbol } from '@/components/ui/IconSymbol'
 import { router } from 'expo-router'
+import { useUser } from '@/contexts/UserContext'
 
 interface Props {}
 
 const Header: React.FC<Props> = () => {
   const [search, setSearch] = useState("")
+  const {user, setUser} = useUser();
 
   const handleSearch = () => {
     if (search.trim()) {
@@ -32,7 +34,13 @@ const Header: React.FC<Props> = () => {
         </View>
         <TouchableOpacity
           style={styles.Cart}
-          onPress={() => router.push('/cart')}>
+          onPress={() => {
+            if (!user){
+              router.push('/(tabs)/login')
+            }else{
+              router.push('/cart')
+            }
+          }}>
           <IconSymbol size={50} name='cart.fill' color='white' />
         </TouchableOpacity>
       </View>

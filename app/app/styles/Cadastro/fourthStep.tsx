@@ -36,7 +36,6 @@ const fourthStep = StyleSheet.create({
       alignItems: 'center',
       justifyContent:  'flex-end',
       flexDirection: 'row',
-      marginTop: '3%',
       
     },
     Next: {

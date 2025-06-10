@@ -11,6 +11,7 @@ import ip from '@/ip'
 import Toast from 'react-native-toast-message'
 import api from '@/services/api'
 import { useUser } from '@/contexts/UserContext'
+import Checkbox from 'expo-checkbox';
 
 const Cadastro = () => {
   const {user, setUser} = useUser();
@@ -36,6 +37,7 @@ const Cadastro = () => {
             }
         }
     })
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState([false, ""]);    
   const [validPassword, setValidPassword] = useState(true)
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -504,6 +506,16 @@ const Cadastro = () => {
                 </View>
                 </ScrollView>
                 <View style={fourthStep.InputGroup}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+                    <Checkbox
+                      value={acceptedTerms}
+                      onValueChange={setAcceptedTerms}
+                      color={'#DDA04B'}
+                    />
+                    <TouchableOpacity onPress={() => router.push('/termos')}>
+                      <Text style={{ marginLeft: 8, fontSize: 18, borderBottomWidth: 1, borderBottomColor: "Black" }}>Aceito os termos e condições</Text>
+                    </TouchableOpacity>
+                  </View>
                   <View style ={fourthStep.ButtonsArea}>
                       <TouchableOpacity
                         style={fourthStep.Next}
@@ -512,7 +524,19 @@ const Cadastro = () => {
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={fourthStep.Next}
-                        onPress={handleSignUp}>
+                        onPress={() => {
+                          if (acceptedTerms === true && formData.personalData.address.city != "" && formData.personalData.address.state != ""
+                            && formData.personalData.address.neighborhood != "" && formData.personalData.address.number != "" && formData.personalData.address.road != ""
+                            && formData.personalData.address.zip != ""
+                          ){
+                            handleSignUp()
+                          }else{
+                            Toast.show({
+                                        type: 'error',
+                                        text1: `Preencha todos os campos para continuar!`,
+                                      });
+                          }
+                        }}>
                         <Text style ={SecondStep.buttomText}>Próximo</Text>
                       </TouchableOpacity>
                     </View>

@@ -14,6 +14,7 @@ import { Picker } from '@react-native-picker/picker';
 const genericPhoto = require('@/assets/ClickBuy/iconeGenerico.png');
 const screenWidth = Dimensions.get('window').width;
 const userPage = () => {
+
     const { user } = useUser();
     const { id } = useLocalSearchParams();
     const [userProfile, setUserProfile] = useState<User>();
@@ -78,7 +79,7 @@ const userPage = () => {
     }, [])
     useEffect(() => {
     const fetchData = async () => {
-        if (id && user) {
+        if (id) {
             const userResponse = await api.get(`/user/${id}`);
             setUserProfile(userResponse.data);
 
