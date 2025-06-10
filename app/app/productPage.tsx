@@ -127,7 +127,7 @@ const productPage = () => {
     const handleShare = async () => {
   try {
     const result = await Share.share({
-      message: `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/${product?.category}/${product?._id}!`,
+      message: `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/${product?.category}/${product?._id}`,
       url: `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/${product?.category}/${product?._id}`,
       title: product?.name
     });
