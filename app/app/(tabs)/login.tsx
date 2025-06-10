@@ -11,6 +11,8 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import fourthStep from '../styles/Cadastro/fourthStep';
 import { getUserFavouriteProducts } from '@/services/favoriteService';
 import api from '@/services/api';
+import * as Crypto from 'expo-crypto';
+
 const Login = () => {
   const {user, setUser} = useUser();
   const [email, setEmail] = useState("");
@@ -18,9 +20,13 @@ const Login = () => {
   const router = useRouter();
 
   const handleLogin = async () => {
+        const hash = await Crypto.digestStringAsync(
+              Crypto.CryptoDigestAlgorithm.SHA256,
+              password
+        );
         try {
             const userPayload = {
-                email, password
+                email, password: hash
             }
 
             const response = await api.post('/login', userPayload);

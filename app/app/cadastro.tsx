@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message'
 import api from '@/services/api'
 import { useUser } from '@/contexts/UserContext'
 import Checkbox from 'expo-checkbox';
+import * as Crypto from 'expo-crypto';
 
 const Cadastro = () => {
   const {user, setUser} = useUser();
@@ -149,9 +150,13 @@ const Cadastro = () => {
     }
   }
   const handleSignUp = async () => {
+        const hash = await Crypto.digestStringAsync(
+          Crypto.CryptoDigestAlgorithm.SHA256,
+          formData.password
+        );
         const userPayload = {
             email: formData.email,
-            password: formData.password,
+            password: hash,
             personalData: {
               name: formData.personalData.name,
               bornDate: formData.personalData.bornDate,
