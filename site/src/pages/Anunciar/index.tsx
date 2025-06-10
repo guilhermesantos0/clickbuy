@@ -167,7 +167,8 @@ const Anunciar = () => {
         });
     
         try {
-          const response = await axios.post('http://localhost:5000/products', formData, {
+            
+          const response = await api.post('/products', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
