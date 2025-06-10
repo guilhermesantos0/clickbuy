@@ -132,9 +132,9 @@ const EditarProduto = () => {
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:5000/categories');
+            const response = await api.get('categories');
 
-            const categoriesData = await response.json();
+            const categoriesData = await response.data;
 
             setCategories(categoriesData);
         } catch (error) {
