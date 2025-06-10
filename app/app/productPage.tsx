@@ -66,14 +66,16 @@ const productPage = () => {
         fetchData();
     },[id])
     useEffect(() => {
-        if (!user || !user?.favourites || !product) return;
+        if (!user || !Array.isArray(user.favourites) || !product || !product._id) return;
 
-        const isAlreadyFavourited = user.favourites.some(
-            (fav) => fav._id === product._id
+        const isAlreadyFavourited = user.favourites.some((fav) =>
+            String(fav._id) === String(product._id)
         );
 
         setIsFavourited(isAlreadyFavourited);
-    });
+    }, [user, product]);
+
+
  
     const toggleIsFavourited = async () => {
         if(!product || !user){
