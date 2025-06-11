@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
+const jwt = require('jsonwebtoken');
+
 const upload = require("../middleware/upload");
 const cloudinary = require('../config/cloudinary');
 const fs = require('fs');
@@ -29,10 +31,10 @@ router.post('/', async (req, res) => {
 
 router.post('/recovery', async (req, res) => {
     try {
-        const user = await User.find({ email: req.body.email })
+        const user = await User.findOne({ email: req.body.email })
 
         if(user) {
-            const token = uuidv4();
+            const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '5m' });
             console.log(`http://localhost:3000/redefinir-senha?token=${token}`);
 
             res.status(200).json({ message: 'Email enviado com sucesso' });
@@ -43,7 +45,6 @@ router.post('/recovery', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao enviar email', error })
     }
-
 })
 
 router.get('/', async(req, res) => {
@@ -165,5 +166,20 @@ router.put("/2/:id", async (req, res) => {
         res.status(500).json({ error: "Erro interno no servidor" });
     }
 });
+
+router.patch("/reset-password", async (req, res) => {
+    const decoded = jwt.verify(req.body.token, 'secretKey')
+    
+    try {
+        const userId = decoded.userId;
+        const updated = await User.findByIdAndUpdate(userId, { password: req.body.newPassword }, { new: true });
+        res.status(200).json(updated);
+    } catch (err) {
+        console.error("Erro ao redefinir senha:", err);
+        res.status(500).json({ error: "Erro interno no servidor" });
+    }
+    console.log(req.body.newPassword)
+})
+
 
 module.exports = router;

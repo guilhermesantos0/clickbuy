@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import api from 'services/api';
 
+import { sha256 } from "js-sha256";
+
 const Login = () => {
     const { setUser } = useUser();
 
@@ -20,8 +22,10 @@ const Login = () => {
     const handleLogin = async () => {
         try {
 
+            const hashPassword = sha256(password);
+
             const userPayload = {
-                email, password
+                email, password: hashPassword
             }
 
             const response = await api.post('/login', userPayload);

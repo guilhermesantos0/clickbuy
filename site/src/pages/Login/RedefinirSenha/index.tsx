@@ -3,6 +3,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import style from './RedefinirSenha.module.scss';
 
 import Header from "components/Header";
+import api from "services/api";
+
+import { sha256 } from "js-sha256";
 
 const RedefinirSenha = () => {
     const [searchParams] = useSearchParams();
@@ -31,7 +34,8 @@ const RedefinirSenha = () => {
 
         try {
             setLoading(true);
-            // await api.post('/auth/reset-password', { token, newPassword: password });
+            const hash = sha256(password);
+            await api.patch('/user/reset-password', { token, newPassword: hash });
             setTimeout(() => {
                 setLoading(false);
                 setMessage("✅ Senha redefinida com sucesso!");
