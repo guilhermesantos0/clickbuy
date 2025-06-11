@@ -50,7 +50,7 @@ const RedefinirSenha = () => {
 
     return (
         <div className={style.Container}>
-            <Header hideOptions={true } user={null} />
+            <Header hideOptions hideProfile user={null} />
             <div className={style.PageContent}>
                 <form className={style.Form} onSubmit={handleSubmit}>
                     <h1>Nova Senha</h1>

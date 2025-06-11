@@ -36,7 +36,7 @@ const RecuperarSenha = () => {
 
     return (
         <div className={style.Container}>
-            <Header hideOptions={true } user={null} />
+            <Header hideOptions hideProfile user={null} />
             <div className={style.PageContent}>
                 <form className={style.Form} onSubmit={handleSubmit}>
                     <h1>Recuperar Senha</h1>

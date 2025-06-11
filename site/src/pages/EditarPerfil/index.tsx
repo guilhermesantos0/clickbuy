@@ -14,11 +14,15 @@ import { User } from 'types/User';
 
 import api from 'services/api';
 import { toast } from 'react-toastify';
+import { sha256 } from 'js-sha256';
+import { Link } from 'react-router-dom';
+
+import { ExternalLinkIcon } from '@radix-ui/react-icons';
 
 const EditarPerfil = () => {
     const { user, setUser } = useUser();
     const [formData, setFormData] = useState<User | null>(null);
-    const [tab, setTab] = useState(2);
+    const [tab, setTab] = useState(1);
 
     const genericPhoto = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
     const [profileImage, setProfileImage] = useState(user?.profilePic ? `${user?.profilePic}` : genericPhoto);
@@ -59,17 +63,15 @@ const EditarPerfil = () => {
         if (!formData) return;
 
         try {
-            const userCopy = structuredClone(formData);
-            delete userCopy.favourites;
 
             const formDataToSend = new FormData();
-            formDataToSend.append('data', JSON.stringify(userCopy));
+            formDataToSend.append('data', JSON.stringify(formData));
 
             if (profileImageFile) {
                 formDataToSend.append('profilePic', profileImageFile);
             }
 
-            const res = await api.put(`/user/${userCopy._id}`, formDataToSend, {
+            const res = await api.put(`/user/${formData._id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -108,13 +110,7 @@ const EditarPerfil = () => {
                         </div>
                         <div className={style.InputGroup}>
                         <label>Senha</label>
-                        <input
-                            className={style.Input}
-                            type="password"
-                            value={formData.password}
-                            onChange={(e) => updateField("password", e.target.value)}
-                            placeholder="Nova senha"
-                        />
+                        <Link to='/recuperar-senha' className={style.ChangePassword}>Alterar senha <ExternalLinkIcon /></Link>
                         </div>
                     </div>
                     )}

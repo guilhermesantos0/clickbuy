@@ -10,7 +10,7 @@ import { User } from '@modules/User';
 
 import { useUser } from 'contexts/UserContext';
 
-import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+import { MagnifyingGlassIcon, PlusIcon, ChevronLeftIcon } from '@radix-ui/react-icons';
 import { toast } from 'react-toastify';
 
 import { Product } from 'types/Product';
@@ -18,10 +18,11 @@ import api from 'services/api';
 
 interface Props {
     user: User | null,
-    hideOptions?: boolean
+    hideOptions?: boolean,
+    hideProfile?: boolean
 }
 
-const Header: React.FC<Props> = ({ user, hideOptions }) => {
+const Header: React.FC<Props> = ({ user, hideOptions, hideProfile }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -87,36 +88,41 @@ const Header: React.FC<Props> = ({ user, hideOptions }) => {
                     </div>
                 )
             }
-            <div className={style.Right}>
-            {/* <Link className={style.Announce} to='/anunciar'>Anunciar</Link> */}
-            <div onClick={handleAnnounce} className={style.AnnounceButton}>
-                <PlusIcon className={style.PlusIcon} />
-                Anunciar
-            </div>
-                { 
-                    user ? 
-                    <div className={style.ProfileContainer} ref={menuRef}>
-                        <img 
-                            className={style.ProfileImage} 
-                            src={user?.profilePic ? `${user.profilePic}` : genericPhoto} 
-                            alt=""
-                            onClick={toggleMenu}
-                        />
-                        { menuOpen && (
-                            <div className={style.MenuContainer}>
-                                <Link to="/editar-perfil">Editar Perfil</Link>
-                                <Link to='/carrinho'>Carrinho</Link>
-                                <Link to="/meus-produtos">Meus Produtos</Link>
-                                <Link to="/meus-pedidos">Meus Pedidos</Link>
-                                <Link to="/favoritos">Favoritos</Link>
-                                <span onClick={handleLogout}>Sair</span>
-                            </div>
-                        )}
+            {
+                !hideProfile && (
+                    <div className={style.Right}>
+                    {/* <Link className={style.Announce} to='/anunciar'>Anunciar</Link> */}
+                    <div onClick={handleAnnounce} className={style.AnnounceButton}>
+                        <PlusIcon className={style.PlusIcon} />
+                        Anunciar
                     </div>
-                    :
-                    <Link className={style.Login} to="/login">Entrar</Link>
-                }
-            </div>
+                        { 
+                            user ? 
+                            <div className={style.ProfileContainer} ref={menuRef}>
+                                <img 
+                                    className={style.ProfileImage} 
+                                    src={user?.profilePic ? `${user.profilePic}` : genericPhoto} 
+                                    alt=""
+                                    onClick={toggleMenu}
+                                />
+                                { menuOpen && (
+                                    <div className={style.MenuContainer}>
+                                        <Link to="/editar-perfil">Editar Perfil</Link>
+                                        <Link to='/carrinho'>Carrinho</Link>
+                                        <Link to="/meus-produtos">Meus Produtos</Link>
+                                        <Link to="/meus-pedidos">Meus Pedidos</Link>
+                                        <Link to="/favoritos">Favoritos</Link>
+                                        <span onClick={handleLogout}>Sair</span>
+                                    </div>
+                                )}
+                            </div>
+                            :
+                            <Link className={style.Login} to="/login">Entrar</Link>
+                        }
+                    </div>
+                )
+            }
+            
         </div>
     )
 }

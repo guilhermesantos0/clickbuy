@@ -15,6 +15,8 @@ import api from 'services/api';
 import { useUser } from 'contexts/UserContext';
 import { toast } from 'react-toastify';
 
+import { sha256 } from "js-sha256";
+
 function Cadastro() {
 
     const navigate = useNavigate();
@@ -180,9 +182,12 @@ function Cadastro() {
     }
 
     const handleSignUp = async () => {
+
+        const hashPassword = sha256(formData.password);
+
         const userPayload = {
             email: formData.email,
-            password: formData.password,
+            password: hashPassword,
             personalData: {
               name: formData.personalData.name,
               bornDate: formData.personalData.bornDate,
