@@ -79,9 +79,17 @@ const Cadastro = () => {
   }
   
   const nextStep = () => {
-    setError([false, ""])
-    setStep(prev => prev + 1)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(formData.email)) {
+    setError([true, "Por favor, insira um e-mail válido."]);
+    return;
   }
+
+  setError([false, ""]);
+  setStep(prev => prev + 1);
+};
+
   const nextStep2 = () => {
     if(formData.personalData.bornDate === "" || formData.personalData.cpf === "" || formData.personalData.name === "" || formData.personalData.phone === "" ){
       Toast.show({

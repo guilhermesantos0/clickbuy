@@ -36,7 +36,6 @@ export default function TelaPrincipal() {
       <ScrollView style={fourthStep.Scroll} contentContainerStyle={{ flexGrow: 1 }}>
         <Slider/>
         <Categories/>
-        <ProductsList title={'Mais Vendidos:'} products={products}/>
         <ProductsList title={'Recomendados para você:'} products={products}/>
       </ScrollView>
     </View>
