@@ -101,7 +101,11 @@ const MyProducts = () => {
             </TouchableOpacity>
           ))
         ) : (
-          <Text>Você não possui produtos</Text>
+          <View style={styles.CarrinhoVazio}>
+
+            <Text style={styles.Text}>Você não possui nenhum Produto</Text>
+            <Text style={styles.Text5}>Clique no botão laranja para anunciar!</Text>
+        </View>
         )}
       </ScrollView>
       <TouchableOpacity

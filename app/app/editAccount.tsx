@@ -57,43 +57,79 @@ const editAccount = () => {
 
         setFormData(updated);
     };
-    
     const handleSave = async () => {
-        if (!formData) return;
+    if (!formData) return;
 
-        try {
-            const userCopy =  JSON.parse(JSON.stringify(formData));
-            delete userCopy.favourites;
-
-            const formDataToSend = new FormData();
-            formDataToSend.append('data', JSON.stringify(userCopy));
-
-            if (profileImageFile) {
-                formDataToSend.append('profilePic', {
-                  uri: profileImageFile.uri,
-                  type: profileImageFile.type,
-                  name: profileImageFile.filename,
-                } as any);
-              }
-            const res = await api.put(`/user/${userCopy._id}`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            setUser(res.data);
-            Toast.show({
-                    type: 'success',
-                    text1: 'Alterações realizadas com sucesso!',
-                  });
-        } catch (err) {
-            console.error("Erro ao salvar:", err);
-            Toast.show({
+    try {
+        if (profileImageFile) {
+            if (
+                !profileImageFile.uri ||
+                !profileImageFile.type ||
+                !profileImageFile.filename
+            ) {
+                Toast.show({
                     type: 'error',
-                    text1: 'Erro ao salvar os dados!',
-                  });
+                    text1: 'Aguardando carregamento da imagem...',
+                    text2: 'Por favor, aguarde o carregamento completo da imagem antes de salvar.',
+                });
+                return;
+            }
         }
-    };
+
+        const userCopy = JSON.parse(JSON.stringify(formData));
+        delete userCopy.favourites;
+
+        const formDataToSend = new FormData();
+        formDataToSend.append('data', JSON.stringify(userCopy));
+
+        if (profileImageFile) {
+            formDataToSend.append('profilePic', {
+                uri: profileImageFile.uri,
+                type: profileImageFile.type,
+                name: profileImageFile.filename,
+            } as any);
+        }
+
+        const res = await api.put(`/user/${userCopy._id}`, formDataToSend, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        setUser(res.data);
+
+        Toast.show({
+            type: 'success',
+            text1: 'Alterações realizadas com sucesso!',
+        });
+
+    } catch (err: any) {
+        console.error("Erro ao salvar:", err);
+
+        if (err.response) {
+            console.error("Erro da API:", err.response.data);
+
+            Toast.show({
+                type: 'error',
+                text1: 'Erro ao salvar os dados!',
+                text2: err.response.data?.message || JSON.stringify(err.response.data),
+            });
+        } else if (err.request) {
+            Toast.show({
+                type: 'error',
+                text1: 'Sem resposta da API!',
+                text2: 'Verifique sua conexão.',
+            });
+        } else {
+            Toast.show({
+                type: 'error',
+                text1: 'Erro ao salvar!',
+                text2: err.message || 'Erro desconhecido',
+            });
+        }
+    }
+};
+
     const handleSubmit = async () => {
             setMessage("");
             const email = user?.email

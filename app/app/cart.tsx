@@ -100,7 +100,7 @@ const Cart = () => {
                 <Text style={styles.Text}>Meu Carrinho</Text>
                 {userCart.map((product, idx) => (
                     <View key={idx} style={styles.Product}>
-                        <TouchableOpacity style={styles.Anunciante}>
+                        <TouchableOpacity style={styles.Anunciante} onPress={() => router.push(`/userPage?id=${product?.announcer?._id}`)}>
                             <Text style={styles.Nome}>{product.announcer.personalData.name}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => toggleProductSelection(product._id)} style={styles.ProductCart}>   

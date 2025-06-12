@@ -9,6 +9,26 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flexDirection: 'column',
     },
+    Text5:{
+        fontSize:18,
+        marginVertical:20,
+        textAlign: 'center'
+    },
+    CarrinhoVazio:{
+        flexDirection: 'column',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        marginTop:30
+
+    },
+    Text:{
+        fontSize: 32,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
     floatingButton: {
       position: 'absolute',
       bottom: 20,
