@@ -9,8 +9,6 @@ const cloudinary = require('../config/cloudinary');
 const fs = require('fs');
 const Product = require('../models/Product');
 
-const { v4: uuidv4 } = require('uuid');
-
 router.post('/', async (req, res) => {
     try {
         const { name, email, password, personalData } = req.body;
@@ -35,10 +33,12 @@ router.post('/recovery', async (req, res) => {
 
         if(user) {
             const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '5m' });
-            console.log(`http://http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/redefinir-senha?token=${token}`);
-            // console.log(`http://localhost:3000/redefinir-senha?token=${token}`);
+            const url = `http://localhost:3000/redefinir-senha?token=${token}`;
+            // const url = `http://http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/redefinir-senha?token=${token}`;
 
-            res.status(200).json({ message: 'Email enviado com sucesso' });
+            console.log(url)
+
+            res.status(200).json({ message: 'Email enviado com sucesso', url });
         } else {
             res.status(404).json({ message: 'Usuário não encontrado' })
         }
