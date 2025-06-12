@@ -20,6 +20,7 @@ router.get('/', async (req, res) => {
             const regex = new RegExp(req.query.name, "i");
 
             const products = await Product.find({
+                sold: { $ne: true }, 
                 $or: [
                     { name: { $regex: regex } },
                     { description: { $regex: regex } },
