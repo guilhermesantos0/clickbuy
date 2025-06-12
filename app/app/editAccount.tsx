@@ -139,18 +139,6 @@ const editAccount = () => {
             autoCapitalize="none"
             placeholder="Digite seu email"
           />
-          <Text style ={styles.text}>Senha</Text>
-                    <TextInput
-                      style={[styles.Input]}
-                      value={formData?.password}
-                      onChangeText={text =>updateField("password",text)}
-                      keyboardType='default'
-                      autoCapitalize="none"
-                      placeholder="Digite sua senha"
-                      secureTextEntry
-                      editable= {false}
-                      
-                    />
           <View style={styles.ButtomArea2}>
             <TouchableOpacity
                                 style={styles.Redefinir}
