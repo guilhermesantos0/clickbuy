@@ -10,7 +10,7 @@ const RecuperarSenha = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [messageStatus, setMessageStatus] = useState("");
-    const [recoveryUrl, setRecoveryUrl] = useState("");
+    const [recoveryToken, setRecoveryToken] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,7 +23,7 @@ const RecuperarSenha = () => {
                 setLoading(false);
                 if(res.status === 200) {
                     setMessage(`✉️ Um link de recuperação foi enviado para seu e-mail`);
-                    setRecoveryUrl(res.data.url)
+                    setRecoveryToken(res.data.token)
                     setMessageStatus('approved');
                 } else {
                     setMessage("❌ Ocorreu um erro. Verifique o e-mail digitado!");
@@ -36,12 +36,6 @@ const RecuperarSenha = () => {
             setLoading(false);
         }
     };
-
-    const handleURLClick = async(e: React.FormEvent) => {
-        e.preventDefault();
-        navigator.clipboard.writeText(recoveryUrl);
-
-    }
 
     return (
         <div className={style.Container}>
@@ -67,11 +61,13 @@ const RecuperarSenha = () => {
                     </button>
                     {message && <p className={`${style.Message} ${messageStatus === "approved" ? '' : style.Error}`}>{message}</p>}
                 </form>
-                <Link to={`${recoveryUrl}`} className={style.RecoveryUrl} >tela de redefinição de senha</Link>
+                {recoveryToken && <Link to={`/redefinir-senha?token=${recoveryToken}`} className={style.RecoveryUrl} >tela de redefinição de senha</Link>}
 
             </div>
         </div>
     );
 };
+
+// http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/redefinir-senha?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiNmI2ODI4ZS02OWJhLTQzYTctYWQzZi01ZTk5NzY0NWVjYmEiLCJpYXQiOjE3NDk2OTAwNzcsImV4cCI6MTc0OTY5MDM3N30.q3-xpnuDbliP59MTcDjNIqGw9Pp9Z7hiLd_IeVtmQKQ
 
 export default RecuperarSenha;

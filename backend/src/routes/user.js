@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
         const exists = await User.findOne({ email });
         if (exists) {
-        return res.status(409).json({ message: 'Email já cadastrado' });
+            return res.status(409).json({ message: 'Email já cadastrado' });
         }
 
         const newUser = new User({ name, email, password, personalData });
@@ -34,7 +34,7 @@ router.post('/recovery', async (req, res) => {
         if(user) {
             const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '5m' });
             // const url = `http://localhost:3000/redefinir-senha?token=${token}`;
-            const url = `http://http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/redefinir-senha?token=${token}`;
+            const url = `http://clickbuy-pii.s3-website-sa-east-1.amazonaws.com/redefinir-senha?token=${token}`;
 
             console.log(url)
 
