@@ -38,7 +38,7 @@ router.post('/recovery', async (req, res) => {
 
             console.log(url)
 
-            res.status(200).json({ message: 'Email enviado com sucesso', url });
+            res.status(200).json({ message: 'Email enviado com sucesso', token });
         } else {
             res.status(404).json({ message: 'Usuário não encontrado' })
         }
